@@ -604,155 +604,217 @@ body.theme-amber #marioModal {
 }
 .mobile-pad { display: flex; gap: 5px; }
 
-/* === YAVUZ_ACADEMY.EXE - DEVASA YAZILIM & AI AKADEMİSİ === */
+
+/* === YAVUZ_ACADEMY.EXE v2.0 - ERGONOMİK & KÜMÜLATİF MÜHENDİSLİK AKADEMİSİ === */
 #academyModal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(980px, 96vw);
-  height: min(640px, 90vh);
-  background: rgba(3, 10, 6, 0.98);
-  border: 2px solid #00ff66;
-  box-shadow: 0 0 45px rgba(0, 255, 102, 0.35);
-  color: #00ff66;
-  font-family: 'Courier New', Courier, monospace;
+  width: min(1100px, 96vw);
+  height: min(720px, 92vh);
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   z-index: 1050;
   display: none;
   flex-direction: column;
-  padding: 14px;
-  box-sizing: border-box;
+  overflow: hidden;
 }
-#centerDeckCard.is-amber ~ #academyModal,
-body.theme-amber #academyModal {
-  color: #ffb000 !important;
-  border-color: #ffb000 !important;
-  box-shadow: 0 0 45px rgba(255, 176, 0, 0.35) !important;
+#academyModal.paper-theme {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #cbd5e1;
 }
-.acad-header {
+.acad-topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px dashed currentColor;
-  padding-bottom: 8px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 13px;
+  padding: 12px 18px;
+  background: #1e293b;
+  color: #f8fafc;
+  border-bottom: 1px solid #334155;
 }
-.acad-tabs {
+#academyModal.paper-theme .acad-topbar {
+  background: #e2e8f0;
+  color: #0f172a;
+  border-bottom-color: #cbd5e1;
+}
+.acad-nav {
   display: flex;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(15, 23, 42, 0.6);
+  border-bottom: 1px solid #334155;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
 }
-.acad-tab {
-  background: rgba(0, 0, 0, 0.7);
-  color: inherit;
-  border: 1px solid currentColor;
+#academyModal.paper-theme .acad-nav {
+  background: #f1f5f9;
+  border-bottom-color: #cbd5e1;
+}
+.acad-btn {
+  background: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #475569;
+  border-radius: 6px;
   padding: 6px 12px;
-  font-family: inherit;
-  font-size: 12px;
+  font-size: 12.5px;
+  font-weight: 500;
   cursor: pointer;
-  opacity: 0.75;
+  transition: all 0.15s ease;
 }
-.acad-tab.active {
-  opacity: 1;
-  background: rgba(0, 255, 102, 0.22);
-  font-weight: bold;
-  box-shadow: 0 0 10px currentColor;
+#academyModal.paper-theme .acad-btn {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #cbd5e1;
 }
-.acad-body {
+.acad-btn:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+.acad-btn.active {
+  background: #0284c7;
+  color: #ffffff !important;
+  border-color: #0284c7;
+}
+.acad-workspace {
   flex: 1;
   display: flex;
-  gap: 12px;
   overflow: hidden;
 }
 .acad-sidebar {
-  width: 250px;
-  border: 1px solid currentColor;
-  padding: 8px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.02);
-}
-.acad-main {
-  flex: 1;
-  border: 1px solid currentColor;
+  width: 290px;
+  border-right: 1px solid #334155;
   padding: 14px;
   overflow-y: auto;
-  background: rgba(0, 0, 0, 0.55);
-  line-height: 1.55;
-  font-size: 13px;
+  background: rgba(15, 23, 42, 0.4);
 }
-.acad-cat-btn {
+#academyModal.paper-theme .acad-sidebar {
+  background: #f1f5f9;
+  border-right-color: #cbd5e1;
+}
+.acad-track-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #94a3b8;
+  margin: 14px 0 6px 0;
+  font-weight: 700;
+}
+.acad-step-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   text-align: left;
   background: transparent;
   color: inherit;
-  border: 1px dashed currentColor;
-  padding: 6px 8px;
-  font-family: inherit;
-  font-size: 11.5px;
-  cursor: pointer;
-}
-.acad-cat-btn:hover, .acad-cat-btn.active {
-  background: rgba(0, 255, 102, 0.16);
-  border-style: solid;
-}
-.lesson-card {
-  border: 1px solid currentColor;
-  padding: 12px;
-  margin-bottom: 14px;
-  background: rgba(255, 255, 255, 0.02);
-}
-.lesson-badge {
-  display: inline-block;
-  border: 1px solid currentColor;
-  padding: 1px 6px;
-  font-size: 10px;
-  margin-bottom: 6px;
-}
-.lesson-code {
-  background: rgba(0, 0, 0, 0.85);
-  border-left: 3px solid currentColor;
+  border: 1px solid transparent;
+  border-radius: 6px;
   padding: 8px 10px;
-  margin-top: 8px;
-  font-size: 11.5px;
-  white-space: pre-wrap;
-  overflow-x: auto;
-}
-.quiz-option {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: rgba(0, 0, 0, 0.7);
-  color: inherit;
-  border: 1px solid currentColor;
-  padding: 8px 10px;
-  margin: 6px 0;
-  font-family: inherit;
+  margin-bottom: 4px;
   font-size: 12.5px;
   cursor: pointer;
 }
-.quiz-option:hover { background: rgba(0, 255, 102, 0.15); }
-.quiz-option.correct { background: rgba(0, 255, 102, 0.3); font-weight: bold; }
-.quiz-option.wrong { border-color: #ff2a55 !important; color: #ff2a55 !important; }
+.acad-step-btn:hover {
+  background: rgba(56, 189, 248, 0.12);
+}
+.acad-step-btn.active {
+  background: rgba(2, 132, 199, 0.22);
+  border-color: #38bdf8;
+  font-weight: 600;
+}
+.acad-reader {
+  flex: 1;
+  padding: 24px 32px;
+  overflow-y: auto;
+  line-height: 1.72;
+  font-size: 15px;
+}
+.acad-reader h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  color: #38bdf8;
+}
+#academyModal.paper-theme .acad-reader h2 {
+  color: #0369a1;
+}
+.acad-reader h3 {
+  margin: 22px 0 8px 0;
+  font-size: 16px;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 4px;
+}
+#academyModal.paper-theme .acad-reader h3 {
+  border-bottom-color: #cbd5e1;
+}
+.acad-callout {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 4px solid #38bdf8;
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.acad-code-block {
+  background: #090d16;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  margin: 12px 0;
+}
 .acad-input, .acad-textarea, .acad-select {
   width: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid currentColor;
-  color: inherit;
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  padding: 9px 12px;
   font-family: inherit;
-  font-size: 12px;
-  padding: 6px 8px;
-  margin-bottom: 8px;
+  font-size: 13.5px;
+  margin-bottom: 10px;
   box-sizing: border-box;
-  outline: none;
 }
-@media (max-width: 768px) {
-  .acad-body { flex-direction: column; }
-  .acad-sidebar { width: 100%; max-height: 120px; flex-direction: row; flex-wrap: wrap; }
+#academyModal.paper-theme .acad-input,
+#academyModal.paper-theme .acad-textarea,
+#academyModal.paper-theme .acad-select {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+.quiz-choice {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: rgba(30, 41, 59, 0.6);
+  color: inherit;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  padding: 11px 14px;
+  margin: 8px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+#academyModal.paper-theme .quiz-choice {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+.quiz-choice:hover { border-color: #38bdf8; }
+.quiz-choice.correct { background: rgba(16, 185, 129, 0.22) !important; border-color: #10b981 !important; font-weight: 600; }
+.quiz-choice.wrong { background: rgba(239, 68, 68, 0.2) !important; border-color: #ef4444 !important; }
+@media (max-width: 820px) {
+  .acad-workspace { flex-direction: column; }
+  .acad-sidebar { width: 100%; max-height: 160px; border-right: none; border-bottom: 1px solid #334155; }
+  .acad-reader { padding: 16px; font-size: 14px; }
 }
 </style>
 </head>
@@ -1280,25 +1342,30 @@ body.theme-amber #academyModal {
   </div>
 </div>
 
-<!-- YAVUZ_ACADEMY.EXE BİLGİ BANKASI, NOTLAR VE TEST MERKEZİ -->
-<div id="academyModal" role="dialog" aria-label="Yavuz Yazılım ve Yapay Zeka Akademisi">
-  <div class="acad-header">
-    <span>YAVUZ_ACADEMY.EXE // YAZILIM, YAPAY ZEKA & SİBER GÜVENLİK KÜTÜPHANESİ</span>
+
+<!-- YAVUZ_ACADEMY.EXE v2.0 ERGONOMİK DERS & NOT PLATFORMU -->
+<div id="academyModal" role="dialog" aria-label="Yazılım ve Yapay Zeka Akademisi">
+  <div class="acad-topbar">
+    <div>
+      <strong style="font-size:15px;">YAVUZ_ACADEMY</strong>
+      <span style="font-size:12px; opacity:0.8; margin-left:8px;">// Kümülatif Yazılım & Yapay Zeka Müfredatı</span>
+    </div>
     <div style="display:flex; gap:8px; align-items:center;">
-      <span id="acadGlobalStats" style="font-size:11px;">PUAN: 0 | NOT: 0</span>
-      <button type="button" class="deck-btn" id="btnCloseAcademy">[X]</button>
+      <span id="acadProgressBadge" style="font-size:12px; padding:4px 8px; border-radius:4px; background:rgba(56,189,248,0.18);">İlerleme: 0/12 Ders</span>
+      <button type="button" class="acad-btn" id="btnAcadTheme">☀️ Kağıt Modu</button>
+      <button type="button" class="acad-btn" id="btnCloseAcademy">✕ Kapat</button>
     </div>
   </div>
 
-  <div class="acad-tabs">
-    <button type="button" class="acad-tab active" data-tab="lessons">[📖 DERS KÜTÜPHANESİ]</button>
-    <button type="button" class="acad-tab" data-tab="notes">[📝 ÇALIŞMA NOTLARIM (HERKESE AÇIK)]</button>
-    <button type="button" class="acad-tab" data-tab="quiz">[🎯 SEVİYELİ TEST & SINAV]</button>
+  <div class="acad-nav">
+    <button type="button" class="acad-btn active" data-view="curriculum">📖 Adım Adım Müfredat (Kümülatif)</button>
+    <button type="button" class="acad-btn" data-view="notes">📝 Çalışma Notlarım (Herkese Açık)</button>
+    <button type="button" class="acad-btn" data-view="exam">🎯 Seviyeli Sınav & Mülakat</button>
   </div>
 
-  <div class="acad-body">
+  <div class="acad-workspace">
     <aside class="acad-sidebar" id="acadSidebar"></aside>
-    <main class="acad-main" id="acadMain"></main>
+    <main class="acad-reader" id="acadReader"></main>
   </div>
 </div>
 <div class="taskbar">
@@ -3114,503 +3181,613 @@ document.querySelectorAll('button').forEach(b => {
   document.getElementById('padFire')?.addEventListener('click', doShoot);
 })();
 
-/* === YAVUZ_ACADEMY.EXE ENGINE (ZERO-XSS / FULL CURRICULUM) === */
-(function initYavuzAcademy() {
+
+/* === YAVUZ_ACADEMY.EXE v2.0 CUMULATIVE ENGINE (ZERO-XSS) === */
+(function initAcademyV2() {
   const modal = document.getElementById('academyModal');
   const btnOpen = document.getElementById('btnOpenAcademy');
   const btnClose = document.getElementById('btnCloseAcademy');
+  const btnTheme = document.getElementById('btnAcadTheme');
   const sidebar = document.getElementById('acadSidebar');
-  const main = document.getElementById('acadMain');
-  const statsEl = document.getElementById('acadGlobalStats');
+  const reader = document.getElementById('acadReader');
+  const progBadge = document.getElementById('acadProgressBadge');
 
-  if (!modal || !btnOpen || !sidebar || !main) return;
+  if (!modal || !btnOpen || !sidebar || !reader) return;
 
-  // 1. DEVASA MÜFREDAT VERİTABANI
-  const CURRICULUM = {
-    'Python & Backend': [
-      {
-        level: 'TEMEL',
-        title: 'Asenkron Programlama (Async/Await) Nedir?',
-        summary: 'Geleneksel senkron kodlarda bir veritabanı sorgusu veya HTTP isteği bitene kadar işlemci (thread) boş bekler. Asyncio ile I/O bekleme sürelerinde binlerce eşzamanlı isteğe yanıt verilir.',
-        code: 'import asyncio\n\nasync def veri_cek(id):\n    await asyncio.sleep(1) # I/O beklemesi\n    return f"Kayıt-{id} hazır"\n\nasync def main():\n    sonuclar = await asyncio.gather(veri_cek(1), veri_cek(2))\n    print(sonuclar)'
-      },
-      {
-        level: 'ORTA',
-        title: 'FastAPI Dependency Injection & Pydantic Doğrulama',
-        summary: 'FastAPI, gelen JSON verilerini çalışma anında Pydantic şemalarıyla doğrular ve veritabanı oturumu veya JWT yetki kontrolü gibi bağımlılıkları temiz şekilde enjekte eder.',
-        code: 'from fastapi import FastAPI, Depends, HTTPException\nfrom pydantic import BaseModel, Field\n\nclass KullaniciGiris(BaseModel):\n    kullanici_adi: str = Field(..., min_length=3, max_length=20)\n    yas: int = Field(..., ge=18)\n\napp = FastAPI()\n@app.post("/kayit")\nasync def kayit_ol(veri: KullaniciGiris):\n    return {"durum": "onaylandi", "user": veri.kullanici_adi}'
-      },
-      {
-        level: 'İLERİ',
-        title: 'Rate Limiting ve Token Bucket Algoritması',
-        summary: 'API uç noktalarını DDoS ve brute-force saldırılarından korumak için her IP veya kullanıcıya belirli sürede harcayabileceği bir jeton kovası (Token Bucket) atanır.',
-        code: '# Redis ile basit saniyelik istek sınırı mantığı:\n# INCR user_ip_key -> EXPIRE user_ip_key 60\n# Eğer sayaç > 100 ise HTTP 429 (Too Many Requests) döndür.'
-      }
-    ],
-    'Yapay Zeka & LLM': [
-      {
-        level: 'TEMEL',
-        title: 'Tokenizasyon ve Embedding (Vektör Temsili) Mantığı',
-        summary: 'Dil modelleri kelimeleri doğrudan anlamaz; metni alt-kelime parçacıklarına (Token) böler ve her parçayı çok boyutlu uzayda anlamsal yakınlığı ifade eden sayı dizilerine (Embedding) dönüştürür.',
-        code: '# Örnek: "Kral - Erkek + Kadın ≈ Kraliçe"\n# Kosinüs Benzerliği (Cosine Similarity) ile iki metnin\n# vektörleri arasındaki açı ne kadar küçükse anlamları o kadar yakındır.'
-      },
-      {
-        level: 'ORTA',
-        title: 'RAG (Retrieval-Augmented Generation) Mimarisi',
-        summary: 'LLM modellerinin halüsinasyon görmesini engellemek ve kendi özel dokümanlarımızla konuşmasını sağlamak için önce vektör veritabanından ilgili parçalar bulunur, ardından modele bağlam (context) olarak verilir.',
-        code: '1. Dokümanı Parçala (Chunking: 500 token)\n2. Embedding Modeli ile Vektöre Çevir -> Qdrant / pgvector kaydet\n3. Kullanıcı sorusunu vektöre çevir ve En Yakın 3 Parçayı (Top-K) bul\n4. Prompt: "Sadece şu bilgilere dayanarak cevapla: [Top-K] Soru: [Q]"'
-      },
-      {
-        level: 'İLERİ',
-        title: 'Fine-Tuning (LoRA / QLoRA) vs Prompt Engineering',
-        summary: 'Modelin yeni bilgi öğrenmesi için RAG kullanılır; ancak modelin konuşma üslubunu, JSON çıktı disiplinini veya belirli bir alandaki akıl yürütme biçimini değiştirmek için LoRA (Low-Rank Adaptation) ile sadece küçük ağırlık matrisleri eğitilir.',
-        code: '# QLoRA: Ana model ağırlıkları 4-bit olarak dondurulur,\n# sadece araya eklenen düşük ranklı (r=8 veya r=16) adaptör katmanları\n# eğitilerek tek GPU ile milyar parametreli modeller özelleştirilir.'
-      }
-    ],
-    'Siber Güvenlik & AppSec': [
-      {
-        level: 'TEMEL',
-        title: 'OWASP Top 10: XSS (Cross-Site Scripting) ve Savunması',
-        summary: 'Kullanıcıdan alınan zararlı JavaScript kodunun başka kullanıcıların tarayıcısında çalışmasıdır. Savunmak için asla innerHTML kullanılmamalı, textContent tercih edilmeli ve katı CSP başlıkları tanımlanmalıdır.',
-        code: '// YANLIŞ (XSS Açığı):\nelement.innerHTML = userInput;\n\n// DOĞRU (Güvenli):\nelement.textContent = userInput;'
-      },
-      {
-        level: 'ORTA',
-        title: 'TLS / JA3 Parmak İzi ve Bot Tespiti',
-        summary: 'Standart Python requests veya headless tarayıcılar, TLS el sıkışması (Client Hello) sırasında gönderdikleri şifreleme paketleri (Cipher Suites) sırasından gerçek bir Chrome/Firefox tarayıcısından kolayca ayırt edilir.',
-        code: '# Savunma Tarafı: WAF, bilinen bot JA3 hashlerini engeller.\n# Araştırma Tarafı (FiyatRadar): curl_cffi ile gerçek tarayıcı\n# TLS imzası taklit edilerek istemci doğrulaması test edilir.'
-      },
-      {
-        level: 'İLERİ',
-        title: 'Shannon Bilgi Entropisi ile Otonom Saldırı Tespiti',
-        summary: 'Rastgele üretilmiş şifreli yükler (payload), SQL injection denemeleri veya DDoS botnet URL parametreleri normal insan trafiğine göre çok daha yüksek karakter dağınıklığına (Shannon Entropisi > 7.5) sahiptir.',
-        code: 'import math\nfrom collections import Counter\n\ndef shannon_entropy(data: str) -> float:\n    probs = [n / len(data) for n in Counter(data).values()]\n    return -sum(p * math.log2(p) for p in probs)'
-      }
-    ],
-    'Veritabanı & Mimari': [
-      {
-        level: 'TEMEL',
-        title: 'SQL İndeksleme (B-Tree) Nasıl Hız Kazandırır?',
-        summary: 'İndeks olmayan bir tabloda milyonlarca satır tek tek taranır (Full Table Scan - O(N)). B-Tree indeksi veriyi dengeli ağaç yapısında tutarak arama maliyetini O(log N) seviyesine düşürür.',
-        code: '-- Sık sorgulanan sütuna indeks ekleme:\nCREATE INDEX idx_kullanici_email ON Kullanicilar(Email);\n-- Not: Çok fazla indeks yazma (INSERT/UPDATE) hızını düşürür.'
-      },
-      {
-        level: 'ORTA',
-        title: 'ACID Prensipleri ve Transaction Yönetimi',
-        summary: 'Finansal veya kritik veri işlemlerinde (Atomicity, Consistency, Isolation, Durability) işlemin ya tamamı başarılı olur ya da hata anında tüm değişiklikler geri alınır (ROLLBACK).',
-        code: 'BEGIN TRANSACTION;\nUPDATE Hesaplar SET Bakiye = Bakiye - 500 WHERE Id = 1;\nUPDATE Hesaplar SET Bakiye = Bakiye + 500 WHERE Id = 2;\nCOMMIT; -- Hata olursa ROLLBACK;'
-      }
-    ],
-    'Mobil & Görüntü İşleme': [
-      {
-        level: 'TEMEL',
-        title: 'OpenCV ile Görüntü Ön İşleme (Grayscale & Blur)',
-        summary: 'Görüntü işlemede renk kanalları (BGR) işlem yükünü 3 katına çıkarır. Kenar veya nesne tespiti öncesi görüntü gri tonlamaya çevrilir ve gürültüyü azaltmak için Gaussian Blur uygulanır.',
-        code: 'import cv2\nimg = cv2.imread("plaka.jpg")\ngray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)\nblur = cv2.GaussianBlur(gray, (5, 5), 0)\nedges = cv2.Canny(blur, 50, 150)'
-      },
-      {
-        level: 'ORTA',
-        title: 'Kotlin Coroutines ve Main-Safety',
-        summary: 'Android uygulamalarında ağ veya veritabanı işlemlerini ana arayüz iş parçacığında (Main Thread) yapmak ekranın donmasına (ANR) yol açar. Dispatchers.IO ile arka planda güvenli çalıştırılır.',
-        code: 'viewModelScope.launch(Dispatchers.IO) {\n    val sonuc = apiService.verileriGetir()\n    withContext(Dispatchers.Main) {\n        textView.text = sonuc.baslik\n    }\n}'
-      }
-    ]
-  };
+  // KÜMÜLATİF MÜFREDAT (Her modül 1. adımdan 4. adıma birbirinin üzerine inşa edilir)
+  const TRACKS = [
+    {
+      trackName: 'MODÜL 1: Python & Backend Mühendisliği (Sıfırdan Mimariye)',
+      lessons: [
+        {
+          id: 'py_1',
+          step: 'Adım 1.1 (Temel)',
+          title: 'Veri Yapıları ve Bellek Mantığı (List, Dict, Set)',
+          prereq: 'Başlangıç noktası. Tüm backend algoritmalarının temelidir.',
+          theory: 'Yazılımda performansın %80 i doğru veri yapısını seçmekten geçer. Python da bir List (dizi) içinde eleman aramak baştan sona tek tek bakmayı gerektirir (O(N) zaman karmaşıklığı). Ancak Set (küme) veya Dict (sözlük) arka planda Hash Table kullandığı için milyonlarca kayıt arasından aradığın veriyi tek hamlede (O(1)) bulur.',
+          code: '# YAVAŞ YÖNTEM: Liste içinde arama O(N)\nengelli_ipler = ["192.168.1.5", "10.0.0.4", "172.16.0.9"]\nif "172.16.0.9" in engelli_ipler:  # Tüm listeyi tarar\n    print("Engellendi")\n\n# HIZLI YÖNTEM: Set (Hash Table) ile arama O(1)\nengelli_set = {"192.168.1.5", "10.0.0.4", "172.16.0.9"}\nif "172.16.0.9" in engelli_set:  # Milisaniyenin binde birinde bulur\n    print("Anında engellendi")',
+          realWorld: 'AegisMesh veya WAF sistemlerinde saniyede 10.000 istek gelirken IP kontrolünü List ile yaparsan sunucu kilitlenir; Set veya Redis Hash kullandığında işlemci yükü %1 in altında kalır.',
+          task: 'Kendi projelerinde tekrar etmeyen kimlikleri (IP, TC, E-posta) tutarken daima Set veya Dict anahtarı kullan.'
+        },
+        {
+          id: 'py_2',
+          step: 'Adım 1.2 (Orta-1)',
+          title: 'HTTP Protokolü, REST API ve Pydantic Doğrulama',
+          prereq: 'Adım 1.1 deki Dict yapısının ağ üzerinden JSON olarak taşınmasıdır.',
+          theory: 'İstemci (tarayıcı/mobil) ile sunucu HTTP üzerinden konuşur. Gelen veriye asla güvenilmez (Zero Trust). FastAPI, dışarıdan gelen ham JSON verisini Python sınıflarına dönüştürürken Pydantic kullanarak tip ve sınır kontrolü yapar.',
+          code: 'from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\n\n# 1. Veri Sözleşmesi (Schema) Tanımla\nclass UrunSorgu(BaseModel):\n    urun_kodu: str = Field(..., min_length=4, max_length=32)\n    hedef_fiyat: float = Field(..., gt=0, description="0 dan büyük olmalı")\n\n# 2. Uç Nokta (Endpoint)\n@app.post("/api/takip-ekle")\ndef takip_ekle(veri: UrunSorgu):\n    # Buraya geldiyse veri %100 doğrulanmıştır\n    return {"mesaj": f"{veri.urun_kodu} için {veri.hedef_fiyat} TL alarmı kuruldu."}',
+          realWorld: 'FiyatRadar projesinde kullanıcı eksi (-) fiyat veya 10 MB lık bozuk metin gönderirse Pydantic isteği daha iş mantığına girmeden HTTP 422 hatasıyla reddeder.',
+          task: 'Bir API yazarken önce veri modellerini (Pydantic) tasarla, iş mantığını en son yaz.'
+        },
+        {
+          id: 'py_3',
+          step: 'Adım 1.3 (Orta-2)',
+          title: 'Asenkron Programlama (Async / Await) ve Event Loop',
+          prereq: 'Adım 1.2 de yazdığımız API nin aynı anda binlerce kişiye hizmet vermesi.',
+          theory: 'Bir web isteği sırasında zamanın %95 i CPU hesaplamasıyla değil, veritabanından veya dış bir siteden cevap beklemekle (I/O Wait) geçer. Senkron kodda bir kişi beklerken diğer herkes kuyrukta bekler. Async/Await ile bekleme anında kontrol Event Loop a devredilir ve diğer istekler işlenir.',
+          code: 'import asyncio\nimport time\n\nasync def site_tara(site_adi: str):\n    print(f"[BAŞLADI] {site_adi}")\n    await asyncio.sleep(2)  # Ağ gecikmesi simülasyonu (CPU bloklanmaz!)\n    print(f"[BİTTİ]   {site_adi}")\n    return f"{site_adi}: 200 OK"\n\nasync def toplu_tarama():\n    baslangic = time.time()\n    # 3 siteyi sırayla (6 sn) değil, eşzamanlı (2 sn) tarar:\n    sonuclar = await asyncio.gather(\n        site_tara("Trendyol"),\n        site_tara("Hepsiburada"),\n        site_tara("Amazon")\n    )\n    print(f"Toplam Süre: {time.time() - baslangic:.2f} sn")\n\n# asyncio.run(toplu_tarama())',
+          realWorld: '100 farklı e-ticaret ürününü tek tek çekmek 3 dakika sürerken, asyncio.gather ile eşzamanlı toplamak 4 saniyeye düşer.',
+          task: 'Async bir fonksiyonun içinde asla time.sleep() veya senkron requests.get() kullanma; tüm Event Loop u dondurursun. Yerine asyncio.sleep() ve httpx/curl_cffi async kullan.'
+        },
+        {
+          id: 'py_4',
+          step: 'Adım 1.4 (İleri Mimari)',
+          title: 'Veritabanı İndeksleme (B-Tree) ve Katmanlı Mimari',
+          prereq: 'Adım 1.3 teki asenkron servisin kalıcı veriyi diskte saklaması.',
+          theory: 'Kodun ne kadar hızlı olursa olsun veritabanı sorgun yavaşsa sistem tıkanır. SQL veritabanlarında indeks (Index) olmayan bir sütunda arama yapmak (WHERE barkod = "X") tüm tabloyu satır satır okumak demektir. B-Tree indeksi veriyi telefon rehberi gibi sıralı tutar.',
+          code: '-- 1. Yavaş Sorgu (Full Table Scan)\nSELECT * FROM FiyatGecmisi WHERE UrunKodu = "PRD-9981";\n\n-- 2. Çözüm: Sık filtrelenen sütuna B-Tree İndeks ekle\nCREATE INDEX idx_urun_kodu ON FiyatGecmisi(UrunKodu);\n\n-- 3. Mimari Ayrım (Separation of Concerns):\n-- Router (HTTP) -> Service (İş Mantığı) -> Repository (SQL Sorguları)',
+          realWorld: 'FocusFam veya TÜBİTAK tarım kooperatifi veritabanında 500.000 kayıt biriktiğinde doğru indeksleme sorgu süresini 1.8 saniyeden 3 milisaniyeye indirir.',
+          task: 'SQL sorgularının başına EXPLAIN ANALYZE yazarak veritabanının indeks kullanıp kullanmadığını daima kontrol et.'
+        }
+      ]
+    },
+    {
+      trackName: 'MODÜL 2: Yapay Zeka & LLM Mühendisliği (Sıfırdan RAG & Agent)',
+      lessons: [
+        {
+          id: 'ai_1',
+          step: 'Adım 2.1 (Temel)',
+          title: 'LLM Nasıl Çalışır? Token, Context Window ve Temperature',
+          prereq: 'Yapay zeka mühendisliğinin giriş kapısı.',
+          theory: 'Büyük Dil Modelleri (GPT, Claude, Gemini, Llama) kelimeleri "anlamaz"; istatistiksel olarak bir sonraki en olası parçayı (Token) tahmin eder. Temperature (0.0 - 1.0) parametresi modelin yaratıcılık/rastgelelik ayarını belirler. Kod yazarken ve veri analizinde Temperature = 0.0 veya 0.1 seçilmelidir.',
+          code: '# 1 Token ≈ İngilizce de 4 karakter, Türkçe de yaklaşık 0.6 kelime.\n# Context Window (Bağlam Penceresi): Modelin tek seferde hafızasında\n# tutabildiği toplam Giriş + Çıkış token kapasitesidir.\n\nsistem_ayari = {\n    "temperature": 0.1,  # Halüsinasyonu en aza indirir, tutarlı cevap verir\n    "max_tokens": 1024   # Cevap uzunluğu sınırı\n}',
+          realWorld: 'Fatura veya sözleşme analizi yapan bir AI sisteminde Temperature=0.9 bırakırsan model olmayan rakamlar uydurur.',
+          task: 'Analitik ve teknik görevlerde düşük temperature (0.0-0.2), beyin fırtınasında yüksek temperature (0.7) kullan.'
+        },
+        {
+          id: 'ai_2',
+          step: 'Adım 2.2 (Orta-1)',
+          title: 'Embeddings (Vektörler) ve Anlamsal Arama (Semantic Search)',
+          prereq: 'Adım 2.1 deki tokenların matematiksel uzaya taşınması.',
+          theory: 'Klasik Ctrl+F araması sadece birebir aynı kelimeleri bulur ("araba" ararsan "otomobil" geçeni bulamaz). Embedding modelleri metni 768 veya 1536 boyutlu sayı dizilerine çevirir. Anlamca yakın cümleler uzayda birbirine yakın koordinatlarda durur.',
+          code: 'import math\n\n# İki vektör arasındaki Kosinüs Benzerliği (1.0 = Birebir aynı anlam)\ndef cosine_similarity(v1, v2):\n    dot = sum(a * b for a, b in zip(v1, v2))\n    norm1 = math.sqrt(sum(a * a for a in v1))\n    norm2 = math.sqrt(sum(b * b for b in v2))\n    return dot / (norm1 * norm2)\n\n# Örnek: "Sunucu çöktü" ile "502 Bad Gateway hatası" vektörleri yüksek benzerlik verir!',
+          realWorld: 'Müşteri destek botlarında kullanıcının tam kelimesini değil, niyetini (intent) anlamak için kullanılır.',
+          task: 'Kelime eşleşmesi yerine anlam eşleşmesi gereken her yerde Embedding + Vektör Veritabanı (pgvector / Qdrant) kullan.'
+        },
+        {
+          id: 'ai_3',
+          step: 'Adım 2.3 (Orta-2)',
+          title: 'RAG (Retrieval-Augmented Generation) Boru Hattı Kurmak',
+          prereq: 'Adım 2.2 deki anlamsal aramanın LLM ile birleştirilmesi.',
+          theory: 'LLM ler eğitim tarihinden sonraki bilgileri ve senin şirketinin özel PDF lerini bilmez. RAG mimarisinde önce dokümanlar küçük parçalara (Chunk) bölünür, vektöre çevrilir; soru geldiğinde en alakalı 3 parça bulunup LLM e "Sadece bu metne bakarak cevapla" talimatıyla verilir.',
+          code: 'def rag_sorgula(kullanici_sorusu, vektor_db, llm):\n    # 1. Soruyu vektöre çevir ve en yakın 3 doküman parçasını bul\n    ilgili_parcalar = vektor_db.en_yakin_bul(kullanici_sorusu, top_k=3)\n    baglam = "\\n---\\n".join(ilgili_parcalar)\n\n    # 2. Güvenli Prompt (Prompt Injection a karşı sınırlandırılmış)\n    prompt = f"""Sen teknik bir asistansın. SADECE aşağıdaki bağlamı kullan.\n    Eğer cevap bağlamda yoksa "Bu bilgi dokümanlarda yer almıyor" de.\n    \n    BAĞLAM:\n    {baglam}\n    \n    SORU: {kullanici_sorusu}"""\n    return llm.cevap_uret(prompt)',
+          realWorld: 'TÜBİTAK tarım kooperatifi projesinde Ziraat Mühendisliği PDF kılavuzlarını çiftçiye soru-cevap olarak sunmanın en güvenilir yoludur.',
+          task: 'RAG sistemlerinde dokümanları 500 tokenlık parçalara böl ve cümlelerin ortadan kesilmemesi için 50-80 token örtüşme (overlap) bırak.'
+        },
+        {
+          id: 'ai_4',
+          step: 'Adım 2.4 (İleri Mimari)',
+          title: 'AI Agents (Otonom Ajanlar) ve Tool Calling (Araç Kullanımı)',
+          prereq: 'Adım 2.3 teki LLM in sadece metin üretmek yerine aksiyon alması.',
+          theory: 'Bir LLM tek başına veritabanına yazamaz veya API çağıramaz. Tool Calling (Function Calling) ile modele Python fonksiyonlarının şemasını veririz. Model, kullanıcının isteğini çözmek için hangi fonksiyonu hangi parametrelerle çağırması gerektiğine kendi karar verir.',
+          code: '# Modelin kullanabileceği araç tanımı:\naraclar = [{\n    "name": "waf_ip_engelle",\n    "description": "Saldırgan IP adresini Nginx güvenlik duvarında engeller",\n    "parameters": {"ip": "string", "sebep": "string"}\n}]\n\n# Akış: Gözlemle (Log oku) -> Düşün (Entropi yüksek) -> Eyleme Geç (waf_ip_engelle çağır)',
+          realWorld: 'AegisMesh AI-SOC projesinin temel kalbi tam olarak budur: Anomaliyi analiz eden LLM in otonom olarak WAF kuralı üretmesi.',
+          task: 'Ajanlara veritabanı silme (DROP/DELETE) gibi yıkıcı araçları asla doğrudan insan onayı (Human-in-the-Loop) olmadan verme.'
+        }
+      ]
+    },
+    {
+      trackName: 'MODÜL 3: Siber Güvenlik & Savunma Mühendisliği',
+      lessons: [
+        {
+          id: 'sec_1',
+          step: 'Adım 3.1 (Temel)',
+          title: 'Web Güvenliği: XSS, CSRF ve Input Sanitization',
+          prereq: 'Her yazılım geliştiricinin bilmesi gereken ilk savunma hattı.',
+          theory: 'Kullanıcıdan gelen her veri potansiyel bir saldırı yüküdür. Eğer bir yorum kutusuna yazılan <script>alert(1)</script> kodunu doğrudan DOM a innerHTML ile basarsan, siteye giren herkesin oturum çerezleri çalınır (Stored XSS).',
+          code: '// TEHLİKELİ (Asla yapma):\nconst kutu = document.getElementById("yorum");\nkutu.innerHTML = kullanicidanGelenMetin;\n\n// GÜVENLİ (YAVUZ-OS standardı):\nkutu.textContent = kullanicidanGelenMetin;\n// Tarayıcı bunu kod olarak çalıştırmaz, düz yazı olarak ekrana basar.',
+          realWorld: 'YAVUZ-OS projesindeki DUVAR_NOTU modülü tamamen textContent ve katı CSP ile korunduğu için DOM-XSS testlerinden 0 açıkla geçer.',
+          task: 'Projenin tüm dosyalarında "innerHTML" kelimesini arat ve mümkün olan her yeri "textContent" veya "createElement" ile değiştir.'
+        },
+        {
+          id: 'sec_2',
+          step: 'Adım 3.2 (Orta)',
+          title: 'HTTP Güvenlik Başlıkları (CSP, HSTS, X-Frame-Options)',
+          prereq: 'Adım 3.1 deki kod güvenliğinin sunucu katmanında zırhlanması.',
+          theory: 'Kodunda bir anlık dalgınlıkla açık bıraksan bile, sunucunun tarayıcıya gönderdiği HTTP yanıt başlıkları (Response Headers) tarayıcıyı kilitler. Content-Security-Policy (CSP), dışarıdan bilinmeyen bir sunucudan script yüklenmesini veya verinin dışarı sızdırılmasını engeller.',
+          code: '# Cloudflare Pages / Nginx Güvenlik Başlıkları:\nContent-Security-Policy: default-src \'self\'; object-src \'none\'; frame-ancestors \'none\';\nX-Frame-Options: DENY\nX-Content-Type-Options: nosniff\nStrict-Transport-Security: max-age=63072000; includeSubDomains; preload',
+          realWorld: 'securityheaders.com taramalarında A+ notu almanın ve kurumsal sistemleri korumanın en hızlı ve maliyetsiz yoludur.',
+          task: 'Yayına aldığın her web sitesini securityheaders.com ve Mozilla Observatory üzerinden mutlaka tara.'
+        },
+        {
+          id: 'sec_3',
+          step: 'Adım 3.3 (İleri)',
+          title: 'Shannon Bilgi Entropisi ve Honeypot Tuzakları',
+          prereq: 'Adım 3.2 deki pasif korumadan aktif tehdit avcılığına geçiş.',
+          theory: 'Saldırganlar güvenlik duvarlarını aşmak için Base64 veya Hex ile şifrelenmiş karmaşık URL ler gönderir. Normal bir sayfa adresi (/hakkimizda) düşük entropiye (düşük karakter rastgeleliğine) sahipken, saldırı yükleri yüksek Shannon entropisi (>7.5) üretir.',
+          code: 'import math\nfrom collections import Counter\n\ndef entropi_hesapla(metin: str) -> float:\n    if not metin: return 0.0\n    uzunluk = len(metin)\n    frekanslar = Counter(metin).values()\n    return -sum((f / uzunluk) * math.log2(f / uzunluk) for f in frekanslar)\n\nprint(entropi_hesapla("/urunler/telefon"))       # ~3.4 (Normal trafik)\nprint(entropi_hesapla("/?q=x9#K$mP2@zL8!vQ4&w"))  # ~4.3+ (Yüksek rastgelelik)',
+          realWorld: 'Saldırganı doğrudan engellemek (403) yerine sahte bir admin paneline (/wp-admin) yönlendirip yanıt süresini 10 saniye geciktirmek (Tarpit), saldırganın botnet kaynaklarını tüketir.',
+          task: 'Log analizlerinde normal trafiğin istatistiksel ortalamasını çıkar; ortalamadan 3 standart sapma sapan istekleri karantinaya al.'
+        },
+        {
+          id: 'sec_4',
+          step: 'Adım 3.4 (Uzman)',
+          title: 'Parola Saklama: Hashing, Salt ve Argon2id',
+          prereq: 'Kullanıcı veritabanı ele geçirilse bile parolaların kırılmaması.',
+          theory: 'Parolalar veritabanında asla düz metin veya MD5/SHA1 ile saklanmaz (MD5 saniyede milyarlarca kez denenebilir). Her kullanıcı için rastgele üretilen bir "Salt" (tuz) eklenerek, özellikle yavaş çalışmak üzere tasarlanmış Argon2id veya bcrypt algoritmalarıyla özetlenir.',
+          code: '# YANLIŞ: hashlib.md5(parola.encode()).hexdigest()\n\n# DOĞRU (Argon2 veya Bcrypt kullanımı):\nfrom passlib.context import CryptContext\npwd_context = CryptContext(schemes=["argon2"], deprecated="auto")\n\nhashli_parola = pwd_context.hash("CokGizliSifre123!")\ndogrula = pwd_context.verify("CokGizliSifre123!", hashli_parola)',
+          realWorld: 'Bir veri sızıntısında şirketlerin itibarını kurtaran tek şey parolaların Argon2id + Salt ile geri döndürülemez biçimde saklanmış olmasıdır.',
+          task: 'Kimlik doğrulama sistemlerinde asla kendi şifreleme algoritmanı yazma; endüstri standardı Argon2id veya bcrypt kullan.'
+        }
+      ]
+    }
+  ];
 
-  // 2. ZİYARETÇİLERİN DE GÖREBİLECEĞİ VARSAYILAN ÇALIŞMA NOTLARI
-  const INITIAL_PUBLIC_NOTES = [
+  // HERKESE AÇIK ÇALIŞMA NOTLARI
+  const DEFAULT_NOTES = [
     {
       date: '2026-11-17',
-      category: 'Siber Güvenlik',
-      title: 'CSP (Content Security Policy) Altın Kuralı',
-      body: 'Statik web projelerinde bile _headers dosyası üzerinden object-src none ve frame-ancestors none tanımlamak clickjacking ve zararlı gömme saldırılarını kökünden engeller.'
+      track: 'Backend & Performans',
+      title: 'Neden List Yerine Set Kullanmalıyız?',
+      content: 'Bugün veri yapılarını tekrar ederken O(N) ile O(1) arasındaki farkı pekiştirdim. Özellikle IP engelleme veya kara liste kontrollerinde Python set() kullanmak büyük ölçekte sunucuyu kurtarıyor.'
     },
     {
-      date: '2026-11-16',
-      category: 'Yapay Zeka',
-      title: 'RAG Sistemlerinde Chunk Boyutu Seçimi',
-      body: 'Çok büyük chunk (2000+ token) alakasız gürültü getirir, çok küçük chunk (100 token) bağlamı koparır. Teknik dokümanlarda 400-600 token ve %15 overlap en dengeli sonucu veriyor.'
-    },
-    {
-      date: '2026-11-15',
-      category: 'Backend & Python',
-      title: 'FastAPI ile Yüksek Performanslı Scraper Mimarisi',
-      body: 'APScheduler ile periyodik görevleri ana API döngüsünü kilitlemeden çalıştırmak ve anti-bot korumalı hedeflerde TLS parmak izini eşleştirmek kesintisiz veri akışı sağlıyor.'
+      date: '2026-11-17',
+      track: 'Yapay Zeka (RAG)',
+      title: 'LLM Halüsinasyonunu Engelleme Notu',
+      content: 'RAG sistemlerinde modele "Sadece verilen bağlamı kullan, bilmiyorsan bilmiyorum de" kuralını eklemek ve Temperature değerini 0.1 e çekmek uydurma cevapları %90 azaltıyor.'
     }
   ];
 
-  // 3. SEVİYELİ TEST BANKASI (KOLAY / ORTA / ZOR)
-  const QUIZ_BANK = [
+  // ZORLUK SEVİYELİ SINAV BANKASI
+  const EXAM_QUESTIONS = [
     {
       diff: 'KOLAY',
-      cat: 'Web & Güvenlik',
-      q: 'DOM-XSS saldırılarını önlemek için kullanıcı girdisini bir HTML elemanına yazdırırken hangisi kullanılmalıdır?',
-      opts: ['element.innerHTML', 'element.textContent', 'document.write()', 'eval()'],
-      ans: 1,
-      exp: 'textContent metni HTML etiketi olarak ayrıştırmaz, düz metin olarak işler; böylece zararlı <script> etiketlerinin çalışmasını engeller.'
-    },
-    {
-      diff: 'KOLAY',
-      cat: 'Python & Backend',
-      q: 'Python FastAPI frameworkünde gelen JSON verilerinin tip kontrolünü ve doğrulamasını otomatik yapan kütüphane hangisidir?',
-      opts: ['NumPy', 'Pydantic', 'BeautifulSoup', 'Pygame'],
-      ans: 1,
-      exp: 'FastAPI, veri doğrulama, serileştirme ve otomatik Swagger dokümantasyonu için Pydantic modellerini kullanır.'
+      topic: 'Python Veri Yapıları',
+      q: '1 milyon elemanlı bir veri kümesinde bir IP adresinin var olup olmadığını en hızlı (O(1) karmaşıklıkta) kontrol etmek için hangi Python veri yapısı kullanılmalıdır?',
+      opts: ['list (Liste)', 'tuple (Demet)', 'set (Küme)', 'str (Metin)'],
+      ans: 2,
+      why: 'set ve dict arka planda Hash Table veri yapısını kullandığı için eleman sayısından bağımsız olarak O(1) sabit sürede arama yapar.'
     },
     {
       diff: 'KOLAY',
-      cat: 'Yapay Zeka',
-      q: 'Büyük Dil Modellerinde (LLM) metinlerin işlenmek üzere bölündüğü en küçük anlamlı parçalara ne ad verilir?',
-      opts: ['Pixel', 'Token', 'Socket', 'Thread'],
-      ans: 1,
-      exp: 'LLM modelleri metinleri kelime veya alt-kelime birimlerinden oluşan Tokenlara ayırarak sayısal vektörlere dönüştürür.'
+      topic: 'Web Güvenliği',
+      q: 'Kullanıcıdan alınan bir metni HTML sayfasına güvenli şekilde (XSS riski olmadan) yazdırmak için hangi DOM özelliği kullanılmalıdır?',
+      opts: ['innerHTML', 'outerHTML', 'textContent', 'insertAdjacentHTML'],
+      ans: 2,
+      why: 'textContent girilen metni HTML kodu olarak yorumlamaz, düz metin olarak işler ve script çalışmasını önler.'
     },
     {
-      diff: 'ORTA',
-      cat: 'Yapay Zeka',
-      q: 'Bir LLM modelini yeniden eğitmeden, şirketin kendi güncel PDF dokümanlarına dayanarak cevap üretmesini sağlayan mimari hangisidir?',
-      opts: ['Overfitting', 'RAG (Retrieval-Augmented Generation)', 'Dropout', 'Backpropagation'],
-      ans: 1,
-      exp: 'RAG mimarisi, vektör veritabanından ilgili doküman parçalarını çekip prompt bağlamına ekleyerek halüsinasyonu önler.'
-    },
-    {
-      diff: 'ORTA',
-      cat: 'Veritabanı',
-      q: 'Milyonlarca satırlık bir tabloda WHERE Email = "..." sorgusunu O(N) yerine O(log N) hızında çalıştırmak için ne yapılmalıdır?',
-      opts: ['Tabloyu CSV olarak dışa aktarmak', 'Email sütununa B-Tree Index eklemek', 'Tüm sütunları VARCHAR(MAX) yapmak', 'Foreign Key silmek'],
-      ans: 1,
-      exp: 'B-Tree indeksi veriyi sıralı bir ağaç yapısında tuttuğu için tam tablo taraması (Full Table Scan) yapmadan doğrudan kayda ulaşır.'
-    },
-    {
-      diff: 'ORTA',
-      cat: 'Siber Güvenlik',
-      q: 'Bir web uygulamasının başka bir site içinde <iframe> olarak gömülmesini (Clickjacking) engelleyen HTTP başlığı hangisidir?',
-      opts: ['X-Frame-Options: DENY', 'Cache-Control: no-cache', 'Content-Type: text/html', 'Access-Control-Allow-Origin: *'],
+      diff: 'KOLAY',
+      topic: 'LLM Temelleri',
+      q: 'Büyük Dil Modellerinde (LLM) tutarlı, deterministik ve halüsinasyondan uzak teknik cevaplar almak için Temperature parametresi nasıl ayarlanmalıdır?',
+      opts: ['0.0 ile 0.2 arası (Düşük)', '0.8 ile 1.0 arası (Yüksek)', '2.0 (Maksimum)', 'Negatif değer'],
       ans: 0,
-      exp: 'X-Frame-Options: DENY (veya CSP frame-ancestors none) sayfanın herhangi bir iframe içinde yüklenmesini yasaklar.'
+      why: 'Düşük temperature, modelin en yüksek olasılıklı tokenları seçmesini sağlayarak rastgeleliği ve uydurma riskini azaltır.'
+    },
+    {
+      diff: 'ORTA',
+      topic: 'FastAPI & Asenkron Yapı',
+      q: 'Python async def ile tanımlanmış bir FastAPI endpointi içinde senkron time.sleep(5) çağrılırsa ne olur?',
+      opts: ['Sadece o kullanıcı 5 saniye bekler, diğerleri etkilenmez', 'Tüm Event Loop 5 saniye boyunca kilitlenir ve diğer tüm kullanıcılara yanıt verilemez', 'FastAPI otomatik olarak yeni bir sunucu açar', 'Kod derleme hatası verir'],
+      ans: 1,
+      why: 'Event Loop tek thread üzerinde çalışır; bloklayıcı senkron bir çağrı tüm döngüyü dondurur. Yerine await asyncio.sleep(5) kullanılmalıdır.'
+    },
+    {
+      diff: 'ORTA',
+      topic: 'Yapay Zeka & RAG',
+      q: 'RAG (Retrieval-Augmented Generation) mimarisinde metin parçalarını (Chunk) vektöre dönüştürmenin temel amacı nedir?',
+      opts: ['Dosya boyutunu küçültmek', 'Anlamsal benzerlik (Cosine Similarity) hesaplayarak soruyla en alakalı bağlamı bulmak', 'Metni şifrelemek', 'GPU sıcaklığını düşürmek'],
+      ans: 1,
+      why: 'Embedding vektörleri kelimelerin birebir aynı olmasını beklemeden anlamsal olarak en yakın paragrafları bulmayı sağlar.'
+    },
+    {
+      diff: 'ORTA',
+      topic: 'Veritabanı',
+      q: 'Bir SQL tablosundaki her sütuna B-Tree Index eklemenin en büyük dezavantajı nedir?',
+      opts: ['SELECT sorgularını yavaşlatır', 'Disk alanını artırır ve INSERT / UPDATE / DELETE yazma işlemlerini yavaşlatır', 'Tablodaki verileri siler', 'Primary Key i bozar'],
+      ans: 1,
+      why: 'Her yeni kayıt eklendiğinde veya güncellendiğinde veritabanı tüm indeks ağaçlarını da yeniden düzenlemek zorunda kalır.'
     },
     {
       diff: 'ZOR',
-      cat: 'Siber Güvenlik',
-      q: 'Gelen HTTP isteklerindeki URL parametrelerinin Shannon Bilgi Entropisi aniden 7.95 seviyesine çıkıyorsa bu neye işaret eder?',
-      opts: ['Kullanıcı normal bir arama yapıyordur', 'Yüksek rastgelelik içeren şifreli payload, fuzzing veya DDoS saldırısı vardır', 'Sunucu RAM kullanımı sıfırlanmıştır', 'SSL sertifikası yenilenmiştir'],
+      topic: 'Siber Güvenlik & SOC',
+      q: 'Gelen HTTP isteklerinde Shannon Bilgi Entropisi hesaplandığında hangi durum bir saldırı (fuzzing / şifreli payload) şüphesi doğurur?',
+      opts: ['Entropi değerinin 0 a çok yakın olması', 'Entropi değerinin normal trafik ortalamasının çok üzerine (ör. >7.5) çıkması', 'İsteğin GET metoduyla gelmesi', 'Kullanıcının Chrome kullanması'],
       ans: 1,
-      exp: 'Normal insan metinleri düşük entropiye sahipken; rastgele karakter dizileri, obfuscated saldırı yükleri ve botnet istekleri yüksek Shannon entropisi üretir.'
+      why: 'Yüksek entropi, metindeki karakter dağılımının aşırı rastgele olduğunu gösterir; bu da obfuscated payload veya otomatik fuzzing saldırılarının tipik işaretidir.'
     },
     {
       diff: 'ZOR',
-      cat: 'Backend & Mimari',
-      q: 'Yüksek trafikli bir API sisteminde saniyede binlerce eşzamanlı I/O isteğini tek thread üzerinde bloklamadan yönetmek için en uygun yaklaşım hangisidir?',
-      opts: ['Her istek için yeni bir OS process başlatmak', 'Event Loop tabanlı Non-Blocking Async I/O kullanmak', 'Tüm sorguları senkron sleep() ile bekletmek', 'Veritabanı bağlantısını her satırda kapatıp açmak'],
+      topic: 'Kriptografi & Auth',
+      q: 'Kullanıcı parolalarını veritabanında saklarken neden düz SHA-256 yerine Argon2id + Salt kullanılmalıdır?',
+      opts: ['SHA-256 çok yavaştır', 'SHA-256 GPU larla saniyede milyarlarca kez denenebilirken, Argon2id bellek-yoğun (memory-hard) yapısıyla brute-force saldırılarını maliyetli hale getirir', 'Argon2id parolayı geri çözebilir', 'SHA-256 sadece sayıları şifreler'],
       ans: 1,
-      exp: 'Event Loop (asyncio / Node.js), ağ ve disk bekleme sürelerinde işlemciyi bloklamadan diğer isteklere geçerek yüksek eşzamanlılık sağlar.'
-    },
-    {
-      diff: 'ZOR',
-      cat: 'Yapay Zeka',
-      q: '70 milyar parametreli bir açık kaynak LLM modelini tek bir tüketici GPU su üzerinde ince ayar (Fine-Tune) yapmak için hangi teknik kullanılır?',
-      opts: ['Full Parameter Training (FP32)', 'QLoRA (4-bit Quantization + Low-Rank Adapters)', 'Grid Search', 'K-Means Clustering'],
-      ans: 1,
-      exp: 'QLoRA, ana model ağırlıklarını 4-bit olarak sıkıştırıp dondurur ve yalnızca düşük ranklı adaptör matrislerini eğiterek VRAM ihtiyacını dramatik biçimde düşürür.'
+      why: 'Argon2id hem yüksek işlemci hem de yüksek RAM tüketimi zorunlu kılarak ASIC/GPU tabanlı parola kırma çiftliklerini etkisizleştirir.'
     }
   ];
 
-  // Durum Yönetimi
-  let activeTab = 'lessons';
-  let activeCategory = Object.keys(CURRICULUM)[0];
-  let quizDiff = 'TÜMÜ';
-  let quizIndex = 0;
-  let quizScore = Number(localStorage.getItem('yavuz_acad_score') || 0);
-  let answeredCurrent = false;
+  // DURUM DEĞİŞKENLERİ
+  let currentView = 'curriculum';
+  let selectedTrackIdx = 0;
+  let selectedLessonIdx = 0;
+  let completedLessons = new Set(JSON.parse(localStorage.getItem('yavuz_completed_lessons') || '[]'));
+  let examDiff = 'TÜMÜ';
+  let examIdx = 0;
+  let examScore = Number(localStorage.getItem('yavuz_exam_score') || 0);
+  let examAnswered = false;
 
-  function getStoredNotes() {
-    try {
-      const local = JSON.parse(localStorage.getItem('yavuz_public_notes') || '[]');
-      return [...local, ...INITIAL_PUBLIC_NOTES];
-    } catch (e) {
-      return INITIAL_PUBLIC_NOTES;
+  const totalLessonsCount = TRACKS.reduce((acc, t) => acc + t.lessons.length, 0);
+
+  function updateTopBadge() {
+    if (progBadge) {
+      progBadge.textContent = `İlerleme: ${completedLessons.size}/${totalLessonsCount} Ders | Sınav Puanı: ${examScore}`;
     }
   }
 
-  function updateGlobalStats() {
-    const notesCount = getStoredNotes().length;
-    if (statsEl) statsEl.textContent = `SINAV PUANI: ${quizScore} | TOPLAM NOT: ${notesCount}`;
+  function getAllNotes() {
+    try {
+      const local = JSON.parse(localStorage.getItem('yavuz_study_notes_v2') || '[]');
+      return [...local, ...DEFAULT_NOTES];
+    } catch (e) {
+      return DEFAULT_NOTES;
+    }
   }
 
-  function renderLessons() {
+  // 1. KÜMÜLATİF MÜFREDAT GÖRÜNÜMÜ
+  function renderCurriculum() {
     sidebar.textContent = '';
-    const title = document.createElement('div');
-    title.style.fontWeight = 'bold';
-    title.style.fontSize = '11px';
-    title.style.marginBottom = '4px';
-    title.textContent = 'KATEGORİLER:';
-    sidebar.appendChild(title);
 
-    Object.keys(CURRICULUM).forEach(cat => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'acad-cat-btn' + (cat === activeCategory ? ' active' : '');
-      btn.textContent = `> ${cat} (${CURRICULUM[cat].length})`;
-      btn.addEventListener('click', () => {
-        activeCategory = cat;
-        renderLessons();
+    TRACKS.forEach((track, tIdx) => {
+      const tTitle = document.createElement('div');
+      tTitle.className = 'acad-track-title';
+      tTitle.textContent = track.trackName;
+      sidebar.appendChild(tTitle);
+
+      track.lessons.forEach((les, lIdx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        const isActive = (tIdx === selectedTrackIdx && lIdx === selectedLessonIdx);
+        const isDone = completedLessons.has(les.id);
+        btn.className = 'acad-step-btn' + (isActive ? ' active' : '');
+
+        const leftSpan = document.createElement('span');
+        leftSpan.textContent = `${isDone ? '✅' : '○'} ${les.step}: ${les.title}`;
+        btn.appendChild(leftSpan);
+
+        btn.addEventListener('click', () => {
+          selectedTrackIdx = tIdx;
+          selectedLessonIdx = lIdx;
+          renderCurriculum();
+        });
+        sidebar.appendChild(btn);
       });
-      sidebar.appendChild(btn);
     });
 
-    main.textContent = '';
-    const header = document.createElement('h3');
-    header.style.margin = '0 0 12px 0';
-    header.style.borderBottom = '1px dashed currentColor';
-    header.style.paddingBottom = '6px';
-    header.textContent = `// ${activeCategory.toUpperCase()} DERS NOTLARI`;
-    main.appendChild(header);
+    // Sağ Okuma Alanı
+    const track = TRACKS[selectedTrackIdx];
+    const lesson = track.lessons[selectedLessonIdx];
+    reader.textContent = '';
 
-    CURRICULUM[activeCategory].forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'lesson-card';
+    const meta = document.createElement('div');
+    meta.style.fontSize = '12px';
+    meta.style.opacity = '0.8';
+    meta.style.marginBottom = '4px';
+    meta.textContent = `${track.trackName}  •  ${lesson.step}`;
+    reader.appendChild(meta);
 
-      const badge = document.createElement('span');
-      badge.className = 'lesson-badge';
-      badge.textContent = `SEVİYE: ${item.level}`;
-      card.appendChild(badge);
+    const h2 = document.createElement('h2');
+    h2.textContent = lesson.title;
+    reader.appendChild(h2);
 
-      const h4 = document.createElement('div');
-      h4.style.fontWeight = 'bold';
-      h4.style.fontSize = '14px';
-      h4.style.marginBottom = '6px';
-      h4.textContent = item.title;
-      card.appendChild(h4);
+    const prereqBox = document.createElement('div');
+    prereqBox.className = 'acad-callout';
+    prereqBox.textContent = `🔗 Kümülatif Bağlantı: ${lesson.prereq}`;
+    reader.appendChild(prereqBox);
 
-      const p = document.createElement('div');
-      p.style.opacity = '0.92';
-      p.textContent = item.summary;
-      card.appendChild(p);
+    const h3Theory = document.createElement('h3');
+    h3Theory.textContent = '1. Temel Kavram ve Çalışma Mantığı';
+    reader.appendChild(h3Theory);
 
-      if (item.code) {
-        const pre = document.createElement('pre');
-        pre.className = 'lesson-code';
-        pre.textContent = item.code;
-        card.appendChild(pre);
-      }
+    const pTheory = document.createElement('p');
+    pTheory.textContent = lesson.theory;
+    reader.appendChild(pTheory);
 
-      main.appendChild(card);
+    const h3Code = document.createElement('h3');
+    h3Code.textContent = '2. Uygulamalı Kod Örneği';
+    reader.appendChild(h3Code);
+
+    const preCode = document.createElement('pre');
+    preCode.className = 'acad-code-block';
+    preCode.textContent = lesson.code;
+    reader.appendChild(preCode);
+
+    const h3Real = document.createElement('h3');
+    h3Real.textContent = '3. Gerçek Proje Senaryosu & Mühendislik Pratiği';
+    reader.appendChild(h3Real);
+
+    const pReal = document.createElement('p');
+    pReal.textContent = lesson.realWorld;
+    reader.appendChild(pReal);
+
+    const taskBox = document.createElement('div');
+    taskBox.className = 'acad-callout';
+    taskBox.textContent = `💡 Altın Kural / Görev: ${lesson.task}`;
+    reader.appendChild(taskBox);
+
+    // Alt Navigasyon (Tamamlandı & Sonraki Adım)
+    const navBar = document.createElement('div');
+    navBar.style.display = 'flex';
+    navBar.style.justifyContent = 'space-between';
+    navBar.style.marginTop = '24px';
+    navBar.style.paddingTop = '14px';
+    navBar.style.borderTop = '1px solid #334155';
+
+    const doneBtn = document.createElement('button');
+    doneBtn.type = 'button';
+    doneBtn.className = 'acad-btn';
+    const alreadyDone = completedLessons.has(lesson.id);
+    doneBtn.textContent = alreadyDone ? '✅ Bu Adım Tamamlandı' : '☑️ Dersi Tamamlandı Olarak İşaretle';
+    doneBtn.addEventListener('click', () => {
+      if (completedLessons.has(lesson.id)) completedLessons.delete(lesson.id);
+      else completedLessons.add(lesson.id);
+      localStorage.setItem('yavuz_completed_lessons', JSON.stringify(Array.from(completedLessons)));
+      updateTopBadge();
+      renderCurriculum();
     });
-  }
-
-  function renderNotes() {
-    sidebar.textContent = '';
-    const info = document.createElement('div');
-    info.style.fontSize = '11px';
-    info.style.lineHeight = '1.4';
-    info.textContent = 'Burada aldığın çalışma notlarını ziyaretçiler okuyabilir. Yeni not eklediğinde anında listeye düşer; "Kodu Kopyala" ile GitHub depona kalıcı gömebilirsin.';
-    sidebar.appendChild(info);
-
-    const exportBtn = document.createElement('button');
-    exportBtn.type = 'button';
-    exportBtn.className = 'deck-btn';
-    exportBtn.style.marginTop = '8px';
-    exportBtn.textContent = '[📋 NOTLARI JSON KOPYALA]';
-    exportBtn.addEventListener('click', () => {
-      const dataStr = JSON.stringify(getStoredNotes(), null, 2);
-      navigator.clipboard?.writeText(dataStr);
-      exportBtn.textContent = '[✅ PANOYA KOPYALANDI!]';
-      setTimeout(() => { exportBtn.textContent = '[📋 NOTLARI JSON KOPYALA]'; }, 2200);
-    });
-    sidebar.appendChild(exportBtn);
-
-    main.textContent = '';
-
-    // Yeni Not Ekleme Formu
-    const formBox = document.createElement('div');
-    formBox.className = 'lesson-card';
-
-    const formTitle = document.createElement('div');
-    formTitle.style.fontWeight = 'bold';
-    formTitle.style.marginBottom = '8px';
-    formTitle.textContent = '+ YENİ ÇALIŞMA NOTU EKLE';
-    formBox.appendChild(formTitle);
-
-    const catSel = document.createElement('select');
-    catSel.className = 'acad-select';
-    ['Python & Backend', 'Yapay Zeka & LLM', 'Siber Güvenlik', 'Veritabanı & Mimari', 'Mobil & OpenCV'].forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c;
-      opt.textContent = c;
-      catSel.appendChild(opt);
-    });
-    formBox.appendChild(catSel);
-
-    const titleInp = document.createElement('input');
-    titleInp.type = 'text';
-    titleInp.className = 'acad-input';
-    titleInp.placeholder = 'Not Başlığı (Örn: FastAPI JWT Doğrulama Mantığı)';
-    titleInp.maxLength = 90;
-    formBox.appendChild(titleInp);
-
-    const bodyInp = document.createElement('textarea');
-    bodyInp.className = 'acad-textarea';
-    bodyInp.rows = 3;
-    bodyInp.placeholder = 'Bugün öğrendiğin kritik detayları veya kod özetini buraya yaz...';
-    bodyInp.maxLength = 600;
-    formBox.appendChild(bodyInp);
-
-    const saveBtn = document.createElement('button');
-    saveBtn.type = 'button';
-    saveBtn.className = 'deck-btn';
-    saveBtn.textContent = '[💾 NOTU YAYINLA]';
-    saveBtn.addEventListener('click', () => {
-      const t = titleInp.value.trim();
-      const b = bodyInp.value.trim();
-      if (!t || !b) return;
-      const existing = JSON.parse(localStorage.getItem('yavuz_public_notes') || '[]');
-      existing.unshift({
-        date: new Date().toISOString().slice(0, 10),
-        category: catSel.value,
-        title: t,
-        body: b
-      });
-      localStorage.setItem('yavuz_public_notes', JSON.stringify(existing));
-      updateGlobalStats();
-      renderNotes();
-    });
-    formBox.appendChild(saveBtn);
-    main.appendChild(formBox);
-
-    // Kayıtlı Tüm Notları Listele (Sadece textContent)
-    const listHeader = document.createElement('div');
-    listHeader.style.fontWeight = 'bold';
-    listHeader.style.margin = '10px 0';
-    listHeader.textContent = 'YAYINLANMIŞ ÇALIŞMA NOTLARI:';
-    main.appendChild(listHeader);
-
-    getStoredNotes().forEach(n => {
-      const card = document.createElement('div');
-      card.className = 'lesson-card';
-
-      const meta = document.createElement('div');
-      meta.className = 'lesson-badge';
-      meta.textContent = `${n.date} | ${n.category}`;
-      card.appendChild(meta);
-
-      const h4 = document.createElement('div');
-      h4.style.fontWeight = 'bold';
-      h4.style.marginBottom = '4px';
-      h4.textContent = n.title;
-      card.appendChild(h4);
-
-      const p = document.createElement('div');
-      p.textContent = n.body;
-      card.appendChild(p);
-
-      main.appendChild(card);
-    });
-  }
-
-  function renderQuiz() {
-    sidebar.textContent = '';
-    const dTitle = document.createElement('div');
-    dTitle.style.fontWeight = 'bold';
-    dTitle.style.fontSize = '11px';
-    dTitle.textContent = 'ZORLUK SEVİYESİ SEÇ:';
-    sidebar.appendChild(dTitle);
-
-    ['TÜMÜ', 'KOLAY', 'ORTA', 'ZOR'].forEach(lvl => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'acad-cat-btn' + (quizDiff === lvl ? ' active' : '');
-      btn.textContent = `> ${lvl}`;
-      btn.addEventListener('click', () => {
-        quizDiff = lvl;
-        quizIndex = 0;
-        answeredCurrent = false;
-        renderQuiz();
-      });
-      sidebar.appendChild(btn);
-    });
-
-    main.textContent = '';
-    const filtered = quizDiff === 'TÜMÜ' ? QUIZ_BANK : QUIZ_BANK.filter(q => q.diff === quizDiff);
-    if (!filtered.length) return;
-
-    const current = filtered[quizIndex % filtered.length];
-    answeredCurrent = false;
-
-    const topMeta = document.createElement('div');
-    topMeta.className = 'lesson-badge';
-    topMeta.textContent = `SORU ${(quizIndex % filtered.length) + 1}/${filtered.length} | SEVİYE: ${current.diff} | ALAN: ${current.cat}`;
-    main.appendChild(topMeta);
-
-    const qText = document.createElement('div');
-    qText.style.fontWeight = 'bold';
-    qText.style.fontSize = '14.5px';
-    qText.style.margin = '10px 0 14px 0';
-    qText.textContent = current.q;
-    main.appendChild(qText);
-
-    const feedbackBox = document.createElement('div');
-    feedbackBox.className = 'lesson-card';
-    feedbackBox.style.display = 'none';
-    feedbackBox.style.marginTop = '12px';
-
-    current.opts.forEach((optText, idx) => {
-      const optBtn = document.createElement('button');
-      optBtn.type = 'button';
-      optBtn.className = 'quiz-option';
-      optBtn.textContent = `${['A', 'B', 'C', 'D'][idx]}) ${optText}`;
-      optBtn.addEventListener('click', () => {
-        if (answeredCurrent) return;
-        answeredCurrent = true;
-        const allOptBtns = main.querySelectorAll('.quiz-option');
-        if (idx === current.ans) {
-          optBtn.classList.add('correct');
-          const pts = current.diff === 'ZOR' ? 30 : (current.diff === 'ORTA' ? 20 : 10);
-          quizScore += pts;
-          localStorage.setItem('yavuz_acad_score', String(quizScore));
-          updateGlobalStats();
-          feedbackBox.textContent = `✅ DOĞRU CEVAP! (+${pts} Puan) — ${current.exp}`;
-        } else {
-          optBtn.classList.add('wrong');
-          allOptBtns[current.ans]?.classList.add('correct');
-          feedbackBox.textContent = `❌ YANLIŞ CEVAP — Doğrusu: ${['A', 'B', 'C', 'D'][current.ans]}. Açıklama: ${current.exp}`;
-        }
-        feedbackBox.style.display = 'block';
-      });
-      main.appendChild(optBtn);
-    });
-
-    main.appendChild(feedbackBox);
+    navBar.appendChild(doneBtn);
 
     const nextBtn = document.createElement('button');
     nextBtn.type = 'button';
-    nextBtn.className = 'deck-btn';
-    nextBtn.style.marginTop = '10px';
-    nextBtn.textContent = '[SONRAKİ SORU >>]';
+    nextBtn.className = 'acad-btn active';
+    nextBtn.textContent = 'Sonraki Adıma Geç →';
     nextBtn.addEventListener('click', () => {
-      quizIndex++;
-      renderQuiz();
+      completedLessons.add(lesson.id);
+      localStorage.setItem('yavuz_completed_lessons', JSON.stringify(Array.from(completedLessons)));
+      updateTopBadge();
+      if (selectedLessonIdx + 1 < track.lessons.length) {
+        selectedLessonIdx++;
+      } else if (selectedTrackIdx + 1 < TRACKS.length) {
+        selectedTrackIdx++;
+        selectedLessonIdx = 0;
+      } else {
+        selectedTrackIdx = 0;
+        selectedLessonIdx = 0;
+      }
+      renderCurriculum();
     });
-    main.appendChild(nextBtn);
+    navBar.appendChild(nextBtn);
+
+    reader.appendChild(navBar);
+    reader.scrollTop = 0;
   }
 
-  function switchTab(tab) {
-    activeTab = tab;
-    document.querySelectorAll('.acad-tab').forEach(t => {
-      t.classList.toggle('active', t.getAttribute('data-tab') === tab);
+  // 2. HERKESE AÇIK ÇALIŞMA NOTLARI GÖRÜNÜMÜ
+  function renderNotesView() {
+    sidebar.textContent = '';
+    const desc = document.createElement('p');
+    desc.style.fontSize = '12.5px';
+    desc.style.lineHeight = '1.5';
+    desc.textContent = 'Burada aldığın çalışma notları hem senin tarayıcında saklanır hem de dışa aktarılıp siteye gömüldüğünde tüm ziyaretçiler tarafından okunabilir.';
+    sidebar.appendChild(desc);
+
+    const copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'acad-btn';
+    copyBtn.style.width = '100%';
+    copyBtn.textContent = '📋 Tüm Notları JSON Kopyala';
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard?.writeText(JSON.stringify(getAllNotes(), null, 2));
+      copyBtn.textContent = '✅ Kopyalandı!';
+      setTimeout(() => { copyBtn.textContent = '📋 Tüm Notları JSON Kopyala'; }, 2000);
     });
-    if (tab === 'lessons') renderLessons();
-    else if (tab === 'notes') renderNotes();
-    else if (tab === 'quiz') renderQuiz();
+    sidebar.appendChild(copyBtn);
+
+    reader.textContent = '';
+    const h2 = document.createElement('h2');
+    h2.textContent = '📝 Çalışma Notlarım & Öğrenme Günlüğü';
+    reader.appendChild(h2);
+
+    // Not Ekleme Kartı
+    const formCard = document.createElement('div');
+    formCard.style.border = '1px solid #475569';
+    formCard.style.borderRadius = '8px';
+    formCard.style.padding = '14px';
+    formCard.style.marginBottom = '20px';
+
+    const catSelect = document.createElement('select');
+    catSelect.className = 'acad-select';
+    ['Python & Backend', 'Yapay Zeka & LLM', 'Siber Güvenlik', 'Veritabanı & SQL', 'Mobil & OpenCV'].forEach(c => {
+      const o = document.createElement('option');
+      o.value = c;
+      o.textContent = c;
+      catSelect.appendChild(o);
+    });
+    formCard.appendChild(catSelect);
+
+    const titleInput = document.createElement('input');
+    titleInput.type = 'text';
+    titleInput.className = 'acad-input';
+    titleInput.placeholder = 'Konu Başlığı (Örn: Asenkron FastAPI mimarisinde dikkat edilecekler)';
+    formCard.appendChild(titleInput);
+
+    const bodyInput = document.createElement('textarea');
+    bodyInput.className = 'acad-textarea';
+    bodyInput.rows = 4;
+    bodyInput.placeholder = 'Öğrendiğin kavramları kendi cümlelerinle buraya not al...';
+    formCard.appendChild(bodyInput);
+
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'acad-btn active';
+    addBtn.textContent = '💾 Notu Kaydet ve Yayınla';
+    addBtn.addEventListener('click', () => {
+      const t = titleInput.value.trim();
+      const c = bodyInput.value.trim();
+      if (!t || !c) return;
+      const list = JSON.parse(localStorage.getItem('yavuz_study_notes_v2') || '[]');
+      list.unshift({
+        date: new Date().toISOString().slice(0, 10),
+        track: catSelect.value,
+        title: t,
+        content: c
+      });
+      localStorage.setItem('yavuz_study_notes_v2', JSON.stringify(list));
+      renderNotesView();
+    });
+    formCard.appendChild(addBtn);
+    reader.appendChild(formCard);
+
+    // Not Listesi
+    getAllNotes().forEach(note => {
+      const item = document.createElement('div');
+      item.style.border = '1px solid #334155';
+      item.style.borderRadius = '8px';
+      item.style.padding = '14px 16px';
+      item.style.marginBottom = '12px';
+
+      const meta = document.createElement('div');
+      meta.style.fontSize = '12px';
+      meta.style.color = '#38bdf8';
+      meta.style.marginBottom = '4px';
+      meta.textContent = `${note.date}  •  ${note.track}`;
+      item.appendChild(meta);
+
+      const nTitle = document.createElement('div');
+      nTitle.style.fontWeight = '700';
+      nTitle.style.fontSize = '16px';
+      nTitle.style.marginBottom = '6px';
+      nTitle.textContent = note.title;
+      item.appendChild(nTitle);
+
+      const nBody = document.createElement('div');
+      nBody.style.whiteSpace = 'pre-wrap';
+      nBody.textContent = note.content;
+      item.appendChild(nBody);
+
+      reader.appendChild(item);
+    });
   }
 
-  document.querySelectorAll('.acad-tab').forEach(t => {
-    t.addEventListener('click', () => switchTab(t.getAttribute('data-tab')));
+  // 3. SEVİYELİ SINAV MERKEZİ
+  function renderExamView() {
+    sidebar.textContent = '';
+    const lbl = document.createElement('div');
+    lbl.className = 'acad-track-title';
+    lbl.textContent = 'ZORLUK FİLTRESİ';
+    sidebar.appendChild(lbl);
+
+    ['TÜMÜ', 'KOLAY', 'ORTA', 'ZOR'].forEach(d => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'acad-step-btn' + (examDiff === d ? ' active' : '');
+      b.textContent = `Seviye: ${d}`;
+      b.addEventListener('click', () => {
+        examDiff = d;
+        examIdx = 0;
+        renderExamView();
+      });
+      sidebar.appendChild(b);
+    });
+
+    reader.textContent = '';
+    const pool = examDiff === 'TÜMÜ' ? EXAM_QUESTIONS : EXAM_QUESTIONS.filter(q => q.diff === examDiff);
+    if (!pool.length) return;
+    const qObj = pool[examIdx % pool.length];
+    examAnswered = false;
+
+    const badge = document.createElement('div');
+    badge.style.fontSize = '12px';
+    badge.style.color = '#38bdf8';
+    badge.style.marginBottom = '8px';
+    badge.textContent = `Soru ${(examIdx % pool.length) + 1} / ${pool.length}  •  Zorluk: ${qObj.diff}  •  Konu: ${qObj.topic}`;
+    reader.appendChild(badge);
+
+    const qH2 = document.createElement('h2');
+    qH2.style.fontSize = '18px';
+    qH2.textContent = qObj.q;
+    reader.appendChild(qH2);
+
+    const expBox = document.createElement('div');
+    expBox.className = 'acad-callout';
+    expBox.style.display = 'none';
+    expBox.style.marginTop = '16px';
+
+    qObj.opts.forEach((opt, i) => {
+      const cBtn = document.createElement('button');
+      cBtn.type = 'button';
+      cBtn.className = 'quiz-choice';
+      cBtn.textContent = `${['A', 'B', 'C', 'D'][i]}) ${opt}`;
+      cBtn.addEventListener('click', () => {
+        if (examAnswered) return;
+        examAnswered = true;
+        const buttons = reader.querySelectorAll('.quiz-choice');
+        if (i === qObj.ans) {
+          cBtn.classList.add('correct');
+          const pts = qObj.diff === 'ZOR' ? 30 : (qObj.diff === 'ORTA' ? 20 : 10);
+          examScore += pts;
+          localStorage.setItem('yavuz_exam_score', String(examScore));
+          updateTopBadge();
+          expBox.textContent = `✅ Doğru Cevap! (+${pts} Puan) — ${qObj.why}`;
+        } else {
+          cBtn.classList.add('wrong');
+          buttons[qObj.ans]?.classList.add('correct');
+          expBox.textContent = `❌ Yanlış Cevap (Doğrusu: ${['A', 'B', 'C', 'D'][qObj.ans]}) — ${qObj.why}`;
+        }
+        expBox.style.display = 'block';
+      });
+      reader.appendChild(cBtn);
+    });
+
+    reader.appendChild(expBox);
+
+    const nextQ = document.createElement('button');
+    nextQ.type = 'button';
+    nextQ.className = 'acad-btn active';
+    nextQ.style.marginTop = '14px';
+    nextQ.textContent = 'Sonraki Soruya Geç →';
+    nextQ.addEventListener('click', () => {
+      examIdx++;
+      renderExamView();
+    });
+    reader.appendChild(nextQ);
+  }
+
+  function switchView(v) {
+    currentView = v;
+    document.querySelectorAll('[data-view]').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-view') === v);
+    });
+    if (v === 'curriculum') renderCurriculum();
+    else if (v === 'notes') renderNotesView();
+    else if (v === 'exam') renderExamView();
+  }
+
+  document.querySelectorAll('[data-view]').forEach(b => {
+    b.addEventListener('click', () => switchView(b.getAttribute('data-view')));
   });
+
+  if (btnTheme) {
+    btnTheme.addEventListener('click', () => {
+      const isPaper = modal.classList.toggle('paper-theme');
+      btnTheme.textContent = isPaper ? '🌙 Gece Okuma Modu' : '☀️ Kağıt Modu';
+    });
+  }
 
   btnOpen.addEventListener('click', () => {
     modal.style.display = 'flex';
-    updateGlobalStats();
-    switchTab(activeTab);
+    updateTopBadge();
+    switchView(currentView);
   });
 
   if (btnClose) {
@@ -3622,6 +3799,7 @@ document.querySelectorAll('button').forEach(b => {
 </script>
 </body>
 </html>
+
 
 
 
