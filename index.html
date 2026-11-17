@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>YAVUZ CAN // HARDENED CYBER-DECK OS v3.0</title>
+    <style>
+        :root {
+            --bg-desktop: #04070f;
+            --win-bg: #c0c0c0;
+            --win-dark: #808080;
+            --win-light: #ffffff;
+            --win-title: linear-gradient(90deg, #000080, #0e7490);
+            --accent: #00ff66;
+            --accent-sec: #ffb000;
+        }
+
+        body.theme-amber {
+            --bg-desktop: #0f0802;
+            --win-title: linear-gradient(90deg, #78350f, #d97706);
+            --accent: #ffb000;
+            --accent-sec: #00ff66;
+        }
+
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: var(--bg-desktop);
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            color: #111;
+        }
+
+        #bg-network {
+            position: fixed; inset: 0; z-index: 1; pointer-events: none;
+        }
+
+        .crt-overlay {
+            position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+            background: linear-gradient(rgba(18, 16, 16, 0.13) 50%, rgba(0, 0, 0, 0.05) 50%);
+            background-size: 100% 4px;
+        }
+
+        #bios-screen {
+            position: fixed; inset: 0; background: #020408; color: var(--accent);
+            z-index: 10000; padding: 32px; font-size: 15px; line-height: 1.6;
+            display: flex; flex-direction: column; justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .desktop-icons {
+            position: absolute; top: 22px; left: 22px;
+            display: grid; grid-template-columns: repeat(2, 114px); gap: 18px 14px; z-index: 10;
+            user-select: none;
+        }
+        .icon-btn {
+            width: 112px; text-align: center; cursor: pointer; color: #f8fafc;
+            text-shadow: 1px 1px 3px #000; font-size: 11px; padding: 7px 4px;
+            border: 1px solid transparent; border-radius: 4px;
+            word-break: break-word; line-height: 1.3;
+            transition: background 0.15s;
+        }
+        .icon-btn:hover { background: rgba(0, 255, 102, 0.14); border: 1px dashed var(--accent); }
+        .icon-box {
+            width: 42px; height: 42px; margin: 0 auto 4px;
+            background: rgba(15, 23, 42, 0.92); border: 2px solid #94a3b8;
+            box-shadow: 3px 3px 0px #000;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 19px;
+        }
+
+        .hud-panel {
+            position: absolute; top: 22px; right: 22px; width: 255px;
+            background: rgba(8, 13, 24, 0.94); border: 1px solid #334155;
+            box-shadow: 5px 5px 0px #000; color: var(--accent);
+            padding: 12px; font-size: 11px; z-index: 15;
+        }
+        #mini-radar {
+            width: 100%; height: 105px; background: #03060c;
+            border: 1px solid #1e293b; margin: 8px 0; display: block;
+        }
+
+        .window {
+            position: absolute;
+            background: var(--win-bg);
+            border-top: 2px solid var(--win-light);
+            border-left: 2px solid var(--win-light);
+            border-right: 2px solid #000;
+            border-bottom: 2px solid #000;
+            box-shadow: 7px 7px 0px rgba(0,0,0,0.82);
+            min-width: 310px; max-width: 95vw;
+            display: none; flex-direction: column;
+        }
+        .window.active { display: flex; }
+        .window.maximized {
+            top: 0 !important; left: 0 !important;
+            width: 100vw !important; height: calc(100vh - 35px) !important;
+            max-width: 100vw !important;
+        }
+        .title-bar {
+            background: var(--win-title);
+            color: #fff; padding: 5px 8px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-weight: bold; font-size: 12px; cursor: grab; user-select: none;
+        }
+        .title-bar:active { cursor: grabbing; }
+        .win-controls { display: flex; gap: 3px; }
+        .win-controls button {
+            background: var(--win-bg); border: 1px solid #000;
+            border-top-color: #fff; border-left-color: #fff;
+            width: 21px; height: 19px; font-weight: bold; font-size: 11px;
+            cursor: pointer; line-height: 1;
+        }
+        .win-body {
+            padding: 12px; font-size: 13px; line-height: 1.5;
+            max-height: calc(100vh - 105px); overflow-y: auto; flex: 1;
+        }
+        .window.maximized .win-body { max-height: none; }
+
+        .inset-panel {
+            background: #fff;
+            border-top: 2px solid var(--win-dark);
+            border-left: 2px solid var(--win-dark);
+            border-right: 2px solid var(--win-light);
+            border-bottom: 2px solid var(--win-light);
+            padding: 14px;
+        }
+
+        .cv-section-title {
+            background: #0f172a; color: var(--accent);
+            padding: 3px 8px; font-size: 12px; font-weight: bold;
+            margin: 12px 0 8px; letter-spacing: 1px;
+        }
+        .skill-tag {
+            display: inline-block; background: #e2e8f0; border: 1px solid #64748b;
+            padding: 2px 7px; font-size: 11px; font-weight: bold; margin: 2px;
+        }
+
+        .pomo-screen {
+            background: #050505; color: var(--accent);
+            border: 2px inset #444; padding: 12px; text-align: center;
+            margin-bottom: 10px;
+        }
+        .pomo-digits {
+            font-size: 38px; font-weight: bold; letter-spacing: 4px;
+            text-shadow: 0 0 12px var(--accent);
+        }
+
+        .terminal-box {
+            background: #050505; color: var(--accent);
+            padding: 10px; height: 230px; overflow-y: auto;
+            font-size: 12px; border: 2px inset #444;
+        }
+        .term-input-line { display: flex; gap: 6px; margin-top: 4px; }
+        .term-input {
+            background: transparent; border: none; color: var(--accent);
+            font-family: inherit; font-size: 12px; flex: 1; outline: none;
+        }
+        .notepad-area {
+            width: 100%; height: 190px; border: 2px inset #808080;
+            font-family: 'Courier New', monospace; font-size: 13px;
+            padding: 8px; resize: none; outline: none; background: #fffff8;
+        }
+
+        .taskbar {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 35px;
+            background: var(--win-bg); border-top: 2px solid #fff;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 2px 6px; z-index: 5000;
+        }
+        .start-btn {
+            background: var(--win-bg); font-weight: bold; font-size: 12px;
+            border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #000; border-bottom: 2px solid #000;
+            padding: 3px 10px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+        }
+        .retro-btn {
+            background: var(--win-bg); border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #000; border-bottom: 2px solid #000;
+            padding: 4px 9px; font-family: inherit; font-size: 11px; font-weight: bold;
+            cursor: pointer; text-decoration: none; color: #000; display: inline-block;
+        }
+        .retro-btn:active { border-top-color: #000; border-left-color: #000; }
+        .clock-tray {
+            border-top: 1px solid var(--win-dark); border-left: 1px solid var(--win-dark);
+            border-right: 1px solid #fff; border-bottom: 1px solid #fff;
+            padding: 2px 10px; font-size: 12px; display: flex; gap: 10px; align-items: center;
+        }
+        .badge { font-size: 10px; padding: 2px 6px; color: #fff; font-weight: bold; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #win-cv, #win-cv * { visibility: visible; }
+            #win-cv { position: fixed; left: 0; top: 0; width: 100%; box-shadow: none; border: none; }
+            .title-bar, .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bg-network"></canvas>
+    <div class="crt-overlay"></div>
+
+    <!-- BIOS BOOT -->
+    <div id="bios-screen">
+        <div>
+            <div>YAVUZ-CAN HARDENED BIOS v3.0 (Zero-XSS / CSP-Strict / Anti-Frame)</div>
+            <div>INTEGRITY CHECK: SHA-256 VERIFIED | @llyavuz</div>
+            <br>
+            <div id="bios-logs"></div>
+        </div>
+        <div style="color: #888; font-size: 12px;">[Hemen giriş yapmak için tıklayın]</div>
+    </div>
+
+    <!-- MASAÜSTÜ İKONLARI -->
+    <div class="desktop-icons">
+        <div class="icon-btn" data-open="win-cv">
+            <div class="icon-box">📄</div>
+            <div>CV_Yavuz.exe</div>
+        </div>
+        <div class="icon-btn" data-open="win-projects">
+            <div class="icon-box">🗂️</div>
+            <div>Projeler.dir</div>
+        </div>
+        <div class="icon-btn" data-open="win-ctf">
+            <div class="icon-box">🚩</div>
+            <div>Hack_CTF.exe</div>
+        </div>
+        <div class="icon-btn" data-open="win-snake">
+            <div class="icon-box">🐍</div>
+            <div>Cyber_Snake.exe</div>
+        </div>
+        <div class="icon-btn" data-open="win-crypto">
+            <div class="icon-box">🔐</div>
+            <div>SecTools.exe</div>
+        </div>
+        <div class="icon-btn" data-open="win-pomodoro">
+            <div class="icon-box">⏱️</div>
+            <div>Pomodoro.exe</div>
+        </div>
+        <div class="icon-btn" data-open="win-terminal">
+            <div class="icon-box">📟</div>
+            <div>Terminal.sh</div>
+        </div>
+        <div class="icon-btn" data-open="win-notepad">
+            <div class="icon-box">📝</div>
+            <div>NotDefteri.txt</div>
+        </div>
+        <div class="icon-btn" data-open="win-security">
+            <div class="icon-box">🛡️</div>
+            <div>Guvenlik.log</div>
+        </div>
+        <div class="icon-btn" data-open="win-contact">
+            <div class="icon-box">📡</div>
+            <div>Iletisim.bat</div>
+        </div>
+    </div>
+
+    <!-- SAĞ ÜST CANLI SİBER HUD PANELİ -->
+    <div class="hud-panel">
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #334155; padding-bottom:4px;">
+            <strong>SHIELD_HUD // @llyavuz</strong>
+            <span style="color:#00ff66;">A+ HARDENED</span>
+        </div>
+        <canvas id="mini-radar"></canvas>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:#94a3b8; margin-bottom:6px;">
+            <span>CSP: STRICT</span>
+            <span>DOM-XSS: 0%</span>
+            <span>ANTI-FRAME: ON</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span>CRT FOSFOR:</span>
+            <div>
+                <button id="btn-theme-green" class="retro-btn" style="padding:2px 6px;">Yeşil</button>
+                <button id="btn-theme-amber" class="retro-btn" style="padding:2px 6px;">Amber</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 1: ÖZGEÇMİŞ / CV -->
+    <div class="window active" id="win-cv" style="top: 24px; left: 275px; width: 690px; max-height: calc(100vh - 65px); z-index: 25;">
+        <div class="title-bar" data-drag="win-cv">
+            <span>C:\CAREER\CV_YavuzCan.exe — Özgeçmiş &amp; Teknik Profil</span>
+            <div class="win-controls">
+                <button data-max="win-cv" title="Tam Ekran">□</button>
+                <button data-close="win-cv">X</button>
+            </div>
+        </div>
+        <div class="win-body">
+            <div class="inset-panel">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; border-bottom:2px solid #0f172a; padding-bottom:10px;">
+                    <div>
+                        <h1 style="margin:0; font-size:22px; color:#0f172a; letter-spacing:1px;">YAVUZ CAN</h1>
+                        <div style="color:#000080; font-weight:bold; font-size:13px;">Yönetim Bilişim Sistemleri (4. Sınıf) | Backend &amp; SecOps Developer</div>
+                        <div style="font-size:11px; color:#475569; margin-top:4px;">
+                            📞 <span class="protected-phone">Yükleniyor...</span> &nbsp;|&nbsp; ✉️ <span class="protected-mail">Yükleniyor...</span> &nbsp;|&nbsp; 💻 <a href="https://github.com/llyavuz" target="_blank" rel="noopener noreferrer" style="color:#000080; font-weight:bold;">github.com/llyavuz</a>
+                        </div>
+                    </div>
+                    <div class="no-print">
+                        <button id="btn-print-cv" class="retro-btn">🖨️ PDF / Yazdır</button>
+                    </div>
+                </div>
+
+                <div class="cv-section-title">&gt; HAKKIMDA // ÖZET</div>
+                <p style="margin:0; font-size:12px;">
+                    Yönetim Bilişim Sistemleri 4. sınıf öğrencisiyim. <strong>Google Developer Group (GDG) Burdur</strong> organizatörü olarak topluluk yönetimi ve ekip koordinasyonu deneyimi edindim; <strong>VBT</strong> bünyesinde gerçekleştirdiğim gönüllü stajda kurumsal yazılım yaşam döngüsü ve iş süreçlerini yakından deneyimledim. Python (FastAPI), otonom veri istihbaratı ve siber güvenlik odaklı sistemler geliştiriyor; katkı sunabileceğim yazılım geliştirme stajı fırsatlarını değerlendiriyorum.
+                </p>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:6px;">
+                    <div>
+                        <div class="cv-section-title">&gt; EĞİTİM</div>
+                        <div style="font-size:12px;">
+                            <strong>Mehmet Akif Ersoy Üniversitesi</strong><br>
+                            <span style="color:#000080; font-weight:bold;">Yönetim Bilişim Sistemleri (Lisans)</span><br>
+                            <span style="font-size:11px; color:#64748b;">2023 - 2027 (Beklenen) • İngilizce Hazırlık Tamamlandı</span>
+                            <div style="font-size:11px; margin-top:4px; color:#334155;">
+                                <em>Dersler:</em> Veritabanı Yönetim Sistemleri, Sistem Analizi ve Tasarımı, Programlama, Yapay Zeka
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cv-section-title">&gt; DENEYİM &amp; TOPLULUK</div>
+                        <div style="font-size:12px; margin-bottom:6px;">
+                            <strong>Organizatör | GDG Burdur</strong><br>
+                            <span style="font-size:11px; color:#334155;">Teknoloji etkinliklerinin planlanması, topluluk yönetimi ve ekip koordinasyonu.</span>
+                        </div>
+                        <div style="font-size:12px;">
+                            <strong>Gönüllü Stajyer | VBT</strong><br>
+                            <span style="font-size:11px; color:#334155;">Kurumsal yazılım geliştirme süreçlerinin gözlemlenmesi ve teknik görev desteği.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cv-section-title">&gt; TEKNİK YETKİNLİKLER</div>
+                <div>
+                    <span class="skill-tag">Python &amp; FastAPI</span>
+                    <span class="skill-tag">Nesne Yönelimli Programlama (OOP)</span>
+                    <span class="skill-tag">REST API &amp; WebSockets</span>
+                    <span class="skill-tag">SQL &amp; Veritabanı Yönetimi</span>
+                    <span class="skill-tag">Web Geliştirme</span>
+                    <span class="skill-tag">Bilgisayar Ağları &amp; SecOps</span>
+                    <span class="skill-tag">Git &amp; Linux</span>
+                </div>
+
+                <div class="cv-section-title">&gt; SEÇİLİ PROJELER</div>
+                <div style="font-size:12px; display:flex; flex-direction:column; gap:5px;">
+                    <div>• <strong>AegisMesh (AI-SOC &amp; Honeypot):</strong> Shannon Entropi tabanlı saldırı tespiti, Tarpit tuzakları ve otonom Nginx WAF kural üretici.</div>
+                    <div>• <strong>FiyatRadar (B2B Rakip İstihbaratı):</strong> TLS parmak izi taklitli fiyat/stok izleme ve Telegram alarm motoru.</div>
+                    <div>• <strong>TÜBİTAK 2209-A YBS Projesi:</strong> Tarım kooperatifleri için toprak sağlığı ve gübre maliyeti karar destek sistemi.</div>
+                    <div>• <strong>FocusFam Backend:</strong> Aile ekran süresi yönetimi için ölçeklenebilir REST API ve yetkilendirme mimarisi.</div>
+                </div>
+
+                <div class="no-print" style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap; border-top:1px dashed #94a3b8; padding-top:10px;">
+                    <a href="https://github.com/llyavuz" target="_blank" rel="noopener noreferrer" class="retro-btn">💻 GitHub (@llyavuz)</a>
+                    <button class="retro-btn" data-open="win-projects">🗂️ Proje Mimarileri</button>
+                    <button class="retro-btn" data-open="win-ctf">🚩 Hack Lab CTF Oyna</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 2: PROJELER.DIR -->
+    <div class="window" id="win-projects" style="top: 55px; left: 260px; width: 590px; z-index: 21;">
+        <div class="title-bar" data-drag="win-projects">
+            <span>C:\PORTFOLIO\Projeler.dir — Sistem Mimarileri</span>
+            <div class="win-controls">
+                <button data-max="win-projects">□</button>
+                <button data-close="win-projects">X</button>
+            </div>
+        </div>
+        <div class="win-body">
+            <div class="inset-panel" style="display:flex; flex-direction:column; gap:10px;">
+                <div style="border:1px solid #808080; padding:10px; background:#f8fafc;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:#000080;">01. AegisMesh — Autonomous AI-SOC &amp; Honeypot Engine</strong>
+                        <span class="badge" style="background:#dc2626;">CYBERSECURITY</span>
+                    </div>
+                    <p style="margin:5px 0; font-size:12px;">
+                        Gelen HTTP trafiğini Shannon Bilgi Entropisi ve imza analiziyle denetleyen, saldırganları sahte tuzaklarda (Tarpit) oyalayan ve otomatik Nginx WAF kuralları üreten canlı Siber Operasyon Merkezi.
+                    </p>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#475569;">
+                        <span>FastAPI • WebSockets • Canvas Radar • Shannon Entropy</span>
+                        <a href="https://github.com/llyavuz/aegismesh" target="_blank" rel="noopener noreferrer" style="color:#000080; font-weight:bold;">[GitHub Repo -&gt;]</a>
+                    </div>
+                </div>
+
+                <div style="border:1px solid #808080; padding:10px; background:#f8fafc;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:#000080;">02. FiyatRadar — B2B E-Ticaret Rakip İstihbarat Motoru</strong>
+                        <span class="badge" style="background:#059669;">B2B SAAS</span>
+                    </div>
+                    <p style="margin:5px 0; font-size:12px;">
+                        TLS/JA3 parmak izi taklidiyle anti-bot korumalarını aşan, JSON-LD yapısal verilerini ayrıştıran ve kritik fiyat/stok değişimlerinde Telegram alarmı üreten otonom motor.
+                    </p>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#475569;">
+                        <span>Python • curl_cffi • SQLAlchemy • Telegram API</span>
+                        <a href="https://github.com/llyavuz" target="_blank" rel="noopener noreferrer" style="color:#000080; font-weight:bold;">[GitHub -&gt;]</a>
+                    </div>
+                </div>
+
+                <div style="border:1px solid #808080; padding:10px; background:#f8fafc;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:#000080;">03. TÜBİTAK 2209-A — Tarımsal Karar Destek Sistemi</strong>
+                        <span class="badge" style="background:#2563eb;">TÜBİTAK 2209-A</span>
+                    </div>
+                    <p style="margin:5px 0; font-size:12px;">
+                        Bölgesel tarım kooperatifleri için toprak sağlığı verilerini analiz ederek gübre maliyetlerini optimize eden Yönetim Bilişim Sistemleri karar destek platformu.
+                    </p>
+                </div>
+
+                <div style="border:1px solid #808080; padding:10px; background:#f8fafc;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:#000080;">04. FocusFam — Mobil &amp; Web Backend Mimarisi</strong>
+                        <span class="badge" style="background:#7c3aed;">REST API</span>
+                    </div>
+                    <p style="margin:5px 0; font-size:12px;">
+                        Aile ekran süresi yönetimi uygulaması için tasarlanmış ölçeklenebilir arka uç mimarisi, veritabanı modellemesi ve yetkilendirme altyapısı.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 3: INTERAKTİF SİBER GÜVENLİK LAB (HACK_LAB_CTF.EXE) -->
+    <div class="window" id="win-ctf" style="top: 80px; left: 290px; width: 470px; z-index: 28;">
+        <div class="title-bar" data-drag="win-ctf">
+            <span>C:\CYBER\Hack_Lab_CTF.exe — Mini Capture The Flag</span>
+            <div class="win-controls"><button data-close="win-ctf">X</button></div>
+        </div>
+        <div class="win-body">
+            <div class="inset-panel" style="font-size:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <strong style="color:#000080;">GÖREV <span id="ctf-stage">1</span> / 3</strong>
+                    <span id="ctf-badge" class="badge" style="background:#0f172a;">STATUS: LOCKED</span>
+                </div>
+                <div id="ctf-prompt" style="background:#050505; color:var(--accent); padding:10px; margin-bottom:10px; line-height:1.6;">
+                    [AŞAMA 1 - KRİPTOANALİZ]<br>
+                    Ağ trafiğinde yakalanan şu Base64 şifreli bayrağı (Flag) çözün:<br>
+                    <strong style="color:#ffb000;">WUFWVVpfU0VDX09L</strong>
+                </div>
+                <div style="display:flex; gap:6px;">
+                    <input type="text" id="ctf-answer" placeholder="Çözülen bayrağı girin..." style="flex:1; padding:6px; font-family:inherit; border:1px solid #000;">
+                    <button id="ctf-submit" type="button" class="retro-btn">Doğrula</button>
+                </div>
+                <div id="ctf-feedback" style="margin-top:8px; font-weight:bold;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 4: RETRO YILAN OYUNU (CYBER_SNAKE.EXE) -->
+    <div class="window" id="win-snake" style="top: 90px; left: 340px; width: 350px; z-index: 29;">
+        <div class="title-bar" data-drag="win-snake">
+            <span>C:\GAMES\Cyber_Snake.exe — High Score: <span id="snake-best">0</span></span>
+            <div class="win-controls"><button data-close="win-snake">X</button></div>
+        </div>
+        <div class="win-body" style="text-align:center; padding:10px;">
+            <canvas id="snake-canvas" width="300" height="260" style="background:#050505; border:2px inset #444; display:block; margin:0 auto;"></canvas>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                <span style="font-size:12px; font-weight:bold;">Skor: <span id="snake-score">0</span></span>
+                <button id="snake-start" type="button" class="retro-btn">▶ Oyunu Başlat (Ok Tuşları)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 5: SİBER GÜVENLİK & PAROLA ARAÇLARI (SECTOOLS.EXE) -->
+    <div class="window" id="win-crypto" style="top: 120px; left: 310px; width: 440px; z-index: 23;">
+        <div class="title-bar" data-drag="win-crypto">
+            <span>C:\SEC\SecTools.exe — Entropy, SHA-256 &amp; KeyGen</span>
+            <div class="win-controls"><button data-close="win-crypto">X</button></div>
+        </div>
+        <div class="win-body">
+            <div class="inset-panel" style="font-size:12px;">
+                <strong>1. Canlı Shannon Entropi &amp; SHA-256 Analizörü</strong>
+                <input type="text" id="sec-input" placeholder="Metin veya payload girin..." style="width:100%; padding:6px; font-family:inherit; border:1px solid #000; margin:6px 0;">
+                <div style="background:#050505; color:var(--accent); padding:8px; font-size:11px; word-break:break-all; margin-bottom:12px;">
+                    <div>ENTROPİ SKORU: <span id="sec-entropy" style="color:#ffb000; font-weight:bold;">0.00 bits</span></div>
+                    <div style="margin-top:4px;">SHA-256 HASH: <span id="sec-hash">-</span></div>
+                </div>
+
+                <strong>2. CSPRNG Kriptografik Parola Üretici</strong>
+                <div style="display:flex; gap:6px; margin-top:6px;">
+                    <input type="text" id="gen-pass-out" readonly value="Üretmek için butona basın..." style="flex:1; padding:5px; font-family:inherit; background:#f1f5f9; border:1px solid #64748b;">
+                    <button id="btn-gen-pass" type="button" class="retro-btn">🔑 24-Char Üret</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 6: GÜVENLİK MİMARİSİ RAPORU (GUVENLIK_ZIRHI.LOG) -->
+    <div class="window" id="win-security" style="top: 100px; left: 270px; width: 510px; z-index: 30;">
+        <div class="title-bar" data-drag="win-security">
+            <span>C:\SEC\Guvenlik_Zirhi.log — Hardening &amp; Defense Spec</span>
+            <div class="win-controls"><button data-close="win-security">X</button></div>
+        </div>
+        <div class="win-body">
+            <div class="inset-panel" style="font-size:12px; line-height:1.6;">
+                <strong style="color:#000080; font-size:14px;">SİSTEM GÜVENLİK MİMARİSİ (10/10 HARDENED)</strong>
+                <hr>
+                • <strong>Zero-Backend Attack Surface:</strong> Veritabanı veya dinamik sunucu ucu bulunmadığından SQLi, RCE ve SSRF vektörleri mimari olarak imkansızdır.<br>
+                • <strong>Strict DOM-XSS Immunity:</strong> Kullanıcı girdisi işleyen hiçbir bileşende <code>innerHTML</code> kullanılmaz; tüm veriler <code>textContent</code> ile izole edilir.<br>
+                • <strong>Zero Supply-Chain Risk:</strong> Sıfır harici CDN/script bağımlılığı ile üçüncü parti script zehirlenmesine karşı tam koruma.<br>
+                • <strong>Anti-Clickjacking &amp; CSP:</strong> <code>frame-ancestors 'none'</code>, <code>X-Frame-Options: DENY</code> ve katı Content-Security-Policy başlıkları.<br>
+                • <strong>Anti-Scraping Obfuscation:</strong> E-posta ve telefon verileri kaynak kodda düz metin olarak tutulmaz, yalnızca çalışma anında DOM üzerinde çözülür.
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 7: POMODORO ODAK SAYACI -->
+    <div class="window" id="win-pomodoro" style="top: 225px; right: 22px; width: 275px; z-index: 24;">
+        <div class="title-bar" data-drag="win-pomodoro">
+            <span>C:\TOOLS\Pomodoro.exe</span>
+            <div class="win-controls"><button data-close="win-pomodoro">X</button></div>
+        </div>
+        <div class="win-body" style="padding:10px;">
+            <div class="pomo-screen">
+                <div id="pomo-mode-label" style="font-size:10px; color:#ffb000; margin-bottom:2px;">[DEEP WORK // 25 DK]</div>
+                <div id="pomo-timer" class="pomo-digits" style="font-size:36px;">25:00</div>
+                <div style="font-size:10px; color:#94a3b8;">Oturum: <span id="pomo-count" style="color:#fff; font-weight:bold;">0</span></div>
+            </div>
+            <div style="display:flex; justify-content:center; gap:4px; margin-bottom:6px;">
+                <button id="pomo-start" type="button" class="retro-btn">▶ Başlat</button>
+                <button id="pomo-pause" type="button" class="retro-btn">⏸ Duraklat</button>
+                <button id="pomo-reset" type="button" class="retro-btn">↺ Sıfırla</button>
+            </div>
+            <div style="display:flex; justify-content:center; gap:4px; border-top:1px dashed #808080; padding-top:6px;">
+                <button id="pomo-m25" type="button" class="retro-btn" style="padding:3px 6px;">25dk</button>
+                <button id="pomo-m5" type="button" class="retro-btn" style="padding:3px 6px;">5dk</button>
+                <button id="pomo-m15" type="button" class="retro-btn" style="padding:3px 6px;">15dk</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 8: NOT DEFTERİ -->
+    <div class="window" id="win-notepad" style="top: 140px; left: 320px; width: 380px; z-index: 22;">
+        <div class="title-bar" data-drag="win-notepad">
+            <span>NotDefteri.txt — Yerel Hafıza</span>
+            <div class="win-controls"><button data-close="win-notepad">X</button></div>
+        </div>
+        <div class="win-body" style="padding:8px;">
+            <textarea id="notepad-text" class="notepad-area" placeholder="Notların tarayıcında otomatik saklanır..."></textarea>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+                <span style="font-size:11px; color:#006400;">● Otomatik Kayıt Aktif</span>
+                <button id="btn-clear-note" type="button" class="retro-btn">Temizle</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 9: İNTERAKTİF TERMİNAL -->
+    <div class="window" id="win-terminal" style="top: 310px; left: 220px; width: 520px; z-index: 26;">
+        <div class="title-bar" data-drag="win-terminal">
+            <span>root@yavuz-can:~# bash</span>
+            <div class="win-controls"><button data-close="win-terminal">X</button></div>
+        </div>
+        <div class="win-body" style="padding:6px; background:#000;">
+            <div class="terminal-box" id="term-output">
+                <div>Yavuz Can Hardened Cyber-Deck Shell [Version 3.0]</div>
+                <div>Komutlar: <strong>help</strong>, <strong>neofetch</strong>, <strong>ctf</strong>, <strong>snake</strong>, <strong>security</strong>, <strong>projects</strong>, <strong>clear</strong></div>
+                <br>
+            </div>
+            <div class="term-input-line" style="padding:4px 8px; background:#050505;">
+                <span style="color:var(--accent);">guest@llyavuz:~$</span>
+                <input type="text" id="term-cmd" class="term-input" autocomplete="off" placeholder="ctf veya neofetch yazıp Enter'a basın...">
+            </div>
+        </div>
+    </div>
+
+    <!-- PENCERE 10: İLETİŞİM -->
+    <div class="window" id="win-contact" style="top: 150px; left: 300px; width: 430px; z-index: 27;">
+        <div class="title-bar" data-drag="win-contact">
+            <span>C:\NET\Iletisim.bat — Şifreli İletişim Kanalı</span>
+            <div class="win-controls"><button data-close="win-contact">X</button></div>
+        </div>
+        <div class="win-body">
+            <div class="inset-panel">
+                <p style="margin-top:0; font-size:12px;">Yazılım geliştirme stajı, proje iş birlikleri veya teknik iletişim için doğrudan ulaşabilirsiniz:</p>
+                <div style="background:#050505; color:var(--accent); padding:10px; font-size:12px; margin-bottom:10px; line-height:1.7;">
+                    İSİM    : Yavuz Can<br>
+                    E-POSTA : <span class="protected-mail">Yükleniyor...</span><br>
+                    TELEFON : <span class="protected-phone">Yükleniyor...</span><br>
+                    GITHUB  : github.com/llyavuz
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button id="btn-copy-contact" type="button" class="retro-btn">📋 Bilgileri Kopyala</button>
+                    <a id="btn-mailto" href="#" class="retro-btn">✉️ E-Posta Gönder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALT GÖREV ÇUBUĞU -->
+    <div class="taskbar">
+        <div style="display:flex; gap:4px; align-items:center; overflow-x:auto;">
+            <button class="start-btn" data-open="win-terminal">
+                <span style="background:#000080; color:#fff; padding:0 4px;">YC</span> Terminal
+            </button>
+            <button class="retro-btn" data-open="win-cv">CV.exe</button>
+            <button class="retro-btn" data-open="win-projects">Projeler</button>
+            <button class="retro-btn" data-open="win-ctf">Hack_CTF</button>
+            <button class="retro-btn" data-open="win-snake">Snake</button>
+            <button class="retro-btn" data-open="win-security">Zırh.log</button>
+            <button class="retro-btn" data-open="win-pomodoro">Pomodoro</button>
+        </div>
+        <div class="clock-tray">
+            <span style="color:#006400; font-weight:bold;">🛡️ SECURE</span>
+            <span id="sys-clock">00:00</span>
+        </div>
+    </div>
+
+    <script>
+        // Anti-Clickjacking Frame-Busting Koruması
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Anti-Scraping Runtime De-Obfuscation (Botların kaynak koddan mail/tel kazımasını engeller)
+            const mUser = atob("eTR2dXpjYW4=");
+            const mDom = atob("Z21haWwuY29t");
+            const fullMail = mUser + "@" + mDom;
+            const fullPhone = atob("NTQxLTU4NC02NzMz");
+
+            document.querySelectorAll('.protected-mail').forEach(el => el.textContent = fullMail);
+            document.querySelectorAll('.protected-phone').forEach(el => el.textContent = fullPhone);
+            document.getElementById('btn-mailto').href = "mailto:" + fullMail;
+
+            // 1. BIOS BOOT
+            const biosLines = [
+                "Enforcing Strict CSP & Anti-Clickjacking Headers ... [OK]",
+                "Initializing Anti-Scraping DOM Protection ... [OK]",
+                "Mounting Hack_Lab_CTF, Cyber_Snake & SecTools ... [OK]",
+                "Welcome to YAVUZ CAN Hardened Cyber-Deck v3.0"
+            ];
+            const biosBox = document.getElementById('bios-logs');
+            const biosScreen = document.getElementById('bios-screen');
+            let lineIdx = 0;
+            function hideBios() { biosScreen.style.display = 'none'; }
+            biosScreen.addEventListener('click', hideBios);
+            const bootTimer = setInterval(() => {
+                if (lineIdx < biosLines.length) {
+                    const d = document.createElement('div');
+                    d.textContent = "> " + biosLines[lineIdx++];
+                    biosBox.appendChild(d);
+                } else {
+                    clearInterval(bootTimer);
+                    setTimeout(hideBios, 420);
+                }
+            }, 180);
+
+            // 2. CANLI ARKA PLAN SİBER AĞ MATRİSİ
+            const bgCanvas = document.getElementById('bg-network');
+            const bgCtx = bgCanvas.getContext('2d');
+            let nodes = [];
+            function initNodes() {
+                bgCanvas.width = window.innerWidth;
+                bgCanvas.height = window.innerHeight;
+                nodes = Array.from({ length: 42 }, () => ({
+                    x: Math.random() * bgCanvas.width,
+                    y: Math.random() * bgCanvas.height,
+                    vx: (Math.random() - 0.5) * 0.55,
+                    vy: (Math.random() - 0.5) * 0.55
+                }));
+            }
+            window.addEventListener('resize', initNodes);
+            initNodes();
+            function drawNetwork() {
+                bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+                const isAmber = document.body.classList.contains('theme-amber');
+                const color = isAmber ? '255, 176, 0' : '0, 255, 102';
+                nodes.forEach((n, i) => {
+                    n.x += n.vx; n.y += n.vy;
+                    if (n.x < 0 || n.x > bgCanvas.width) n.vx *= -1;
+                    if (n.y < 0 || n.y > bgCanvas.height) n.vy *= -1;
+                    bgCtx.fillStyle = `rgba(${color}, 0.45)`;
+                    bgCtx.fillRect(n.x - 1.5, n.y - 1.5, 3, 3);
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const dist = Math.hypot(n.x - nodes[j].x, n.y - nodes[j].y);
+                        if (dist < 135) {
+                            bgCtx.strokeStyle = `rgba(${color}, ${0.18 * (1 - dist / 135)})`;
+                            bgCtx.lineWidth = 1;
+                            bgCtx.beginPath();
+                            bgCtx.moveTo(n.x, n.y);
+                            bgCtx.lineTo(nodes[j].x, nodes[j].y);
+                            bgCtx.stroke();
+                        }
+                    }
+                });
+                requestAnimationFrame(drawNetwork);
+            }
+            drawNetwork();
+
+            // 3. MİNİ RADAR
+            const rCanvas = document.getElementById('mini-radar');
+            const rCtx = rCanvas.getContext('2d');
+            rCanvas.width = 244; rCanvas.height = 105;
+            let rAngle = 0;
+            function drawMiniRadar() {
+                rCtx.clearRect(0, 0, rCanvas.width, rCanvas.height);
+                const cx = rCanvas.width / 2, cy = rCanvas.height / 2;
+                const isAmber = document.body.classList.contains('theme-amber');
+                rCtx.strokeStyle = 'rgba(100,116,139,0.35)';
+                [18, 36, 54].forEach(r => { rCtx.beginPath(); rCtx.arc(cx, cy, r, 0, Math.PI * 2); rCtx.stroke(); });
+                rAngle += 0.04;
+                rCtx.beginPath(); rCtx.moveTo(cx, cy);
+                rCtx.arc(cx, cy, 60, rAngle, rAngle + 0.5);
+                rCtx.fillStyle = isAmber ? 'rgba(255,176,0,0.18)' : 'rgba(0,255,102,0.18)';
+                rCtx.fill();
+                rCtx.fillStyle = isAmber ? '#ffb000' : '#00ff66';
+                rCtx.beginPath(); rCtx.arc(cx, cy, 3, 0, Math.PI * 2); rCtx.fill();
+                requestAnimationFrame(drawMiniRadar);
+            }
+            drawMiniRadar();
+
+            // 4. PENCERE YÖNETİMİ
+            let topZ = 50;
+            function openWindow(id) {
+                const win = document.getElementById(id);
+                if (!win) return;
+                win.classList.add('active');
+                win.style.zIndex = ++topZ;
+            }
+            function closeWindow(id) {
+                const win = document.getElementById(id);
+                if (win) win.classList.remove('active');
+            }
+            document.querySelectorAll('[data-open]').forEach(el => {
+                el.addEventListener('click', () => openWindow(el.getAttribute('data-open')));
+            });
+            document.querySelectorAll('[data-close]').forEach(el => {
+                el.addEventListener('click', (e) => { e.stopPropagation(); closeWindow(el.getAttribute('data-close')); });
+            });
+            document.querySelectorAll('[data-max]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const w = document.getElementById(el.getAttribute('data-max'));
+                    if (w) w.classList.toggle('maximized');
+                });
+            });
+            document.querySelectorAll('.window').forEach(win => {
+                win.addEventListener('mousedown', () => { win.style.zIndex = ++topZ; });
+            });
+            let dragTarget = null, offsetX = 0, offsetY = 0;
+            document.querySelectorAll('[data-drag]').forEach(bar => {
+                bar.addEventListener('mousedown', (e) => {
+                    const target = document.getElementById(bar.getAttribute('data-drag'));
+                    if (target.classList.contains('maximized')) return;
+                    dragTarget = target;
+                    dragTarget.style.zIndex = ++topZ;
+                    offsetX = e.clientX - dragTarget.offsetLeft;
+                    offsetY = e.clientY - dragTarget.offsetTop;
+                });
+            });
+            document.addEventListener('mousemove', (e) => {
+                if (!dragTarget) return;
+                dragTarget.style.left = Math.max(0, e.clientX - offsetX) + 'px';
+                dragTarget.style.top = Math.max(0, e.clientY - offsetY) + 'px';
+            });
+            document.addEventListener('mouseup', () => { dragTarget = null; });
+
+            // 5. HACK LAB CTF OYUNU (3 AŞAMALI)
+            const ctfChallenges = [
+                {
+                    prompt: "[AŞAMA 1 - KRİPTOANALİZ]\nAğ trafiğinde yakalanan şu Base64 şifreli bayrağı çözün:\nWUFWVVpfU0VDX09L",
+                    answer: "YAVUZ_SEC_OK"
+                },
+                {
+                    prompt: "[AŞAMA 2 - PORT & PROTOKOL]\nHTTPS trafiğinin varsayılan şifreli TCP port numarası nedir?",
+                    answer: "443"
+                },
+                {
+                    prompt: "[AŞAMA 3 - WEB GÜVENLİĞİ]\nBir web uygulamasının başka bir site içinde iframe ile açılmasını engelleyen HTTP başlığı hangisidir? (Kısaltma veya tam ad)",
+                    answer: "X-FRAME-OPTIONS"
+                }
+            ];
+            let currentCtf = 0;
+            document.getElementById('ctf-submit').addEventListener('click', () => {
+                const inp = document.getElementById('ctf-answer').value.trim().toUpperCase();
+                const fb = document.getElementById('ctf-feedback');
+                if (inp === ctfChallenges[currentCtf].answer) {
+                    currentCtf++;
+                    document.getElementById('ctf-answer').value = '';
+                    if (currentCtf < ctfChallenges.length) {
+                        document.getElementById('ctf-stage').textContent = currentCtf + 1;
+                        document.getElementById('ctf-prompt').textContent = ctfChallenges[currentCtf].prompt;
+                        document.getElementById('ctf-prompt').style.whiteSpace = 'pre-wrap';
+                        fb.style.color = '#059669';
+                        fb.textContent = "✔ Doğru! Bir sonraki aşamaya geçildi.";
+                    } else {
+                        document.getElementById('ctf-badge').textContent = "STATUS: ROOT GRANTED";
+                        document.getElementById('ctf-badge').style.background = "#059669";
+                        document.getElementById('ctf-prompt').textContent = "🏆 TEBRİKLER! Tüm siber güvenlik aşamalarını başarıyla tamamladınız.\nFLAG{YAVUZ_CAN_CYBER_ARCHITECT_2026}";
+                        document.getElementById('ctf-prompt').style.whiteSpace = 'pre-wrap';
+                        fb.textContent = "";
+                    }
+                } else {
+                    fb.style.color = '#dc2626';
+                    fb.textContent = "✖ Hatalı yanıt, tekrar deneyin.";
+                }
+            });
+
+            // 6. RETRO CYBER SNAKE OYUNU
+            const sCanvas = document.getElementById('snake-canvas');
+            const sCtx = sCanvas.getContext('2d');
+            let snake = [{x: 140, y: 120}], dx = 20, dy = 0, food = {x: 60, y: 60}, sScore = 0, sLoop = null;
+            let sBest = Number(localStorage.getItem('yavuz_snake_best') || 0);
+            document.getElementById('snake-best').textContent = sBest;
+
+            function spawnFood() {
+                food = {
+                    x: Math.floor(Math.random() * 15) * 20,
+                    y: Math.floor(Math.random() * 13) * 20
+                };
+            }
+            function stepSnake() {
+                const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+                if (head.x < 0 || head.x >= 300 || head.y < 0 || head.y >= 260 || snake.some(s => s.x === head.x && s.y === head.y)) {
+                    clearInterval(sLoop); sLoop = null;
+                    alert("Oyun Bitti! Skorunuz: " + sScore);
+                    return;
+                }
+                snake.unshift(head);
+                if (head.x === food.x && head.y === food.y) {
+                    sScore += 10;
+                    document.getElementById('snake-score').textContent = sScore;
+                    if (sScore > sBest) {
+                        sBest = sScore;
+                        localStorage.setItem('yavuz_snake_best', sBest);
+                        document.getElementById('snake-best').textContent = sBest;
+                    }
+                    spawnFood();
+                } else {
+                    snake.pop();
+                }
+                sCtx.fillStyle = '#050505';
+                sCtx.fillRect(0, 0, 300, 260);
+                sCtx.fillStyle = '#ffb000';
+                sCtx.fillRect(food.x + 2, food.y + 2, 16, 16);
+                sCtx.fillStyle = '#00ff66';
+                snake.forEach(s => sCtx.fillRect(s.x + 1, s.y + 1, 18, 18));
+            }
+            document.getElementById('snake-start').addEventListener('click', () => {
+                snake = [{x: 140, y: 120}]; dx = 20; dy = 0; sScore = 0;
+                document.getElementById('snake-score').textContent = 0;
+                spawnFood();
+                clearInterval(sLoop);
+                sLoop = setInterval(stepSnake, 130);
+            });
+            document.addEventListener('keydown', (e) => {
+                if (!document.getElementById('win-snake').classList.contains('active')) return;
+                if (e.key === 'ArrowUp' && dy === 0) { dx = 0; dy = -20; }
+                else if (e.key === 'ArrowDown' && dy === 0) { dx = 0; dy = 20; }
+                else if (e.key === 'ArrowLeft' && dx === 0) { dx = -20; dy = 0; }
+                else if (e.key === 'ArrowRight' && dx === 0) { dx = 20; dy = 0; }
+            });
+
+            // 7. SECTOOLS (ENTROPİ, SHA-256 & CSPRNG PAROLA ÜRETİCİ)
+            document.getElementById('sec-input').addEventListener('input', async (e) => {
+                const val = e.target.value;
+                if (!val) {
+                    document.getElementById('sec-entropy').textContent = '0.00 bits';
+                    document.getElementById('sec-hash').textContent = '-';
+                    return;
+                }
+                const freq = {};
+                for (let ch of val) freq[ch] = (freq[ch] || 0) + 1;
+                let ent = 0;
+                for (let k in freq) { const p = freq[k] / val.length; ent -= p * Math.log2(p); }
+                document.getElementById('sec-entropy').textContent = ent.toFixed(2) + ' bits';
+                const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+                document.getElementById('sec-hash').textContent = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+            });
+
+            document.getElementById('btn-gen-pass').addEventListener('click', () => {
+                const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*_-+=";
+                const arr = new Uint32Array(24);
+                crypto.getRandomValues(arr);
+                let pwd = "";
+                for (let i = 0; i < 24; i++) pwd += chars[arr[i] % chars.length];
+                document.getElementById('gen-pass-out').value = pwd;
+            });
+
+            // 8. POMODORO
+            let pomoDefaultSec = 25 * 60, pomoSec = pomoDefaultSec, pomoInterval = null, completedSessions = 0;
+            function renderPomo() {
+                const m = String(Math.floor(pomoSec / 60)).padStart(2, '0');
+                const s = String(pomoSec % 60).padStart(2, '0');
+                document.getElementById('pomo-timer').textContent = `${m}:${s}`;
+            }
+            function setPomoMode(mins, label) {
+                clearInterval(pomoInterval); pomoInterval = null;
+                pomoDefaultSec = mins * 60; pomoSec = pomoDefaultSec;
+                document.getElementById('pomo-mode-label').textContent = `[${label}]`;
+                renderPomo();
+            }
+            document.getElementById('pomo-start').addEventListener('click', () => {
+                if (pomoInterval) return;
+                document.getElementById('pomo-mode-label').style.color = '#00ff66';
+                pomoInterval = setInterval(() => {
+                    if (pomoSec > 0) { pomoSec--; renderPomo(); }
+                    else {
+                        clearInterval(pomoInterval); pomoInterval = null;
+                        if (pomoDefaultSec === 25 * 60) {
+                            completedSessions++;
+                            document.getElementById('pomo-count').textContent = completedSessions;
+                        }
+                        alert('⏱️ Süre Doldu! Harika odaklandın.');
+                    }
+                }, 1000);
+            });
+            document.getElementById('pomo-pause').addEventListener('click', () => {
+                clearInterval(pomoInterval); pomoInterval = null;
+                document.getElementById('pomo-mode-label').style.color = '#ffb000';
+            });
+            document.getElementById('pomo-reset').addEventListener('click', () => {
+                clearInterval(pomoInterval); pomoInterval = null; pomoSec = pomoDefaultSec; renderPomo();
+            });
+            document.getElementById('pomo-m25').addEventListener('click', () => setPomoMode(25, 'DEEP WORK // 25 DK'));
+            document.getElementById('pomo-m5').addEventListener('click', () => setPomoMode(5, 'SHORT BREAK // 5 DK'));
+            document.getElementById('pomo-m15').addEventListener('click', () => setPomoMode(15, 'LONG BREAK // 15 DK'));
+
+            // 9. NOT DEFTERİ, YAZDIRMA & TEMA
+            const noteArea = document.getElementById('notepad-text');
+            noteArea.value = localStorage.getItem('yavuz_os_notes') || "- AegisMesh v2 geliştirmeleri\n- FiyatRadar yeni modüller\n- Staj başvuruları & Portföy yayını";
+            noteArea.addEventListener('input', () => localStorage.setItem('yavuz_os_notes', noteArea.value));
+            document.getElementById('btn-clear-note').addEventListener('click', () => { noteArea.value = ''; localStorage.removeItem('yavuz_os_notes'); });
+            document.getElementById('btn-print-cv').addEventListener('click', () => window.print());
+            document.getElementById('btn-theme-green').addEventListener('click', () => document.body.classList.remove('theme-amber'));
+            document.getElementById('btn-theme-amber').addEventListener('click', () => document.body.classList.add('theme-amber'));
+            document.getElementById('btn-copy-contact').addEventListener('click', () => {
+                navigator.clipboard?.writeText(`Yavuz Can | ${fullMail} | ${fullPhone} | github.com/llyavuz`);
+                alert('İletişim bilgileri panoya kopyalandı!');
+            });
+
+            setInterval(() => {
+                document.getElementById('sys-clock').textContent = new Date().toTimeString().slice(0, 5);
+            }, 1000);
+
+            // 10. TERMINAL
+            const termInput = document.getElementById('term-cmd');
+            const termOut = document.getElementById('term-output');
+            document.getElementById('win-terminal').addEventListener('click', () => termInput.focus());
+            termInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = termInput.value.trim().toLowerCase();
+                    termInput.value = '';
+                    const line = document.createElement('div');
+                    line.textContent = "guest@llyavuz:~$ " + cmd;
+                    termOut.appendChild(line);
+
+                    const resp = document.createElement('div');
+                    resp.style.color = 'var(--accent-sec)';
+                    resp.style.marginBottom = '8px';
+                    resp.style.whiteSpace = 'pre-wrap';
+
+                    if (cmd === 'help') {
+                        resp.textContent = "Komutlar: neofetch, ctf, snake, security, cv, projects, sectools, github, clear";
+                    } else if (cmd === 'neofetch') {
+                        resp.textContent = "NAME: Yavuz Can\nEDU: Mehmet Akif Ersoy Uni - MIS (YBS) 4th Year\nCOMMUNITY: GDG Burdur Organizer\nINTERNSHIP: VBT Software\nSECURITY: CSP-Strict + Anti-Frame + Zero-XSS\nGITHUB: https://github.com/llyavuz";
+                    } else if (cmd === 'ctf') { openWindow('win-ctf'); resp.textContent = "Hack_Lab_CTF.exe başlatıldı."; }
+                    else if (cmd === 'snake') { openWindow('win-snake'); resp.textContent = "Cyber_Snake.exe başlatıldı."; }
+                    else if (cmd === 'security') { openWindow('win-security'); resp.textContent = "Guvenlik_Zirhi.log açıldı."; }
+                    else if (cmd === 'cv') { openWindow('win-cv'); resp.textContent = "CV_YavuzCan.exe açıldı."; }
+                    else if (cmd === 'projects') { openWindow('win-projects'); resp.textContent = "Projeler.dir açıldı."; }
+                    else if (cmd === 'sectools') { openWindow('win-crypto'); resp.textContent = "SecTools.exe açıldı."; }
+                    else if (cmd === 'github') { window.open('https://github.com/llyavuz', '_blank', 'noopener,noreferrer'); resp.textContent = "github.com/llyavuz açıldı."; }
+                    else if (cmd === 'clear') { termOut.innerHTML = ''; return; }
+                    else { resp.textContent = "Bilinmeyen komut: '" + cmd + "'. 'help' yazarak komutları görebilirsiniz."; }
+
+                    termOut.appendChild(resp);
+                    termOut.scrollTop = termOut.scrollHeight;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
