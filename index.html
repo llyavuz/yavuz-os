@@ -3926,7 +3926,8 @@ document.querySelectorAll('button').forEach(b => {
   }
 })();
 
-/* === YAVUZ ACADEMY STUDIO ENGINE (CLEAN / CUMULATIVE / ZERO-XSS) === */
+
+/* === YAVUZ ACADEMY STUDIO ENGINE (FULL SEMESTER CUMULATIVE + FULL-STACK/AI/SEC) === */
 (function initYavuzStudio() {
   const modal = document.getElementById('yavuzAcadStudio');
   const btnOpen = document.getElementById('btnOpenStudio');
@@ -3940,137 +3941,307 @@ document.querySelectorAll('button').forEach(b => {
 
   const MODULES = [
     {
-      name: 'Modül 1 · Python & Backend Mimarisi',
+      name: '14411 · Veri Madenciliği (Tam Müfredat)',
       items: [
         {
-          id: 'm1_1',
-          step: 'Bölüm 1.1 · Temel',
-          title: 'Veri Yapıları ve Bellek Hızı (List vs Set/Dict)',
-          bridge: 'Tüm backend sistemlerinin temel yapı taşıdır. Önce veriyi bellekte nasıl tutacağımızı öğreniyoruz.',
-          body: 'Yazılımda hız, işlemci gücünden önce doğru veri yapısını seçmekle başlar. Python listelerinde (List) bir veriyi aramak baştan sona tüm elemanlara tek tek bakmayı gerektirir (O(N)). Ancak Set ve Dict arka planda Hash Table kullandığı için milyonlarca kayıt arasından aradığın değeri tek hamlede (O(1)) bulur.',
-          code: '# YAVAŞ: Liste içinde arama -> O(N)\nengelli_ipler = ["192.168.1.5", "10.0.0.4", "172.16.0.9"]\nif "172.16.0.9" in engelli_ipler:\n    print("Engellendi")\n\n# HIZLI: Set (Hash Table) ile arama -> O(1)\nengelli_set = {"192.168.1.5", "10.0.0.4", "172.16.0.9"}\nif "172.16.0.9" in engelli_set:\n    print("Milisaniyenin binde birinde bulundu")',
-          practice: 'Güvenlik duvarı (WAF) veya kara liste kontrollerinde saniyede binlerce istek gelirken Set kullanmak sunucu işlemcisini %99 oranında rahatlatır.',
-          takeaway: 'Tekrar etmeyen kimlikleri (IP, E-posta, Kullanıcı ID) aramak için daima Set veya Dict anahtarı kullan.'
+          id: 'dm_1',
+          step: 'Bölüm 1 · Veri Ön İşleme',
+          title: 'KDD Süreci, Eksik Veriler, Aykırı Değerler ve Normalizasyon',
+          bridge: 'Dönemin başlangıç noktası: Ham ve kirli veriyi algoritmaların anlayacağı temiz forma getirme.',
+          body: 'Veri madenciliği (KDD - Knowledge Discovery in Databases) sürecinde zamanın %70 i veri temizlemeye harcanır. Eksik veriler (Missing Values) ortalama/medyan ile doldurulur veya silinir. Aykırı değerler (Outliers) Kutu Grafiği (IQR = Q3 - Q1) ile tespit edilir. Farklı ölçeklerdeki sütunları (örneğin Yaş: 20-60, Maaş: 20.000-150.000) eşitlemek için Normalizasyon uygulanır.',
+          code: '# 1. Min-Max Normalizasyonu (Veriyi [0, 1] aralığına sıkıştırır):\n# X_norm = (X - X_min) / (X_max - X_min)\n\n# 2. Z-Score Standardizasyonu (Ortalaması 0, Standart Sapması 1 yapar):\n# Z = (X - Ortalama) / Standart_Sapma\n\n# 3. IQR Aykırı Değer Sınırları:\n# Alt Sınır = Q1 - 1.5 * IQR  |  Üst Sınır = Q3 + 1.5 * IQR',
+          practice: 'Mesafe tabanlı algoritmalarda (KNN, K-Means) normalizasyon yapılmazsa büyük rakamlı sütunlar sonucu tek başına domine eder.',
+          takeaway: 'KDD adımları sırasıyla: Veri Seçimi -> Ön İşleme -> Dönüştürme -> Veri Madenciliği -> Değerlendirme.'
         },
         {
-          id: 'm1_2',
-          step: 'Bölüm 1.2 · Orta-1',
-          title: 'REST API Tasarımı ve Pydantic Veri Doğrulama',
-          bridge: 'Bölüm 1.1 de öğrendiğimiz Dict yapısının internet üzerinden JSON olarak güvenli taşınmasıdır.',
-          body: 'İstemci (tarayıcı veya mobil uygulama) ile sunucu HTTP protokolüyle haberleşir. Dışarıdan gelen hiçbir veriye güvenilmez. FastAPI, gelen ham JSON verisini Python sınıflarına dönüştürürken Pydantic kullanarak tip, uzunluk ve değer sınırlarını otomatik denetler.',
-          code: 'from fastapi import FastAPI\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\n\nclass UrunTakip(BaseModel):\n    urun_kodu: str = Field(..., min_length=4, max_length=32)\n    hedef_fiyat: float = Field(..., gt=0)\n\n@app.post("/api/alarm-kur")\ndef alarm_kur(veri: UrunTakip):\n    # Buraya ulaştıysa veri %100 temiz ve doğrulanmıştır\n    return {"durum": "aktif", "kod": veri.urun_kodu}',
-          practice: 'Kullanıcı eksi fiyat veya 5 MB lık bozuk metin gönderirse Pydantic isteği daha iş mantığına sokmadan HTTP 422 hatasıyla geri çevirir.',
-          takeaway: 'Backend geliştirirken önce veri sözleşmelerini (Pydantic şemalarını) tasarla, iş mantığını en son yaz.'
+          id: 'dm_2',
+          step: 'Bölüm 2 · Sınıflandırma',
+          title: 'Karar Ağaçları (Entropi & Gini), Naive Bayes ve KNN',
+          bridge: 'Bölüm 1 de temizlediğimiz etiketli verilerden geleceği tahmin etme (Supervised Learning).',
+          body: 'Karar Ağaçları (ID3 / CART), veriyi en saf alt gruplara bölmek için Bilgi Kazancı (Information Gain = Entropi azalması) veya Gini İndeksini kullanır. Naive Bayes, özelliklerin birbirinden bağımsız olduğu varsayımıyla koşullu olasılık hesaplar. KNN (K-En Yakın Komşu) ise yeni kaydın Öklid uzaklığına göre en yakın K komşusunun çoğunluk oyunu alır.',
+          code: 'from sklearn.tree import DecisionTreeClassifier\nfrom sklearn.neighbors import KNeighborsClassifier\n\n# Karar Ağacı (Gini veya Entropy kriteri)\nagac = DecisionTreeClassifier(criterion="entropy", max_depth=4)\nagac.fit(X_train, y_train)\n\n# KNN (Öklid Mesafesi: d = sqrt((x2-x1)^2 + (y2-y1)^2))\nknn = KNeighborsClassifier(n_neighbors=3, metric="euclidean")\nknn.fit(X_train, y_train)',
+          practice: 'Sınavlarda küçük bir tablo verilip K=3 için Öklid mesafesi hesabı veya kök düğüm seçimi için Entropi hesabı klasik sorudur.',
+          takeaway: 'KNN de çift sınıf varsa eşitliği bozmak için K değeri daima tek sayı (3, 5, 7) seçilir.'
         },
         {
-          id: 'm1_3',
-          step: 'Bölüm 1.3 · Orta-2',
-          title: 'Asenkron Programlama (Async / Await) ve Event Loop',
-          bridge: 'Bölüm 1.2 de kurduğumuz API nin aynı anda binlerce kullanıcıya tıkanmadan hizmet vermesi.',
-          body: 'Bir web isteğinde zamanın %95 i işlemci hesaplamasıyla değil, veritabanından veya dış bir siteden cevap beklemekle (I/O Wait) geçer. Senkron kodda bir kişi beklerken diğer herkes kuyrukta bekler. Async/Await ile bekleme anında kontrol Event Loop a devredilir ve diğer istekler eşzamanlı yürütülür.',
-          code: 'import asyncio\n\nasync def veri_cek(kaynak: str):\n    await asyncio.sleep(2)  # Ağ beklemesi (İşlemci kilitlenmez)\n    return f"{kaynak}: 200 OK"\n\nasync def toplu_islem():\n    # 3 kaynağı sırayla (6 sn) değil, aynı anda (2 sn) çeker:\n    sonuclar = await asyncio.gather(\n        veri_cek("Trendyol"),\n        veri_cek("Hepsiburada"),\n        veri_cek("Amazon")\n    )\n    print(sonuclar)',
-          practice: '100 farklı ürün sayfasını tek tek çekmek dakikalar sürerken, asyncio.gather ile eşzamanlı toplamak birkaç saniyeye iner.',
-          takeaway: 'Async fonksiyonların içinde asla time.sleep() veya senkron requests kullanma; tüm Event Loop u dondurursun.'
+          id: 'dm_3',
+          step: 'Bölüm 3 · Kümeleme & Birliktelik',
+          title: 'K-Means Kümeleme ve Apriori (Support, Confidence, Lift)',
+          bridge: 'Etiketi olmayan verilerde gizli grup bulma (Unsupervised Learning) ve Sepet Analizi.',
+          body: 'K-Means, veriyi önceden belirlenen K adet kümeye ayırır; merkez noktaları (Centroid) güncellenerek küme içi mesafe minimize edilir. Apriori algoritması ise e-ticaret sepet analizinde "X alanların %Y si Z de alır" kurallarını çıkarır.',
+          code: '# Apriori Formülleri (X -> Y Kuralı, N = Toplam Fiş Sayısı):\n# 1. Support (Destek)    = (X ve Y birlikte geçme sayısı) / N\n# 2. Confidence (Güven)  = Support(X ∪ Y) / Support(X)\n# 3. Lift (Kaldıraç)     = Confidence(X -> Y) / Support(Y)\n#    -> Lift > 1 : Pozitif birliktelik (Birlikte satışı artırıyor)\n#    -> Lift = 1 : Bağımsız ürünler',
+          practice: 'Apriori temel ilkesi: "Bir öğe kümesi sık (frequent) değilse, onun hiçbir üst kümesi de sık olamaz" (Budama / Pruning).',
+          takeaway: 'Lift > 1 gerçek bir çapraz satış fırsatını; Lift < 1 ise ürünlerin birbirinin ikamesi olduğunu gösterir.'
         },
         {
-          id: 'm1_4',
-          step: 'Bölüm 1.4 · İleri Mimari',
-          title: 'Veritabanı İndeksleme (B-Tree) ve Katmanlı Yapı',
-          bridge: 'Bölüm 1.3 teki hızlı asenkron servisin veriyi diskte kalıcı ve hızlı saklaması.',
-          body: 'Kodun ne kadar optimize olursa olsun veritabanı sorgun yavaşsa sistem tıkanır. SQL veritabanlarında indeks (Index) olmayan bir sütunda arama yapmak tüm tabloyu satır satır okumaktır (Full Table Scan). B-Tree indeksi veriyi sözlük gibi sıralı tutarak arama süresini O(log N) seviyesine düşürür.',
-          code: '-- Yavaş Sorgu (Tüm tabloyu tarar)\nSELECT * FROM Fiyatlar WHERE Barkod = "8690001234";\n\n-- Çözüm: Sık filtrelenen sütuna B-Tree İndeks ekle\nCREATE INDEX idx_fiyatlar_barkod ON Fiyatlar(Barkod);',
-          practice: 'Veritabanında yüz binlerce kayıt biriktiğinde doğru indeksleme sorgu süresini 2 saniyeden 3 milisaniyeye indirir.',
-          takeaway: 'Sorgu performansını ölçmek için SQL komutlarının başına EXPLAIN ANALYZE ekleyerek indeks kullanımını kontrol et.'
+          id: 'dm_4',
+          step: 'Bölüm 4 · Model Değerlendirme',
+          title: 'Confusion Matrix, Precision, Recall, F1-Score ve ROC-AUC',
+          bridge: 'Kurduğumuz modellerin başarısını bilimsel metriklerle ölçme.',
+          body: 'Dengesiz veri setlerinde (örneğin %99 sağlam, %1 dolandırıcılık işlemi) sadece Accuracy (Doğruluk) değerine bakmak yanıltıcıdır. Karmaşıklık Matrisi (TP, TN, FP, FN) üzerinden Precision (Kesinlik) ve Recall (Duyarlılık) hesaplanır.',
+          code: '# Accuracy  = (TP + TN) / (TP + TN + FP + FN)\n# Precision = TP / (TP + FP)  -> Pozitif dediklerimin kaçı gerçekten pozitif?\n# Recall    = TP / (TP + FN)  -> Gerçek pozitiflerin kaçını yakalayabildim?\n# F1-Score  = 2 * (Precision * Recall) / (Precision + Recall)',
+          practice: 'Dolandırıcılık veya hastalık teşhisinde vakayı kaçırmak (FN) çok maliyetli olduğu için Recall metriği kritik öneme sahiptir.',
+          takeaway: 'F1-Score, Precision ve Recall değerlerinin harmonik ortalamasıdır.'
         }
       ]
     },
     {
-      name: 'Modül 2 · Yapay Zeka & LLM Mühendisliği',
+      name: '24431 · Görüntü İşleme (Tam Müfredat)',
       items: [
         {
-          id: 'm2_1',
-          step: 'Bölüm 2.1 · Temel',
-          title: 'LLM Çalışma Mantığı: Token, Bağlam ve Temperature',
-          bridge: 'Yapay zeka uygulamaları geliştirmenin ilk adımı: Modelin dili nasıl işlediğini anlamak.',
-          body: 'Büyük Dil Modelleri (LLM) kelimeleri insanlar gibi anlamaz; metni "Token" adı verilen alt-kelime parçalarına böler ve istatistiksel olarak bir sonraki en olası parçayı tahmin eder. Temperature (0.0 - 1.0) parametresi modelin rastgelelik/yaratıcılık seviyesini kontrol eder.',
-          code: 'ayarlar = {\n    "temperature": 0.1,  # Tutarlı, net ve uydurmadan uzak cevaplar\n    "max_tokens": 1024   # Üretilecek maksimum yanıt uzunluğu\n}',
-          practice: 'Kod üretimi, hukuk/finans analizi ve teknik soru-cevap sistemlerinde Temperature 0.0 - 0.2 aralığında tutulmalıdır.',
-          takeaway: 'Analitik görevlerde düşük temperature (0.1), yaratıcı beyin fırtınasında yüksek temperature (0.7) kullan.'
+          id: 'ip_1',
+          step: 'Bölüm 1 · Matrisler & Çizim',
+          title: 'Dijital Görüntü Temelleri, BGR Kanalları ve Geometrik Çizim',
+          bridge: 'Görüntü işlemenin temeli: Bilgisayarın bir fotoğrafı 3 boyutlu sayı matrisi olarak görmesi.',
+          body: 'Dijital bir görüntü yükseklik (satır = Y), genişlik (sütun = X) ve renk kanallarından oluşan bir NumPy matrisidir. OpenCV görüntüleri RGB yerine BGR (Mavi, Yeşil, Kırmızı) sırasıyla okur. Matris dilimleme ile görüntünün belirli bölgeleri boyanabilir veya kesilebilir.',
+          code: 'import cv2\nimport numpy as np\n\n# 300x500 boyutunda siyah tuval oluşturma (Yükseklik, Genişlik, Kanal)\ntuval = np.zeros((300, 500, 3), dtype=np.uint8)\n\n# Kırmızı dikdörtgen çizme (BGR -> Mavi:0, Yeşil:0, Kırmızı:255)\n# Dikkat: Çizim fonksiyonlarında koordinat sırası (X, Y) dir!\ncv2.rectangle(tuval, (50, 50), (200, 150), (0, 0, 255), -1)\n\n# Matris dilimleme ile bölge boyama (Sıra: [Y1:Y2, X1:X2])\ntuval[180:250, 100:300] = (255, 255, 255)',
+          practice: 'Bayrak çizimi ve dikdörtgen koordinatı değiştirme sorularında matris dilimlemede [Y, X], çizim fonksiyonlarında (X, Y) sırasını karıştırma!',
+          takeaway: 'OpenCV de renk sırası RGB değil BGR dir ve -1 kalınlık parametresi şeklin içini tamamen doldurur.'
         },
         {
-          id: 'm2_2',
-          step: 'Bölüm 2.2 · Orta-1',
-          title: 'Embeddings (Vektörler) ve Anlamsal Arama',
-          bridge: 'Bölüm 2.1 deki tokenların çok boyutlu matematiksel uzayda anlam koordinatlarına dönüşmesi.',
-          body: 'Klasik Ctrl+F araması yalnızca birebir aynı harfleri bulur. Embedding modelleri cümleleri 768 veya 1536 boyutlu sayı dizilerine (vektörlere) çevirir. Anlamca yakın cümleler uzayda birbirine yakın noktalarda konumlanır.',
-          code: 'import math\n\ndef cosine_similarity(v1, v2):\n    dot = sum(a * b for a, b in zip(v1, v2))\n    norm1 = math.sqrt(sum(a * a for a in v1))\n    norm2 = math.sqrt(sum(b * b for b in v2))\n    return dot / (norm1 * norm2)',
-          practice: 'Kullanıcı "Sunucu yanıt vermiyor" yazdığında metinde 502 geçmese bile "502 Bad Gateway hatası" kaydını bulmayı sağlar.',
-          takeaway: 'Kelime eşleşmesi yerine anlam eşleşmesi gereken her yerde Embedding + Vektör Veritabanı kullan.'
+          id: 'ip_2',
+          step: 'Bölüm 2 · Filtreleme & Eşikleme',
+          title: 'Grayscale, Gaussian/Median Blur ve Thresholding (Otsu)',
+          bridge: 'Bölüm 1 deki ham matrisin gürültülerden arındırılıp siyah-beyaz (binary) hale getirilmesi.',
+          body: 'Renkli görüntüyü gri tonlamaya (Grayscale) çevirmek veri boyutunu 3 te 1 e düşürür. Tuz-biber (Salt & Pepper) gürültülerini temizlemek için Median Blur, genel yumuşatma için Gaussian Blur kullanılır. Thresholding (Eşikleme) ise belirlenen eşik değerinin üzerindeki pikselleri 255 (beyaz), altındakileri 0 (siyah) yapar.',
+          code: 'import cv2\n\ngray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)\nblur = cv2.GaussianBlur(gray, (5, 5), 0)\n\n# Otsu otomatik eşikleme ile ikili (Binary) görüntü elde etme\n_, binary = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)',
+          practice: 'Tuz-biber gürültüsünde ortalama alan filtreler başarısız olurken, ortanca değeri alan Median Blur gürültüyü tamamen siler.',
+          takeaway: 'Otsu Thresholding, histogramdaki iki tepe noktası arasındaki en ideal eşik değerini otomatik hesaplar.'
         },
         {
-          id: 'm2_3',
-          step: 'Bölüm 2.3 · Orta-2',
-          title: 'RAG (Retrieval-Augmented Generation) Mimarisi',
-          bridge: 'Bölüm 2.2 deki anlamsal aramanın LLM ile birleşerek özel dokümanlarla konuşması.',
-          body: 'LLM ler eğitim tarihinden sonraki bilgileri ve senin özel PDF dosyalarını bilmez. RAG mimarisinde dokümanlar küçük parçalara (Chunk) bölünüp vektöre çevrilir; soru geldiğinde en alakalı 3 parça bulunur ve modele "Sadece bu metne bakarak cevap ver" talimatıyla verilir.',
-          code: 'def rag_cevapla(soru, vektor_db, llm):\n    parcalar = vektor_db.en_yakin_bul(soru, top_k=3)\n    baglam = "\\n---\\n".join(parcalar)\n    prompt = f"SADECE aşağıdaki bilgilere dayanarak cevap ver:\\n{baglam}\\nSoru: {soru}"\n    return llm.uret(prompt)',
-          practice: 'Teknik kılavuzları, ders notlarını veya şirket içi belgeleri halüsinasyon riski olmadan asistana dönüştürmenin en güvenilir yoludur.',
-          takeaway: 'Dokümanları 500 tokenlık parçalara böl ve cümle bütünlüğünün kopmaması için 50 token örtüşme (overlap) bırak.'
+          id: 'ip_3',
+          step: 'Bölüm 3 · Morfolojik İşlemler',
+          title: 'Erosion, Dilation, Opening ve Closing Operasyonları',
+          bridge: 'Bölüm 2 de elde edilen siyah-beyaz görüntüdeki şekil bozukluklarını onarma.',
+          body: 'Morfolojik işlemler bir Kernel matrisi kullanarak beyaz nesnelerin sınırlarını değiştirir. Erosion (Aşındırma) beyaz bölgeleri inceltip küçük gürültüleri yok eder; Dilation (Genişletme) beyaz bölgeleri kalınlaştırıp kopuk çizgileri birleştirir.',
+          code: 'import cv2\nimport numpy as np\n\nkernel = np.ones((5, 5), np.uint8)\n\n# Opening = Erosion -> Dilation (Arka plandaki beyaz noktaları siler)\nopening = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)\n\n# Closing = Dilation -> Erosion (Nesne içindeki siyah delikleri kapatır)\nclosing = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)',
+          practice: 'Plaka veya karakter tanımada harflerin içindeki kopuklukları birleştirmek için Closing, arka plan tozlarını temizlemek için Opening kullanılır.',
+          takeaway: 'Opening dış gürültüyü temizler; Closing nesne içindeki boşlukları kapatır.'
         },
         {
-          id: 'm2_4',
-          step: 'Bölüm 2.4 · İleri Mimari',
-          title: 'AI Agents (Otonom Ajanlar) ve Tool Calling',
-          bridge: 'Bölüm 2.3 teki modelin sadece metin yazmak yerine dış dünyaya aksiyon alması.',
-          body: 'Tool Calling ile modele Python fonksiyonlarının tanımını veririz. Model, kullanıcının hedefini gerçekleştirmek için hangi aracı hangi parametrelerle çalıştırması gerektiğine kendi karar verir ve çıktıyı yorumlar.',
-          code: 'arac_tanimi = {\n    "name": "waf_ip_engelle",\n    "description": "Saldırgan IP adresini güvenlik duvarında engeller",\n    "parameters": {"ip": "string", "sebep": "string"}\n}',
-          practice: 'Log kayıtlarını inceleyip anomali tespit ettiğinde otonom olarak WAF kuralı oluşturan güvenlik sistemleri bu yapıyla çalışır.',
-          takeaway: 'Ajanlara veritabanı silme gibi geri dönüşü olmayan araçları insan onayı olmadan doğrudan verme.'
+          id: 'ip_4',
+          step: 'Bölüm 4 · Kenar, Kontur & HSV',
+          title: 'Canny Kenar Tespiti, Kontur Bulma ve HSV Renk Maskeleme',
+          bridge: 'Görüntüdeki nesneleri tespit etme, sınırlarını çizme ve renge göre takip etme.',
+          body: 'Canny algoritması gradyan değişimlerini kullanarak nesne kenarlarını çıkarır. findContours ile bu kenarların koordinatları ve alanları hesaplanır. Renk tabanlı nesne takibinde ise ışık değişimlerinden etkilenmemek için BGR yerine HSV uzayı kullanılır.',
+          code: 'edges = cv2.Canny(blur, 50, 150)\ncontours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)\n\n# HSV Renk Uzayına Dönüşüm (Hue: 0-179, Sat: 0-255, Val: 0-255)\nhsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)\nmaske = cv2.inRange(hsv, np.array([100, 150, 50]), np.array([140, 255, 255]))',
+          practice: 'HSV uzayında renk bilgisi sadece Hue (H) kanalında tutulduğu için gölge ve parlaklık değişimleri renk tespitini bozmaz.',
+          takeaway: 'OpenCV de Hue kanalı 1 byte a sığması için 0-360 derece yerine 0-179 aralığında ölçeklenir.'
         }
       ]
     },
     {
-      name: 'Modül 3 · Siber Güvenlik & AppSec',
+      name: '15405 · Mobil Programlama (Tam Müfredat)',
       items: [
         {
-          id: 'm3_1',
-          step: 'Bölüm 3.1 · Temel',
-          title: 'DOM-XSS Saldırıları ve Güvenli Veri Yazdırma',
-          bridge: 'Web güvenliğinin ilk kuralı: Kullanıcıdan gelen hiçbir girdiye güvenme.',
-          body: 'Kullanıcının girdiği bir metni doğrudan HTML içine innerHTML ile basarsan, metnin içindeki zararlı <script> kodları ziyaretçinin tarayıcısında çalışır (XSS). Bunun yerine veriyi düz metin olarak işleyen textContent kullanılmalıdır.',
-          code: '// TEHLİKELİ (XSS Açığı):\nkutu.innerHTML = kullaniciGirdisi;\n\n// GÜVENLİ:\nkutu.textContent = kullaniciGirdisi;',
-          practice: 'Bu portföy sitesindeki Not Duvarı ve Akademi modülleri tamamen textContent ile yazıldığı için DOM-XSS testlerinden sıfır açıkla geçer.',
-          takeaway: 'Projelerinde innerHTML yerine daima textContent veya document.createElement kullan.'
+          id: 'mob_1',
+          step: 'Bölüm 1 · Kotlin & Yaşam Döngüsü',
+          title: 'Kotlin Null Safety ve Android Activity Yaşam Döngüsü',
+          bridge: 'Android uygulama geliştirmenin temeli: Güvenli bellek yönetimi ve ekran durumları.',
+          body: 'Kotlin, milyar dolarlık hata olarak bilinen NullPointerException ı derleme zamanında önlemek için Null Safety sunar. Android de her ekran (Activity) kullanıcı etkileşimine göre onCreate -> onStart -> onResume -> onPause -> onStop -> onDestroy yaşam döngüsünden geçer.',
+          code: '// Kotlin Null Safety Operatörleri:\nval isim: String? = null\nval uzunluk = isim?.length ?: 0  // Safe Call (?.) ve Elvis Operatörü (?:)\n\n// Activity Yaşam Döngüsü:\n// onCreate()  -> Arayüz ve bileşenler ilk kez oluşturulur\n// onResume()  -> Ekran kullanıcıyla etkileşime hazırdır\n// onDestroy() -> Bellek temizlenir ve ekran kapatılır',
+          practice: 'Kullanıcı uygulamayı arka plana aldığında onPause() ve onStop() tetiklenir; kamera veya konum sensörleri burada durdurulmalıdır.',
+          takeaway: 'Zorunlu olmadıkça !! (Not-Null Assertion) operatörünü kullanma; yerine ?. ve ?: kullan.'
         },
         {
-          id: 'm3_2',
-          step: 'Bölüm 3.2 · Orta',
-          title: 'HTTP Güvenlik Başlıkları (CSP, HSTS, Anti-Frame)',
-          bridge: 'Bölüm 3.1 deki kod güvenliğinin sunucu yanıt başlıklarıyla zırhlanması.',
-          body: 'Content-Security-Policy (CSP), tarayıcıya yalnızca senin izin verdiğin kaynaklardan script ve stil yüklemesini söyler. X-Frame-Options: DENY ise sitenin başka bir sitede iframe içine gömülmesini (Clickjacking) engeller.',
-          code: 'Content-Security-Policy: default-src \'self\'; object-src \'none\'; frame-ancestors \'none\';\nX-Frame-Options: DENY\nX-Content-Type-Options: nosniff',
-          practice: 'Cloudflare Pages veya Nginx üzerinde bu başlıkları tanımlamak securityheaders.com taramalarında doğrudan A+ notu kazandırır.',
-          takeaway: 'Yayına aldığın her projeyi mutlaka securityheaders.com üzerinden test et.'
+          id: 'mob_2',
+          step: 'Bölüm 2 · Arayüz & Navigasyon',
+          title: 'ConstraintLayout / Jetpack Compose, Listeler ve Intent',
+          bridge: 'Bölüm 1 deki ekranların kullanıcı arayüzü bileşenleriyle tasarlanması ve ekranlar arası geçiş.',
+          body: 'Modern Android arayüzlerinde iç içe ViewGroup performans kaybını önlemek için ConstraintLayout veya bildirimsel (declarative) Jetpack Compose kullanılır. Büyük veri listeleri ekranda yalnızca görünen öğeleri bellekte tutan RecyclerView veya LazyColumn ile çizilir.',
+          code: '// Explicit Intent ile Ekran Geçişi ve Veri Taşıma:\nval intent = Intent(this, DetayActivity::class.java)\nintent.putExtra("URUN_ID", 105)\nstartActivity(intent)\n\n// Hedef ekranda veriyi okuma:\nval gelenId = intent.getIntExtra("URUN_ID", -1)',
+          practice: 'Explicit Intent uygulama içi ekran geçişlerinde, Implicit Intent ise kamera açma veya web tarayıcısı başlatma gibi sistem eylemlerinde kullanılır.',
+          takeaway: 'Binlerce satırlık listeleri asla düz ScrollView içinde çizme; bellek dostu RecyclerView veya LazyColumn kullan.'
         },
         {
-          id: 'm3_3',
-          step: 'Bölüm 3.3 · İleri',
-          title: 'Shannon Bilgi Entropisi ile Anomali Tespiti',
-          bridge: 'Statik kuralların ötesinde matematiksel ve istatistiksel tehdit algılama.',
-          body: 'Saldırganların gönderdiği şifreli veya rastgele üretilmiş URL parametreleri normal insan trafiğine göre çok daha yüksek karakter dağınıklığına (Shannon Entropisi) sahiptir.',
-          code: 'import math\nfrom collections import Counter\n\ndef entropi_hesapla(metin: str) -> float:\n    if not metin: return 0.0\n    u = len(metin)\n    return -sum((f / u) * math.log2(f / u) for f in Counter(metin).values())',
-          practice: 'Yüksek entropili istekleri doğrudan bloklamak yerine sahte bir admin paneline yönlendirip yavaşlatmak (Tarpit), saldırganın kaynaklarını tüketir.',
-          takeaway: 'Normal trafiğin istatistiksel profilini çıkar; ortalamadan sapan istekleri karantinaya al.'
+          id: 'mob_3',
+          step: 'Bölüm 3 · Ağ & Coroutines',
+          title: 'Retrofit REST API Haberleşmesi ve Kotlin Coroutines',
+          bridge: 'Mobil uygulamayı uzak backend sunucularına bağlama.',
+          body: 'Android de ağ istekleri ana arayüz iş parçacığında (Main Thread) yapılırsa uygulama çöker. Retrofit kütüphanesi HTTP uç noktalarını Kotlin arayüzlerine dönüştürür ve suspend fonksiyonlar ile Coroutines üzerinden arka planda çalıştırır.',
+          code: 'interface ApiService {\n    @GET("api/kullanicilar/{id}")\n    suspend fun kullaniciGetir(@Path("id") id: Int): KullaniciDto\n}\n\nviewModelScope.launch(Dispatchers.IO) {\n    val veri = apiService.kullaniciGetir(1)\n    withContext(Dispatchers.Main) { textView.text = veri.ad }\n}',
+          practice: 'Retrofit te @Path URL yolundaki değişkeni ({id}), @Query ise soru işaretinden sonraki filtreyi (?durum=aktif) temsil eder.',
+          takeaway: 'Ağ ve disk işlemleri Dispatchers.IO da, arayüz güncellemeleri Dispatchers.Main de yürütülür.'
         },
         {
-          id: 'm3_4',
-          step: 'Bölüm 3.4 · Uzman',
-          title: 'Parola Saklama: Salt ve Argon2id Mimarisi',
-          bridge: 'Veritabanı sızdırılsa dahi kullanıcı parolalarının matematiksel olarak korunması.',
-          body: 'Parolalar asla düz metin, MD5 veya SHA-256 ile saklanmaz. Her kullanıcı için rastgele bir "Salt" (tuz) üretilerek, özellikle yüksek RAM tüketmek üzere tasarlanmış Argon2id algoritmasıyla özetlenir.',
-          code: 'from passlib.context import CryptContext\n\npwd_ctx = CryptContext(schemes=["argon2"], deprecated="auto")\nhashli = pwd_ctx.hash("GucluParola123!")',
-          practice: 'Argon2id bellek-yoğun (memory-hard) yapısı sayesinde GPU tabanlı parola kırma cihazlarını etkisiz hale getirir.',
-          takeaway: 'Kimlik doğrulama sistemlerinde asla kendi şifreleme yöntemini yazma; endüstri standardı Argon2id kullan.'
+          id: 'mob_4',
+          step: 'Bölüm 4 · MVVM & Room DB',
+          title: 'MVVM Mimarisi ve Room (SQLite) Yerel Veritabanı',
+          bridge: 'Profesyonel uygulama mimarisi ve çevrimdışı (offline) veri kalıcılığı.',
+          body: 'MVVM (Model-View-ViewModel) yapısında View sadece ekranı çizer, veriler ViewModel de tutulur; böylece ekran döndürüldüğünde veri kaybı yaşanmaz. Room ise SQLite üzerinde derleme zamanı SQL doğrulaması sunan ORM katmanıdır.',
+          code: '@Entity(tableName = "dersler")\ndata class DersEntity(@PrimaryKey(autoGenerate = true) val id: Int = 0, val ad: String)\n\n@Dao\ninterface DersDao {\n    @Insert suspend fun ekle(ders: DersEntity)\n    @Query("SELECT * FROM dersler") fun listele(): Flow<List<DersEntity>>\n}',
+          practice: 'Room un 3 ana bileşeni: @Entity (Tablo), @Dao (Sorgu Arayüzü) ve @Database (Veritabanı Sınıfı).',
+          takeaway: 'Memory Leak oluşmaması için ViewModel içinde asla Activity veya View Context referansı saklama.'
+        }
+      ]
+    },
+    {
+      name: '14402 · Bilişim Sistemi ve Proje Yönetimi',
+      items: [
+        {
+          id: 'pm_1',
+          step: 'Bölüm 1 · Başlangıç & Kapsam',
+          title: 'Proje Yaşam Döngüsü, Demir Üçgen ve WBS (İş Kırılım Yapısı)',
+          bridge: 'Proje yönetiminin temeli: Ne inşa edeceğimizi tanımlama ve parçalara bölme.',
+          body: 'Proje, benzersiz bir ürün veya hizmet ortaya koymak için yürütülen geçici bir girişimdir. Proje başarısı Kapsam, Zaman ve Maliyet (Demir Üçgen) dengesine bağlıdır. WBS (Work Breakdown Structure), büyük projeyi yönetilebilir iş paketlerine hiyerarşik olarak böler.',
+          code: '# Proje Yönetim Süreç Grupları (PMBOK):\n# 1. Başlatma (Initiating) -> Proje Başlatma Belgesi (Project Charter)\n# 2. Planlama (Planning)   -> WBS, Gantt Şeması, Bütçe & Risk Planı\n# 3. Yürütme (Executing)   -> Ekip yönetimi ve ürün geliştirme\n# 4. İzleme & Kontrol      -> Sapma analizleri (EVM)\n# 5. Kapanış (Closing)     -> Teslimat kabulü ve öğrenilmiş dersler',
+          practice: 'Scope Creep (Kapsam Kayması), onay alınmadan projeye sürekli yeni özellik eklenmesi sonucu takvimin ve bütçenin patlamasıdır.',
+          takeaway: 'WBS te yer almayan hiçbir iş projenin kapsamında değildir.'
+        },
+        {
+          id: 'pm_2',
+          step: 'Bölüm 2 · Ağ Analizi (CPM & PERT)',
+          title: 'Kritik Yol Yöntemi (CPM), Bolluk (Slack) ve PERT Hesabı',
+          bridge: 'Bölüm 1 deki WBS iş paketlerinin sıraya dizilip proje bitiş süresinin hesaplanması.',
+          body: 'Kritik Yol (Critical Path), proje ağ diyagramındaki en uzun süreli yoldur ve bu yoldaki aktivitelerin bolluk (Slack = LS - ES) süresi sıfırdır. Kritik yoldaki 1 günlük gecikme tüm projeyi 1 gün geciktirir.',
+          code: '# PERT Beklenen Süre (te) Formülü:\n# te = (O + 4*M + P) / 6   (O: İyimser, M: En Olası, P: Kötümser)\n# Standart Sapma (σ) = (P - O) / 6\n\n# Bolluk (Total Slack / Float) = LS - ES  veya  LF - EF\n# Kritik Yoldaki aktivitelerin Slack değeri = 0 dır.',
+          practice: 'Sınavlarda aktivite öncülleri tablosu verilip İleri Geçiş (ES, EF), Geri Geçiş (LS, LF) ve Kritik Yolun bulunması kesinlikle sorulur.',
+          takeaway: 'Kritik yol diyagramdaki en kısa değil, EN UZUN süreli aktivite zinciridir.'
+        },
+        {
+          id: 'pm_3',
+          step: 'Bölüm 3 · Kazanılmış Değer (EVM)',
+          title: 'Maliyet ve Takvim Performans Analizi (CPI, SPI, CV, SV)',
+          bridge: 'Proje yürütülürken bütçe ve zaman performansının sayısal kontrolü.',
+          body: 'EVM üç temel parametre kullanır: PV (Planlanan Değer), EV (Kazanılmış Değer - tamamlanan işin bütçedeki değeri) ve AC (Gerçekleşen Maliyet).',
+          code: '# EVM Formülleri:\n# Maliyet Sapması (CV) = EV - AC   (CV < 0 ise bütçe aşılmış)\n# Zaman Sapması (SV)   = EV - PV   (SV < 0 ise takvim gerisinde)\n# Maliyet Performans İndeksi (CPI) = EV / AC  (CPI < 1 kötü, > 1 iyi)\n# Zaman Performans İndeksi (SPI)   = EV / PV  (SPI < 1 gecikme var)\n# Tahmini Bitiş Maliyeti (EAC)     = BAC / CPI',
+          practice: 'Örnek: PV=100K, EV=80K, AC=100K ise -> CPI = 0.80 ve SPI = 0.80. Proje hem bütçe aşımında hem gecikmededir.',
+          takeaway: 'Tüm EVM formüllerinde EV (Earned Value) daima ilk terimdir.'
+        },
+        {
+          id: 'pm_4',
+          step: 'Bölüm 4 · Agile / Scrum & Risk',
+          title: 'Çevik (Scrum) Çerçevesi ve Risk Tepki Stratejileri',
+          bridge: 'Değişken gereksinimli yazılım projelerinde iteratif teslimat ve risk kontrolü.',
+          body: 'Scrum da 3 rol (Product Owner, Scrum Master, Development Team), 3 artefakt (Product Backlog, Sprint Backlog, Increment) ve 1-4 haftalık Sprint döngüleri bulunur. Negatif risklere karşı 4 strateji uygulanır: Kaçınma (Avoid), Devretme (Transfer), Azaltma (Mitigate) ve Kabullenme (Accept).',
+          code: '# Risk Puanı = Olasılık x Etki\n# Product Owner -> Değer maksimizasyonu ve Backlog önceliklendirme\n# Scrum Master  -> Süreç koçu, engelleri kaldırır (Patron değildir)\n# Daily Scrum   -> Her gün 15 dk süren senkronizasyon toplantısı',
+          practice: 'Sigorta yaptırmak veya işi taşerona vermek "Risk Devretme (Transfer)", yedek sunucu kurmak ise "Risk Azaltma (Mitigate)" örneğidir.',
+          takeaway: 'Scrum da Sprint başladıktan sonra Sprint Backlog hedefine dışarıdan müdahale edilmez.'
+        }
+      ]
+    },
+    {
+      name: '15313 · Elektronik Ticaret (Tam Müfredat)',
+      items: [
+        {
+          id: 'ec_1',
+          step: 'Bölüm 1 · İş & Gelir Modelleri',
+          title: 'E-Ticaret İş Modelleri (B2B, B2C, C2C, D2C) ve Gelir Akışları',
+          bridge: 'Dijital ticaret ekosisteminin temel aktörleri ve çalışma biçimleri.',
+          body: 'B2B (İşletmeden İşletmeye) yüksek hacimli toptan ticareti, B2C (İşletmeden Tüketiciye) perakende satışı, C2C (Tüketiciden Tüketiciye) ilan/ikinci el platformlarını, D2C (Üreticiden Doğrudan Tüketiciye) ise aracıları kaldırarak markanın kendi sitesinden satışını ifade eder.',
+          code: '# E-Ticaret Gelir Modelleri:\n# 1. Doğrudan Satış (Perakende kâr marjı)\n# 2. Komisyon / Pazaryeri Modeli (İşlem başı % komisyon)\n# 3. Abonelik (Subscription / SaaS - Düzenli tekrarlayan gelir)\n# 4. Freemium (Temel özellikler ücretsiz, ileri özellikler ücretli)',
+          practice: 'B2B e-ticarette karar süreçleri rasyonel ve çok onaylıyken, B2C de duygusal tetikleyiciler ve hız ön plandadır.',
+          takeaway: 'D2C modeli markalara müşteri verisine doğrudan sahip olma ve aracı komisyonlarından kurtulma avantajı sağlar.'
+        },
+        {
+          id: 'ec_2',
+          step: 'Bölüm 2 · Altyapı, UX & Hukuk',
+          title: 'Kullanıcı Deneyimi (UX), ETBİS, KVKK ve Mesafeli Satış Hukuku',
+          bridge: 'E-ticaret mağazasının güven veren arayüzü ve yasal uyumluluk şartları.',
+          body: 'Başarılı bir e-ticaret sitesinde mobil uyumluluk (Mobile-First), hızlı sayfa açılışı ve tek adımlı ödeme (One-Page Checkout) dönüşümü artırır. Türkiye de e-ticaret sitelerinin ETBİS e kaydı, KVKK Aydınlatma Metni, Ön Bilgilendirme Formu ve Mesafeli Satış Sözleşmesi sunması zorunludur.',
+          code: '# Yasal Zorunluluklar & Tüketici Hakları:\n# - Cayma Hakkı: Tüketici 14 gün içinde gerekçe göstermeksizin cayabilir.\n# - İstisnalar: Hijyen ürünleri, kişiye özel üretilen ürünler, dijital içerikler.\n# - SSL/TLS Sertifikası: Veri iletiminde şifreleme zorunluluğu.',
+          practice: 'Sepet terk oranının (Cart Abandonment) en büyük iki sebebi: Beklenmeyen yüksek kargo ücretleri ve zorunlu üyelik dayatmasıdır.',
+          takeaway: 'Misafir alışverişi (Guest Checkout) seçeneği sunmak sepet terk oranını anında düşürür.'
+        },
+        {
+          id: 'ec_3',
+          step: 'Bölüm 3 · Ödeme Sistemleri',
+          title: 'Sanal POS, 3D Secure (Liability Shift) ve PCI-DSS Güvenliği',
+          bridge: 'Ödeme anındaki finansal veri akışı ve dolandırıcılık koruması.',
+          body: 'Ödeme işleminde 4 taraf bulunur: Kart Hamili, Üye İşyeri, Üye İşyeri Bankası (Acquirer) ve Kartı Veren Banka (Issuer). 3D Secure protokolünde SMS/bildirim onayı ile sorumluluk geçişi (Liability Shift) sağlanır ve ters ibraz (Chargeback) riski bankaya devredilir.',
+          code: '# PCI-DSS (Payment Card Industry Data Security Standard):\n# Kredi kartı bilgilerini saklayan, işleyen veya ileten tüm kurumların\n# uymak zorunda olduğu küresel veri güvenliği standardıdır.\n# Tokenization: Kart numarası yerine tek kullanımlık şifreli jeton saklama.',
+          practice: 'Modern e-ticaret siteleri kart numarasını kendi veritabanında tutmaz; iyzico/Stripe gibi PCI-DSS Level 1 ödeme kuruluşlarının tokenization altyapısını kullanır.',
+          takeaway: '3D Secure kullanılan işlemlerde çalıntı kart kaynaklı ters ibraz (chargeback) zararından satıcı korunur.'
+        },
+        {
+          id: 'ec_4',
+          step: 'Bölüm 4 · Lojistik & Kârlılık',
+          title: 'Dropshipping, Fulfillment ve E-Ticaret Büyüme Metrikleri (CRO)',
+          bridge: 'Sipariş sonrası operasyon ve mağaza kârlılığının matematiksel yönetimi.',
+          body: 'Fulfillment modelinde depolama, paketleme ve kargolama 3PL lojistik firmalarına devredilir. Dropshipping de satıcı stok tutmaz, siparişi doğrudan tedarikçiye yönlendirir. CRO (Dönüşüm Oranı Optimizasyonu) ise ziyaretçileri müşteriye dönüştürme bilimidir.',
+          code: '# E-Ticaret Kârlılık Metrikleri:\n# Dönüşüm Oranı (CR) = (Sipariş Sayısı / Ziyaretçi Sayısı) * 100\n# Ortalama Sepet Tutarı (AOV) = Toplam Ciro / Sipariş Sayısı\n# Müşteri Edinme Maliyeti (CAC) = Pazarlama Gideri / Yeni Müşteri Sayısı\n# Kârlılık Kuralı: Müşteri Yaşam Boyu Değeri (LTV) >= 3 * CAC',
+          practice: 'Tersine Lojistik (Reverse Logistics), ürün iadelerinin depoya geri kabulü ve yeniden satışa hazırlanması sürecidir; e-ticarette kârlılığı doğrudan etkiler.',
+          takeaway: 'LTV / CAC oranının 3 ten büyük olması işletmenin ölçeklenebilir ve kârlı büyüdüğünü gösterir.'
+        }
+      ]
+    },
+    {
+      name: '21417 · Sosyal Medya ve Dijital Pazarlama',
+      items: [
+        {
+          id: 'sm_1',
+          step: 'Bölüm 1 · Strateji & Pazarlama Hunisi',
+          title: 'Buyer Persona, Müşteri Yolculuğu ve TOFU-MOFU-BOFU Hunisi',
+          bridge: 'Dijital pazarlamanın başlangıcı: Doğru kitleye doğru aşamada doğru mesajı verme.',
+          body: 'Geleneksel pazarlamanın tek yönlü iletişimine karşın dijital pazarlama çift yönlü, ölçülebilir ve hedef odaklıdır. Buyer Persona ideal müşterinin demografik ve davranışsal profilidir. Pazarlama hunisi 3 katmandan oluşur: TOFU (Farkındalık), MOFU (Değerlendirme) ve BOFU (Karar/Satın Alma).',
+          code: '# Pazarlama Hunisi (Funnel) Katmanları:\n# 1. TOFU (Top of Funnel)    -> Blog, kısa videolar, erişim reklamları\n# 2. MOFU (Middle of Funnel) -> Karşılaştırma rehberleri, e-bülten, webinar\n# 3. BOFU (Bottom of Funnel) -> Ücretsiz deneme, indirim kodu, retargeting',
+          practice: 'Soğuk bir kitleye (TOFU) doğrudan "Hemen Satın Al" reklamı çıkmak yerine önce değer sunmak reklam maliyetlerini ciddi oranda düşürür.',
+          takeaway: 'Önce kitleyi ısıt (TOFU -> MOFU), sonra dönüşüm teklifi sun (BOFU).'
+        },
+        {
+          id: 'sm_2',
+          step: 'Bölüm 2 · Sosyal Medya & İçerik',
+          title: 'Algoritma Sinyalleri, Etkileşim Oranı (ER) ve Influencer Pazarlaması',
+          bridge: 'Organik erişim dinamikleri ve topluluk yönetimi.',
+          body: 'Sosyal medya algoritmaları içeriği yayarken şu sinyallere öncelik verir: İzlenme süresi (Watch Time), Kaydetme (Save), Paylaşma (Share) ve Yorum. Influencer pazarlamasında takipçi sayısından ziyade etkileşim oranı ve kitle uyumu önemlidir.',
+          code: '# Etkileşim Oranı (Engagement Rate - ER) Formülü:\n# ER = ((Beğeni + Yorum + Kaydetme + Paylaşma) / Toplam Erişim) * 100\n\n# Influencer Kategorileri:\n# Nano (1K-10K) | Micro (10K-100K) | Macro (100K-1M) | Mega (1M+)',
+          practice: 'Micro ve Nano influencerlar daha niş ve sadık kitlelere sahip oldukları için dönüşüm bazlı kampanyalarda Mega influencerlardan daha yüksek ROI sağlar.',
+          takeaway: 'Algoritmalar için "Kaydetme" ve "Paylaşma", basit bir "Beğeni"den çok daha değerli sinyallerdir.'
+        },
+        {
+          id: 'sm_3',
+          step: 'Bölüm 3 · SEO & SEM (Arama Motorları)',
+          title: 'Teknik SEO ve Google Ads Açık Artırma (Quality Score)',
+          bridge: 'Arama niyeti (Search Intent) yüksek kullanıcıları organik ve ücretli yollarla yakalama.',
+          body: 'SEO organik sıralamayı hedefler: On-Page (Başlık, anahtar kelime, semantik yapı), Off-Page (Backlink otoritesi) ve Technical SEO (Site hızı, Core Web Vitals, sitemap.xml). SEM (Google Ads) açık artırmasında ise sıralamayı belirleyen tek şey para değildir.',
+          code: '# Google Ads Reklam Sıralaması (Ad Rank) Formülü:\n# Ad Rank = Maksimum TBM Teklifi (Max CPC) x Kalite Puanı (Quality Score)\n\n# Quality Score Bileşenleri (1-10 arası):\n# 1. Beklenen Tıklama Oranı (Expected CTR)\n# 2. Reklam Alaka Düzeyi (Ad Relevance)\n# 3. Açılış Sayfası Deneyimi (Landing Page Experience)',
+          practice: 'Kalite Puanı yüksek bir reklamveren, rakibinden daha düşük teklif vererek 1. sırada yer alabilir.',
+          takeaway: 'Ad Rank = Max CPC x Quality Score formülü sınavların en klasik sayısal sorusudur.'
+        },
+        {
+          id: 'sm_4',
+          step: 'Bölüm 4 · Analitik & Performans',
+          title: 'CTR, CPC, CPM, ROAS vs ROI ve Retargeting Stratejileri',
+          bridge: 'Reklam bütçesinin verimliliğini ölçme ve sepeti terk eden kullanıcıları geri kazanma.',
+          body: 'Kampanya optimizasyonunda metrikler birbirine bağlıdır: Düşük CTR reklam görselinin/metninin ilgi çekmediğini, yüksek CTR ama düşük dönüşüm ise açılış sayfasında (Landing Page) sorun olduğunu gösterir.',
+          code: '# Dijital Reklam Metrikleri:\n# CTR (Tıklama Oranı)      = (Tıklama / Gösterim) * 100\n# CPC (Tıklama Maliyeti)   = Toplam Harcama / Tıklama Sayısı\n# CPM (1000 Gösterim Mal.) = (Toplam Harcama / Gösterim) * 1000\n# ROAS (Reklam Getirisi)   = Reklam Kaynaklı Ciro / Reklam Harcaması\n# ROI (Yatırım Getirisi)   = ((Net Kâr - Maliyet) / Maliyet) * 100',
+          practice: 'Retargeting (Yeniden Pazarlama), siteyi ziyaret edip ürün inceleyen ancak satın almayan kullanıcılara piksel/çerez takibiyle özel hatırlatma reklamı gösterilmesidir.',
+          takeaway: 'ROAS brüt ciroyu, ROI ise net kârı ölçer; ikisini asla karıştırma.'
+        }
+      ]
+    },
+    {
+      name: 'Mühendislik · Python, AI & Siber Güvenlik',
+      items: [
+        {
+          id: 'eng_1',
+          step: 'Modül A · Backend & Asenkron Mimari',
+          title: 'Veri Yapıları (O(1)), FastAPI ve Asyncio Event Loop',
+          bridge: 'Gerçek dünya yazılım projelerinde yüksek performanslı backend geliştirme.',
+          body: 'Python da Set ve Dict Hash Table kullandığı için O(1) sürede arama yapar. FastAPI, Pydantic ile veri doğrulaması yaparken async/await sözdizimi ile I/O bekleme sürelerinde Event Loop u bloklamadan binlerce isteği eşzamanlı yürütür.',
+          code: 'import asyncio\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\nclass Veri(BaseModel):\n    kod: str = Field(..., min_length=4)\n\n@app.post("/islem")\nasync def islem(v: Veri):\n    await asyncio.sleep(0.1)\n    return {"durum": "basarili", "kod": v.kod}',
+          practice: 'Async fonksiyon içinde asla senkron time.sleep() veya requests.get() kullanma; tüm sunucu döngüsünü kilitlersin.',
+          takeaway: 'Veri aramada Set/Dict, ağ işlemlerinde ise non-blocking Async/Await kullan.'
+        },
+        {
+          id: 'eng_2',
+          step: 'Modül B · Yapay Zeka & RAG Mimarisi',
+          title: 'Embeddings, Kosinüs Benzerliği ve RAG Boru Hattı',
+          bridge: 'Dil modellerini özel dokümanlarla halüsinasyonsuz konuşturma mimarisi.',
+          body: 'RAG sisteminde dokümanlar parçalara (Chunk) ayrılır, Embedding vektörlerine dönüştürülür; kullanıcı sorusuna Kosinüs Benzerliği ile en yakın parçalar bulunup LLM e bağlam olarak verilir.',
+          code: 'def rag_cevapla(soru, vdb, llm):\n    parcalar = vdb.en_yakin_bul(soru, top_k=3)\n    baglam = "\\n".join(parcalar)\n    return llm.uret(f"Sadece şu bilgiye dayanarak cevapla:\\n{baglam}\\nSoru: {soru}")',
+          practice: 'Teknik ve analitik sistemlerde Temperature değerini 0.1 seçmek modelin uydurma riskini ortadan kaldırır.',
+          takeaway: 'Chunk boyutunu 400-600 token aralığında tut ve cümle bütünlüğü için %10-15 overlap bırak.'
+        },
+        {
+          id: 'eng_3',
+          step: 'Modül C · Siber Güvenlik & AppSec',
+          title: 'DOM-XSS Koruması, CSP Başlıkları ve Shannon Entropisi',
+          bridge: 'Uygulama güvenliği ve istatistiksel anomali tespiti.',
+          body: 'Kullanıcı girdilerini DOM a innerHTML yerine textContent ile basmak XSS açıklarını önler. Shannon Entropisi ise yüksek rastgelelik içeren saldırı yüklerini ve obfuscated payloadları matematiksel olarak yakalar.',
+          code: 'import math\nfrom collections import Counter\n\ndef shannon_entropy(s: str) -> float:\n    if not s: return 0.0\n    return -sum((c/len(s))*math.log2(c/len(s)) for c in Counter(s).values())',
+          practice: 'CSP başlıkları (frame-ancestors none, object-src none) ve Argon2id parola özetleme modern web güvenliğinin temelidir.',
+          takeaway: 'Zero Trust ilkesiyle hiçbir istemci girdisine güvenme.'
         }
       ]
     }
@@ -4079,50 +4250,120 @@ document.querySelectorAll('button').forEach(b => {
   const INITIAL_NOTES = [
     {
       date: '2026-11-17',
-      tag: 'Backend & Performans',
-      title: 'List Yerine Set Kullanmanın Önemi',
-      body: 'Veri yapılarını çalışırken O(N) ile O(1) arasındaki farkı netleştirdim. IP engelleme veya tekrar kontrolü gereken her yerde Python set() kullanmak büyük ölçekte işlemciyi koruyor.'
+      tag: '14411 · Veri Madenciliği',
+      title: 'Apriori Lift Değeri Yorumlama Notu',
+      body: 'Lift > 1 ise X ve Y ürünleri birbirinin satışını artırıyor (pozitif birliktelik). Lift = 1 ise bağımsız, Lift < 1 ise birbirini ikame eden (negatif ilişkili) ürünlerdir.'
     },
     {
       date: '2026-11-17',
-      tag: 'Yapay Zeka (RAG)',
-      title: 'LLM Halüsinasyonunu Azaltma Notları',
-      body: 'RAG sistemlerinde modele "Sadece verilen bağlamı kullan, bilmiyorsan bilmiyorum de" kuralını koymak ve Temperature değerini 0.1 yapmak uydurma cevapları kesiyor.'
+      tag: '14402 · Bilişim Sis. ve Proje Yön.',
+      title: 'EVM (Kazanılmış Değer) Kısayol Formülleri',
+      body: 'Bütün formüller EV ile başlıyor: CV = EV - AC, SV = EV - PV. İndekslerde ise bölme var: CPI = EV / AC, SPI = EV / PV. 1 in altındaki her indeks kötü gidişattır!'
+    },
+    {
+      date: '2026-11-17',
+      tag: '24431 · Görüntü İşleme',
+      title: 'Opening ve Closing Farkı',
+      body: 'Opening (Önce Erosion sonra Dilation) arka plandaki küçük beyaz gürültüleri siler. Closing (Önce Dilation sonra Erosion) ise harf/nesne içindeki siyah delikleri kapatır.'
     }
   ];
 
   const QUESTIONS = [
     {
       diff: 'KOLAY',
-      topic: 'Python Veri Yapıları',
-      q: '1 milyon elemanlı bir veri kümesinde bir IP adresinin var olup olmadığını en hızlı (O(1) karmaşıklıkta) kontrol etmek için hangi Python veri yapısı kullanılmalıdır?',
-      opts: ['list (Liste)', 'tuple (Demet)', 'set (Küme)', 'str (Metin)'],
-      ans: 2,
-      why: 'set ve dict arka planda Hash Table kullandığı için eleman sayısından bağımsız olarak O(1) sabit sürede arama yapar.'
+      topic: '14411 · Veri Madenciliği',
+      q: 'Apriori birliktelik kuralları analizinde Lift(X -> Y) değerinin 1.85 çıkması ne anlama gelir?',
+      opts: ['X ve Y ürünleri birbirinden tamamen bağımsızdır', 'X ürününün alınması Y ürününün alınma olasılığını pozitif yönde artırmaktadır', 'X ve Y ürünleri birbirinin rakibidir, birlikte alınmazlar', 'Veri setinde gürültü vardır, kural geçersizdir'],
+      ans: 1,
+      why: 'Lift > 1 olması iki ürün arasında pozitif bir birliktelik olduğunu ve çapraz satış fırsatı bulunduğunu gösterir.'
     },
     {
       diff: 'KOLAY',
-      topic: 'Web Güvenliği',
-      q: 'Kullanıcıdan alınan bir metni HTML sayfasına güvenli şekilde (XSS riski olmadan) yazdırmak için hangi DOM özelliği kullanılmalıdır?',
-      opts: ['innerHTML', 'outerHTML', 'textContent', 'insertAdjacentHTML'],
-      ans: 2,
-      why: 'textContent girilen metni HTML etiketi olarak değil düz metin olarak işler ve zararlı script çalışmasını engeller.'
+      topic: '24431 · Görüntü İşleme',
+      q: 'OpenCV de ikili (binary) bir görüntüdeki beyaz nesnenin içinde kalan küçük siyah delikleri kapatmak için hangi morfolojik işlem uygulanmalıdır?',
+      opts: ['Opening (Açma)', 'Closing (Kapama)', 'Gaussian Blur', 'Histogram Eşitleme'],
+      ans: 1,
+      why: 'Closing (önce Dilation, ardından Erosion) nesnelerin içindeki küçük siyah boşlukları doldurur ve kopuk kenarları birleştirir.'
+    },
+    {
+      diff: 'KOLAY',
+      topic: '21417 · Dijital Pazarlama',
+      q: 'Google Ads açık artırma sisteminde reklamın sayfadaki sıralamasını belirleyen Ad Rank nasıl hesaplanır?',
+      opts: ['Sadece en yüksek TBM (CPC) teklifi ile', 'Maksimum TBM Teklifi x Kalite Puanı (Quality Score)', 'Gösterim Sayısı / Tıklama Oranı', 'Günlük Bütçe x Site Yaşı'],
+      ans: 1,
+      why: 'Ad Rank = Max CPC x Quality Score formülüyle hesaplanır; yüksek kalite puanı daha düşük maliyetle üst sırada çıkmayı sağlar.'
+    },
+    {
+      diff: 'KOLAY',
+      topic: '15313 · Elektronik Ticaret',
+      q: 'Üretici bir markanın araya toptancı veya pazaryeri sokmadan doğrudan kendi web sitesi üzerinden son tüketiciye satış yapmasına ne ad verilir?',
+      opts: ['C2C (Tüketiciden Tüketiciye)', 'D2C (Direct-to-Consumer)', 'G2B (Devletten İşletmeye)', 'B2B (İşletmeden İşletmeye)'],
+      ans: 1,
+      why: 'D2C (Direct-to-Consumer), üreticinin aracıları devreden çıkararak doğrudan son tüketiciye ulaştığı iş modelidir.'
     },
     {
       diff: 'ORTA',
-      topic: 'FastAPI & Asenkron Yapı',
-      q: 'Python async def ile tanımlanmış bir FastAPI endpointi içinde senkron time.sleep(5) çağrılırsa ne olur?',
-      opts: ['Sadece o kullanıcı 5 saniye bekler', 'Tüm Event Loop 5 saniye boyunca kilitlenir ve diğer kullanıcılara yanıt verilemez', 'FastAPI yeni sunucu açar', 'Kod derleme hatası verir'],
+      topic: '14402 · Proje Yönetimi',
+      q: 'Bir yazılım projesinde Planlanan Değer (PV) = 50.000 TL, Kazanılmış Değer (EV) = 40.000 TL ve Gerçekleşen Maliyet (AC) = 50.000 TL ise CPI ve SPI değerleri kaçtır?',
+      opts: ['CPI = 1.25, SPI = 1.25', 'CPI = 0.80, SPI = 0.80 (Hem bütçe hem takvim gerisinde)', 'CPI = 1.00, SPI = 0.80', 'CPI = 0.80, SPI = 1.00'],
       ans: 1,
-      why: 'Event Loop tek thread üzerinde çalışır; bloklayıcı senkron bir çağrı tüm döngüyü dondurur. Yerine await asyncio.sleep(5) kullanılmalıdır.'
+      why: 'CPI = EV / AC = 40.000 / 50.000 = 0.80 ve SPI = EV / PV = 40.000 / 50.000 = 0.80. Her iki değer de 1 den küçük olduğu için proje hem bütçe aşımında hem gecikmededir.'
+    },
+    {
+      diff: 'ORTA',
+      topic: '15405 · Mobil Programlama',
+      q: 'Android MVVM mimarisinde ViewModel sınıfı içinde doğrudan Activity veya View Context referansı tutulmamasının temel sebebi nedir?',
+      opts: ['Derleme hatası vermesi', 'Ekran döndürüldüğünde eski Activity nin bellekten temizlenememesi (Memory Leak)', 'Room veritabanının çalışmaması', 'Retrofit in JSON ayrıştıramaması'],
+      ans: 1,
+      why: 'ViewModel, Activity yeniden oluşturulurken hayatta kalır; eski Activity referansını tutarsa Garbage Collector belleği temizleyemez ve Memory Leak oluşur.'
+    },
+    {
+      diff: 'ORTA',
+      topic: '15313 · Elektronik Ticaret',
+      q: 'E-ticaret ödemelerinde 3D Secure doğrulaması kullanılmasının satıcı (üye işyeri) açısından en kritik avantajı nedir?',
+      opts: ['Komisyon oranını sıfıra indirir', 'Yetkisiz kart kullanımı kaynaklı ters ibraz (Chargeback) sorumluluğunu satıcıdan alıp bankaya devreder', 'Kargo süresini kısaltır', 'Vergi muafiyeti sağlar'],
+      ans: 1,
+      why: '3D Secure ile SMS/uygulama doğrulaması yapıldığında sorumluluk geçişi (Liability Shift) gerçekleşir ve sahtecilik kaynaklı chargeback zararından satıcı korunur.'
+    },
+    {
+      diff: 'ORTA',
+      topic: '21417 · Dijital Pazarlama',
+      q: 'Bir dijital reklam kampanyasında 2.000 TL reklam harcaması yapılarak 12.000 TL brüt satış cirosu elde edildiyse ROAS değeri kaçtır?',
+      opts: ['0.16', '6 (veya %600)', '10', '2.4'],
+      ans: 1,
+      why: 'ROAS = Reklam Kaynaklı Ciro / Reklam Harcaması = 12.000 / 2.000 = 6 (veya %600) olarak hesaplanır.'
+    },
+    {
+      diff: 'ZOR',
+      topic: '14411 · Veri Madenciliği',
+      q: 'Dolandırıcılık (Fraud) tespiti gibi pozitif sınıfın %1 olduğu dengesiz bir veri setinde, kaçırılan dolandırıcılık vakalarını (False Negative) en aza indirmek için hangi metriğe odaklanılmalıdır?',
+      opts: ['Accuracy (Doğruluk)', 'Recall (Duyarlılık = TP / (TP + FN))', 'Specificity', 'Support'],
+      ans: 1,
+      why: 'Recall = TP / (TP + FN) formülünde paydada FN (kaçırılan gerçek pozitifler) yer alır; gerçek dolandırıcılık vakalarını kaçırmamak için Recall maksimize edilmelidir.'
+    },
+    {
+      diff: 'ZOR',
+      topic: '14402 · Proje Yönetimi (PERT)',
+      q: 'Bir aktivitenin iyimser süresi (O) 4 gün, en olası süresi (M) 7 gün ve kötümser süresi (P) 16 gün ise PERT beklenen süresi (te) kaç gündür?',
+      opts: ['7 gün', '8 gün', '9 gün', '10 gün'],
+      ans: 1,
+      why: 'te = (O + 4M + P) / 6 = (4 + 4*7 + 16) / 6 = (4 + 28 + 16) / 6 = 48 / 6 = 8 gündür.'
+    },
+    {
+      diff: 'ZOR',
+      topic: '24431 · Görüntü İşleme',
+      q: 'OpenCV de 400x600 boyutundaki bir renkli görüntü matrisinde (img) X=100..250 ve Y=50..120 aralığındaki dikdörtgen bölgeyi beyaza boyamak için doğru NumPy dilimleme hangisidir?',
+      opts: ['img[100:250, 50:120] = (255, 255, 255)', 'img[50:120, 100:250] = (255, 255, 255)', 'img.fill(50, 120, 100, 250)', 'img[100:50, 250:120] = 255'],
+      ans: 1,
+      why: 'NumPy matrislerinde ilk indeks satırları (Y ekseni), ikinci indeks sütunları (X ekseni) temsil eder; bu yüzden img[y1:y2, x1:x2] kullanılır.'
     },
     {
       diff: 'ZOR',
       topic: 'Siber Güvenlik & SOC',
-      q: 'Gelen HTTP isteklerinde Shannon Bilgi Entropisi hesaplandığında hangi durum bir saldırı (fuzzing / şifreli payload) şüphesi doğurur?',
-      opts: ['Entropi değerinin 0 a çok yakın olması', 'Entropi değerinin normal trafik ortalamasının çok üzerine (ör. >7.5) çıkması', 'İsteğin GET metoduyla gelmesi', 'Kullanıcının Chrome kullanması'],
+      q: 'Gelen HTTP isteklerinde Shannon Bilgi Entropisi hesaplandığında normal trafik 3.2 iken bir IP den 7.85 entropili istekler geliyorsa neye işaret eder?',
+      opts: ['Normal arama sorgusuna', 'Yüksek rastgelelik içeren şifreli payload, fuzzing veya obfuscated saldırı denemesine', 'Sunucu önbelleğinin dolduğuna', 'DNS süresinin bittiğine'],
       ans: 1,
-      why: 'Yüksek entropi, metindeki karakter dağılımının aşırı rastgele olduğunu gösterir; bu da obfuscated payload veya otomatik fuzzing saldırılarının işaretidir.'
+      why: 'Yüksek Shannon entropisi metindeki karakter dağılımının aşırı rastgele olduğunu gösterir; bu da şifreli saldırı yükleri veya otomatik fuzzing taramalarının işaretidir.'
     }
   ];
 
@@ -4217,7 +4458,7 @@ document.querySelectorAll('button').forEach(b => {
 
     const h2_2 = document.createElement('h2');
     h2_2.className = 'yas-h2';
-    h2_2.textContent = '2. Uygulamalı Kod Örneği';
+    h2_2.textContent = '2. Formüller & Uygulamalı Kod Örneği';
     article.appendChild(h2_2);
 
     const pre = document.createElement('pre');
@@ -4227,7 +4468,7 @@ document.querySelectorAll('button').forEach(b => {
 
     const h2_3 = document.createElement('h2');
     h2_3.className = 'yas-h2';
-    h2_3.textContent = '3. Gerçek Sistemlerde Kullanımı';
+    h2_3.textContent = '3. Sınav İpucu & Gerçek Dünya Pratiği';
     article.appendChild(h2_3);
 
     const p2 = document.createElement('p');
@@ -4287,7 +4528,7 @@ document.querySelectorAll('button').forEach(b => {
     info.style.fontSize = '13px';
     info.style.lineHeight = '1.55';
     info.style.padding = '6px';
-    info.textContent = 'Kendi çalışma notlarını buradan temiz ve düzenli şekilde tutabilirsin. "Notları Kopyala" ile tüm arşivi JSON olarak alıp sitene kalıcı gömebilirsin.';
+    info.textContent = 'Derslerinle ilgili kendi özetlerini buradan tutabilirsin. "Notları Kopyala" ile tüm arşivi JSON olarak alıp sitene kalıcı gömebilirsin.';
     sidebar.appendChild(info);
 
     const exportBtn = document.createElement('button');
@@ -4309,7 +4550,7 @@ document.querySelectorAll('button').forEach(b => {
 
     const h1 = document.createElement('h1');
     h1.className = 'yas-h1';
-    h1.textContent = 'Çalışma Notlarım & Öğrenme Günlüğü';
+    h1.textContent = 'Çalışma Notlarım & Ders Günlüğü';
     wrap.appendChild(h1);
 
     const editor = document.createElement('div');
@@ -4317,7 +4558,15 @@ document.querySelectorAll('button').forEach(b => {
 
     const sel = document.createElement('select');
     sel.className = 'yas-select';
-    ['Python & Backend', 'Yapay Zeka & LLM', 'Siber Güvenlik', 'Veritabanı & SQL', 'Mobil & OpenCV'].forEach(t => {
+    [
+      '14411 · Veri Madenciliği',
+      '24431 · Görüntü İşleme',
+      '15405 · Mobil Programlama',
+      '14402 · Bilişim Sis. ve Proje Yön.',
+      '15313 · Elektronik Ticaret',
+      '21417 · Sosyal Medya ve Dijital Paz.',
+      'Mühendislik (Python / AI / Sec)'
+    ].forEach(t => {
       const o = document.createElement('option');
       o.value = t;
       o.textContent = t;
@@ -4334,7 +4583,7 @@ document.querySelectorAll('button').forEach(b => {
     const inpBody = document.createElement('textarea');
     inpBody.className = 'yas-textarea';
     inpBody.rows = 4;
-    inpBody.placeholder = 'Bugün öğrendiğin önemli bir kavramı veya kendi özetini yaz...';
+    inpBody.placeholder = 'Önemli formülleri, kod notlarını veya hocanın vurguladığı yerleri kendi cümlelerinle yaz...';
     editor.appendChild(inpBody);
 
     const saveBtn = document.createElement('button');
@@ -4495,6 +4744,7 @@ document.querySelectorAll('button').forEach(b => {
 </script>
 </body>
 </html>
+
 
 
 
