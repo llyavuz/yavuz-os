@@ -330,6 +330,23 @@ body.theme-amber .achievement-toast {
   pointer-events: none;
 }
 .achievement-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* === FORCE NEON VISIBILITY === */
+#centerDeckCard, #centerDeckCard *,
+.yavuz-fm-widget, .yavuz-fm-widget *,
+.sticky-wall-widget, .sticky-wall-widget *,
+#achToast {
+  color: #00ff66 !important;
+  border-color: #00ff66 !important;
+}
+#centerDeckCard.is-amber, #centerDeckCard.is-amber *,
+.yavuz-fm-widget.is-amber, .yavuz-fm-widget.is-amber *,
+.sticky-wall-widget.is-amber, .sticky-wall-widget.is-amber *,
+#achToast.is-amber {
+  color: #ffb000 !important;
+  border-color: #ffb000 !important;
+}
+.fm-bar { background-color: currentColor !important; }
 </style>
 </head>
 <body>
@@ -1329,6 +1346,21 @@ body.theme-amber .achievement-toast {
     }
   }
 })();
+
+// Amber / Yeşil Tema Senkronizasyonu
+document.querySelectorAll('button').forEach(b => {
+  if (b.textContent.trim() === 'Amber') {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#centerDeckCard, .yavuz-fm-widget, .sticky-wall-widget, #achToast').forEach(el => el.classList.add('is-amber'));
+    });
+  }
+  if (b.textContent.trim() === 'Yeşil') {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#centerDeckCard, .yavuz-fm-widget, .sticky-wall-widget, #achToast').forEach(el => el.classList.remove('is-amber'));
+    });
+  }
+});
 </script>
 </body>
 </html>
+
