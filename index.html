@@ -520,16 +520,17 @@ body.under-attack .sticky-wall-widget {
   background: rgba(0, 255, 102, 0.15);
 }
 
-/* === SUPER_YAVUZ.EXE RETRO PLATFORMER === */
+
+/* === SUPER_YAVUZ.EXE v2.0 - PRODUCTION DEPLOY QUEST === */
 #marioModal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(540px, 94vw);
-  background: rgba(3, 10, 6, 0.96);
+  width: min(760px, 96vw);
+  background: rgba(3, 10, 6, 0.97);
   border: 2px solid #00ff66;
-  box-shadow: 0 0 30px rgba(0, 255, 102, 0.3);
+  box-shadow: 0 0 36px rgba(0, 255, 102, 0.35);
   color: #00ff66;
   font-family: 'Courier New', Courier, monospace;
   z-index: 1000;
@@ -541,7 +542,7 @@ body.under-attack .sticky-wall-widget {
 body.theme-amber #marioModal {
   color: #ffb000 !important;
   border-color: #ffb000 !important;
-  box-shadow: 0 0 30px rgba(255, 176, 0, 0.3) !important;
+  box-shadow: 0 0 36px rgba(255, 176, 0, 0.35) !important;
 }
 .mario-header {
   display: flex;
@@ -549,26 +550,40 @@ body.theme-amber #marioModal {
   align-items: center;
   border-bottom: 1px dashed currentColor;
   padding-bottom: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-weight: bold;
   font-size: 13px;
 }
 .mario-hud {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 8px;
   font-size: 12px;
   margin-bottom: 8px;
-  padding: 5px 8px;
+  padding: 6px 10px;
   border: 1px solid currentColor;
   background: rgba(255, 255, 255, 0.04);
 }
 #marioCanvas {
   width: 100%;
-  height: 220px;
+  height: 310px;
   display: block;
   border: 1px solid currentColor;
   background: #020804;
-  cursor: pointer;
+}
+.mario-controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 11px;
+}
+.mobile-pad {
+  display: flex;
+  gap: 6px;
 }
 </style>
 </head>
@@ -1058,21 +1073,29 @@ body.theme-amber #marioModal {
 
 <div class="achievement-toast" id="achToast" role="status" aria-live="polite"></div>
 
-<!-- SUPER_YAVUZ.EXE PLATFORM OYUNU -->
-<div id="marioModal" role="dialog" aria-label="Super Yavuz Platform Oyunu">
+
+<!-- SUPER_YAVUZ.EXE v2.0 PLATFORM OYUNU -->
+<div id="marioModal" role="dialog" aria-label="Super Yavuz Production Deploy Quest">
   <div class="mario-header">
-    <span>SUPER_YAVUZ.EXE // RETRO RUNNER</span>
+    <span>SUPER_YAVUZ.EXE v2.0 // PRODUCTION DEPLOY QUEST</span>
     <button type="button" class="deck-btn" id="btnCloseMario">[X]</button>
   </div>
   <div class="mario-hud">
-    <span id="marioScore">SKOR: 0</span>
-    <span id="marioCoins">ALTIN: 0</span>
-    <span id="marioHigh">REKOR: 0</span>
+    <span id="marioHp">CAN: ♥♥♥</span>
+    <span id="marioPower">DURUM: NORMAL</span>
+    <span id="marioScore">COMMIT SKOR: 0</span>
+    <span id="marioProgress">DEPLOY: %0</span>
   </div>
-  <canvas id="marioCanvas" width="500" height="220"></canvas>
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11px;">
-    <span>Kontrol: [BOŞLUK / ↑ / DOKUN] (Çift Zıplama Aktif!)</span>
-    <button type="button" class="deck-btn" id="btnRestartMario">[YENİDEN BAŞLA]</button>
+  <canvas id="marioCanvas" width="720" height="310"></canvas>
+  <div class="mario-controls-bar">
+    <span>[A/D veya ←/→]: Yürü | [W/↑/BOŞLUK]: Zıpla | [F/ENTER]: HOTFIX At</span>
+    <div class="mobile-pad">
+      <button type="button" class="deck-btn" id="padLeft">[◀]</button>
+      <button type="button" class="deck-btn" id="padRight">[▶]</button>
+      <button type="button" class="deck-btn" id="padJump">[▲ ZIPL]</button>
+      <button type="button" class="deck-btn" id="padFire">[⚡ PATCH]</button>
+      <button type="button" class="deck-btn" id="btnRestartMario">[SIFIRLA]</button>
+    </div>
   </div>
 </div>
 <div class="taskbar">
@@ -1895,239 +1918,609 @@ document.querySelectorAll('button').forEach(b => {
   }, true);
 })();
 
-/* === SUPER_YAVUZ.EXE ENGINE (ZERO-XSS) === */
-(function initSuperYavuz() {
+
+/* === SUPER_YAVUZ.EXE v2.0 FULL PLATFORMER ENGINE (ZERO-XSS) === */
+(function initSuperYavuzPro() {
   const modal = document.getElementById('marioModal');
   const btnOpen = document.getElementById('btnOpenMario');
   const btnClose = document.getElementById('btnCloseMario');
   const btnRestart = document.getElementById('btnRestartMario');
   const canvas = document.getElementById('marioCanvas');
+  const hpEl = document.getElementById('marioHp');
+  const powerEl = document.getElementById('marioPower');
   const scoreEl = document.getElementById('marioScore');
-  const coinsEl = document.getElementById('marioCoins');
-  const highEl = document.getElementById('marioHigh');
+  const progEl = document.getElementById('marioProgress');
 
   if (!modal || !btnOpen || !canvas) return;
   const ctx = canvas.getContext('2d');
 
+  const LEVEL_END = 2400;
+  const GROUND_Y = 270;
   let animId = null;
   let running = false;
-  let gameOver = false;
-  let score = 0;
-  let coins = 0;
-  let highScore = Number(localStorage.getItem('super_yavuz_high') || 0);
-  let speed = 4.2;
+  let state = 'play'; // 'play', 'gameover', 'win'
+  let cameraX = 0;
   let frame = 0;
+  let score = 0;
 
-  const groundY = 185;
-  const player = { x: 55, y: groundY - 28, w: 22, h: 28, vy: 0, jumps: 0 };
-  let obstacles = [];
-  let coinItems = [];
-  let clouds = [{ x: 100, y: 35 }, { x: 280, y: 55 }, { x: 430, y: 28 }];
+  const keys = { left: false, right: false };
 
-  function playTone(type) {
+  const hero = {
+    x: 60, y: GROUND_Y - 30, w: 22, h: 30,
+    vx: 0, vy: 0, facing: 1,
+    onGround: false, jumps: 0,
+    hp: 3, shield: false, caffeine: 0, invuln: 0
+  };
+
+  let platforms = [];
+  let qBlocks = [];
+  let enemies = [];
+  let bullets = [];
+  let particles = [];
+  let pits = [];
+  let boss = null;
+
+  function sfx(type) {
     try {
-      const aCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = aCtx.createOscillator();
-      const gain = aCtx.createGain();
-      osc.type = 'square';
+      const a = new (window.AudioContext || window.webkitAudioContext)();
+      const o = a.createOscillator();
+      const g = a.createGain();
+      o.type = type === 'hit' || type === 'boss' ? 'sawtooth' : 'square';
+      const now = a.currentTime;
       if (type === 'jump') {
-        osc.frequency.setValueAtTime(280, aCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(620, aCtx.currentTime + 0.12);
-        gain.gain.setValueAtTime(0.03, aCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, aCtx.currentTime + 0.13);
-        osc.start();
-        osc.stop(aCtx.currentTime + 0.14);
-      } else if (type === 'coin') {
-        osc.frequency.setValueAtTime(987.77, aCtx.currentTime);
-        osc.frequency.setValueAtTime(1318.51, aCtx.currentTime + 0.06);
-        gain.gain.setValueAtTime(0.03, aCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, aCtx.currentTime + 0.18);
-        osc.start();
-        osc.stop(aCtx.currentTime + 0.19);
+        o.frequency.setValueAtTime(260, now);
+        o.frequency.exponentialRampToValueAtTime(600, now + 0.12);
+      } else if (type === 'shoot') {
+        o.frequency.setValueAtTime(750, now);
+        o.frequency.exponentialRampToValueAtTime(300, now + 0.08);
+      } else if (type === 'block') {
+        o.frequency.setValueAtTime(520, now);
+        o.frequency.setValueAtTime(780, now + 0.05);
+      } else if (type === 'power') {
+        o.frequency.setValueAtTime(440, now);
+        o.frequency.setValueAtTime(660, now + 0.07);
+        o.frequency.setValueAtTime(880, now + 0.14);
+      } else if (type === 'stomp') {
+        o.frequency.setValueAtTime(380, now);
+        o.frequency.exponentialRampToValueAtTime(140, now + 0.1);
       } else if (type === 'hit') {
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(180, aCtx.currentTime);
-        osc.frequency.linearRampToValueAtTime(65, aCtx.currentTime + 0.3);
-        gain.gain.setValueAtTime(0.04, aCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, aCtx.currentTime + 0.31);
-        osc.start();
-        osc.stop(aCtx.currentTime + 0.32);
+        o.frequency.setValueAtTime(170, now);
+        o.frequency.linearRampToValueAtTime(60, now + 0.28);
+      } else if (type === 'win') {
+        o.frequency.setValueAtTime(523, now);
+        o.frequency.setValueAtTime(659, now + 0.1);
+        o.frequency.setValueAtTime(784, now + 0.2);
+        o.frequency.setValueAtTime(1046, now + 0.3);
       }
-      osc.connect(gain);
-      gain.connect(aCtx.destination);
+      g.gain.setValueAtTime(0.03, now);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
+      o.connect(g);
+      g.connect(a.destination);
+      o.start();
+      o.stop(now + 0.33);
     } catch (e) {}
   }
 
-  function getNeonColor() {
+  function getNeon() {
     const isAmber = document.getElementById('centerDeckCard')?.classList.contains('is-amber');
     return isAmber ? '#ffb000' : '#00ff66';
   }
 
-  function resetGame() {
-    score = 0;
-    coins = 0;
-    speed = 4.2;
-    frame = 0;
-    gameOver = false;
-    running = true;
-    player.y = groundY - player.h;
-    player.vy = 0;
-    player.jumps = 0;
-    obstacles = [];
-    coinItems = [];
-    updateHud();
-    cancelAnimationFrame(animId);
-    loop();
+  function spawnText(x, y, txt) {
+    particles.push({ x, y, vy: -1.2, life: 48, text: txt });
   }
 
-  function jump() {
-    if (modal.style.display !== 'block') return;
-    if (gameOver) {
-      resetGame();
-      return;
-    }
-    if (player.jumps < 2) {
-      player.vy = -10.2;
-      player.jumps++;
-      playTone('jump');
-    }
+  function buildWorld() {
+    cameraX = 0;
+    frame = 0;
+    score = 0;
+    state = 'play';
+    hero.x = 60;
+    hero.y = GROUND_Y - hero.h;
+    hero.vx = 0;
+    hero.vy = 0;
+    hero.facing = 1;
+    hero.hp = 3;
+    hero.shield = false;
+    hero.caffeine = 0;
+    hero.invuln = 0;
+    bullets = [];
+    particles = [];
+
+    // Memory Leak Çukurları
+    pits = [
+      { x: 430, w: 85 },
+      { x: 1020, w: 100 },
+      { x: 1620, w: 110 }
+    ];
+
+    // Docker Konteyner Platformları & Borular
+    platforms = [
+      { x: 240, y: 215, w: 90, h: 16, label: 'DOCKER' },
+      { x: 420, y: 195, w: 105, h: 16, label: 'REDIS' },
+      { x: 640, y: 225, w: 40, h: 45, label: 'PIPE' },
+      { x: 780, y: 185, w: 110, h: 16, label: 'FASTAPI' },
+      { x: 1010, y: 190, w: 115, h: 16, label: 'K8S_POD' },
+      { x: 1250, y: 215, w: 42, h: 55, label: 'PIPE' },
+      { x: 1410, y: 175, w: 120, h: 16, label: 'NGINX' },
+      { x: 1610, y: 185, w: 125, h: 16, label: 'WAF_NODE' }
+    ];
+
+    // Gizli [?] Commit & Power-Up Blokları
+    qBlocks = [
+      { x: 270, y: 145, w: 26, h: 26, hit: false, reward: 'coffee' },
+      { x: 560, y: 185, w: 26, h: 26, hit: false, reward: 'coin' },
+      { x: 820, y: 115, w: 26, h: 26, hit: false, reward: 'shield' },
+      { x: 1180, y: 180, w: 26, h: 26, hit: false, reward: 'coin' },
+      { x: 1455, y: 105, w: 26, h: 26, hit: false, reward: 'coffee' },
+      { x: 1820, y: 185, w: 26, h: 26, hit: false, reward: 'shield' }
+    ];
+
+    // Düşmanlar (BUG & 502 DRONE)
+    enemies = [
+      { x: 340, y: GROUND_Y - 22, w: 24, h: 22, vx: -1.2, minX: 220, maxX: 410, type: 'BUG', alive: true },
+      { x: 720, y: GROUND_Y - 22, w: 24, h: 22, vx: -1.5, minX: 690, maxX: 980, type: 'BUG', alive: true },
+      { x: 900, y: 130, w: 28, h: 18, vx: -1.8, minX: 760, maxX: 1000, type: '502', alive: true },
+      { x: 1340, y: GROUND_Y - 22, w: 24, h: 22, vx: -1.6, minX: 1300, maxX: 1590, type: 'BUG', alive: true },
+      { x: 1520, y: 120, w: 28, h: 18, vx: -2.0, minX: 1400, maxX: 1720, type: '502', alive: true },
+      { x: 1880, y: GROUND_Y - 22, w: 24, h: 22, vx: -1.8, minX: 1750, maxX: 2020, type: 'BUG', alive: true }
+    ];
+
+    // Bölüm Sonu Boss: PROD_CRASH 500
+    boss = {
+      x: 2150, y: GROUND_Y - 56, w: 54, h: 56,
+      vx: -1.6, minX: 2040, maxX: 2310,
+      hp: 5, maxHp: 5, alive: true, flash: 0
+    };
+
+    updateHud();
   }
 
   function updateHud() {
-    if (scoreEl) scoreEl.textContent = 'SKOR: ' + Math.floor(score);
-    if (coinsEl) coinsEl.textContent = 'ALTIN: ' + coins;
-    if (highEl) highEl.textContent = 'REKOR: ' + Math.floor(highScore);
+    if (hpEl) {
+      const hearts = '♥'.repeat(Math.max(0, hero.hp)) + '♡'.repeat(Math.max(0, 3 - hero.hp));
+      hpEl.textContent = 'CAN: ' + hearts + (hero.shield ? ' [🛡️WAF]' : '');
+    }
+    if (powerEl) {
+      powerEl.textContent = hero.caffeine > 0 ? 'DURUM: ☕ CAFFEINE BOOST!' : 'DURUM: NORMAL';
+    }
+    if (scoreEl) scoreEl.textContent = 'COMMIT SKOR: ' + score;
+    if (progEl) {
+      const pct = Math.min(100, Math.max(0, Math.round((hero.x / LEVEL_END) * 100)));
+      progEl.textContent = 'DEPLOY: %' + pct;
+    }
   }
 
-  function drawPixelHero(col) {
-    ctx.fillStyle = col;
-    ctx.fillRect(player.x + 2, player.y, 18, 5);
-    ctx.fillRect(player.x + 4, player.y + 5, 14, 8);
-    ctx.fillStyle = '#020804';
-    ctx.fillRect(player.x + 13, player.y + 7, 3, 3);
-    ctx.fillStyle = col;
-    ctx.fillRect(player.x + 3, player.y + 13, 16, 9);
-    const stepOffset = (player.y < groundY - player.h) ? 2 : (Math.floor(frame / 6) % 2 === 0 ? 0 : 4);
-    ctx.fillRect(player.x + 3 + stepOffset, player.y + 22, 5, 6);
-    ctx.fillRect(player.x + 13 - stepOffset, player.y + 22, 5, 6);
+  function doJump() {
+    if (modal.style.display !== 'block') return;
+    if (state !== 'play') {
+      buildWorld();
+      return;
+    }
+    if (hero.jumps < 2) {
+      hero.vy = hero.caffeine > 0 ? -11.4 : -10.3;
+      hero.onGround = false;
+      hero.jumps++;
+      sfx('jump');
+    }
   }
 
-  function drawPipe(obs, col) {
+  let lastShot = 0;
+  function doShoot() {
+    if (modal.style.display !== 'block' || state !== 'play') return;
+    const now = Date.now();
+    const cooldown = hero.caffeine > 0 ? 140 : 320;
+    if (now - lastShot < cooldown) return;
+    lastShot = now;
+    bullets.push({
+      x: hero.facing === 1 ? hero.x + hero.w : hero.x - 12,
+      y: hero.y + 11,
+      w: 14, h: 6,
+      vx: hero.facing * 8.5
+    });
+    sfx('shoot');
+  }
+
+  function damageHero() {
+    if (hero.invuln > 0) return;
+    if (hero.shield) {
+      hero.shield = false;
+      hero.invuln = 65;
+      sfx('block');
+      spawnText(hero.x, hero.y - 10, 'WAF ENGELLENDİ!');
+      updateHud();
+      return;
+    }
+    hero.hp--;
+    hero.invuln = 75;
+    sfx('hit');
+    spawnText(hero.x, hero.y - 10, '-1 CAN (RUNTIME ERR)');
+    updateHud();
+    if (hero.hp <= 0) {
+      state = 'gameover';
+    }
+  }
+
+  function isOverPit(x, w) {
+    return pits.some(p => (x + 5) > p.x && (x + w - 5) < (p.x + p.w));
+  }
+
+  function update() {
+    if (state !== 'play') return;
+    frame++;
+    if (hero.invuln > 0) hero.invuln--;
+    if (hero.caffeine > 0) {
+      hero.caffeine--;
+      if (hero.caffeine === 0) updateHud();
+    }
+
+    // Yatay hareket
+    const moveSpeed = hero.caffeine > 0 ? 4.8 : 3.6;
+    if (keys.left) {
+      hero.vx = -moveSpeed;
+      hero.facing = -1;
+    } else if (keys.right) {
+      hero.vx = moveSpeed;
+      hero.facing = 1;
+    } else {
+      hero.vx *= 0.75;
+      if (Math.abs(hero.vx) < 0.2) hero.vx = 0;
+    }
+
+    hero.x += hero.vx;
+    if (hero.x < 10) hero.x = 10;
+
+    // Dikey fizik & Yerçekimi
+    const prevY = hero.y;
+    hero.vy += 0.52;
+    hero.y += hero.vy;
+    hero.onGround = false;
+
+    // Platform & Boru çarpışmaları (Üstten iniş)
+    platforms.forEach(pl => {
+      if (
+        hero.vy >= 0 &&
+        prevY + hero.h <= pl.y + 8 &&
+        hero.y + hero.h >= pl.y &&
+        hero.x + hero.w - 3 > pl.x &&
+        hero.x + 3 < pl.x + pl.w
+      ) {
+        hero.y = pl.y - hero.h;
+        hero.vy = 0;
+        hero.onGround = true;
+        hero.jumps = 0;
+      }
+    });
+
+    // [?] Blokları çarpışmaları (Hem üstten basma hem alttan kafa atma)
+    qBlocks.forEach(qb => {
+      // Alttan kafa atma
+      if (
+        hero.vy < 0 &&
+        prevY >= qb.y + qb.h - 6 &&
+        hero.y <= qb.y + qb.h &&
+        hero.x + hero.w - 3 > qb.x &&
+        hero.x + 3 < qb.x + qb.w
+      ) {
+        hero.y = qb.y + qb.h;
+        hero.vy = 1.5;
+        if (!qb.hit) {
+          qb.hit = true;
+          if (qb.reward === 'coffee') {
+            hero.caffeine = 420;
+            score += 150;
+            sfx('power');
+            spawnText(qb.x - 10, qb.y - 12, '☕ CAFFEINE BOOST!');
+          } else if (qb.reward === 'shield') {
+            hero.shield = true;
+            score += 150;
+            sfx('power');
+            spawnText(qb.x - 10, qb.y - 12, '🛡️ WAF SHIELD!');
+          } else {
+            score += 200;
+            sfx('block');
+            spawnText(qb.x, qb.y - 12, '+200 COMMIT!');
+          }
+          updateHud();
+        }
+      }
+      // Üstten durma
+      if (
+        hero.vy >= 0 &&
+        prevY + hero.h <= qb.y + 8 &&
+        hero.y + hero.h >= qb.y &&
+        hero.x + hero.w - 3 > qb.x &&
+        hero.x + 3 < qb.x + qb.w
+      ) {
+        hero.y = qb.y - hero.h;
+        hero.vy = 0;
+        hero.onGround = true;
+        hero.jumps = 0;
+      }
+    });
+
+    // Zemin ve Memory Leak Çukuru kontrolü
+    if (hero.y >= GROUND_Y - hero.h && !isOverPit(hero.x, hero.w)) {
+      hero.y = GROUND_Y - hero.h;
+      hero.vy = 0;
+      hero.onGround = true;
+      hero.jumps = 0;
+    } else if (hero.y > canvas.height + 20) {
+      // Çukura düştü
+      hero.hp--;
+      updateHud();
+      sfx('hit');
+      if (hero.hp <= 0) {
+        state = 'gameover';
+      } else {
+        hero.x = Math.max(40, hero.x - 130);
+        hero.y = 80;
+        hero.vy = 0;
+        hero.invuln = 60;
+        spawnText(hero.x, 60, 'MEMORY LEAK! KURTARILDI');
+      }
+    }
+
+    // HOTFIX Mermileri
+    bullets.forEach(b => { b.x += b.vx; });
+    bullets = bullets.filter(b => Math.abs(b.x - hero.x) < 520);
+
+    // Düşman Hareketleri & Çarpışma
+    enemies.forEach(en => {
+      if (!en.alive) return;
+      en.x += en.vx;
+      if (en.x < en.minX || en.x + en.w > en.maxX) en.vx *= -1;
+
+      // Mermi isabeti
+      bullets.forEach(b => {
+        if (b.x < en.x + en.w && b.x + b.w > en.x && b.y < en.y + en.h && b.y + b.h > en.y) {
+          en.alive = false;
+          b.x = 99999;
+          score += 100;
+          sfx('stomp');
+          spawnText(en.x, en.y - 8, 'PATCHED +100');
+          updateHud();
+        }
+      });
+
+      if (!en.alive) return;
+
+      // Kahraman çarpışması
+      if (hero.x < en.x + en.w && hero.x + hero.w > en.x && hero.y < en.y + en.h && hero.y + hero.h > en.y) {
+        // Üzerine zıpladıysa ez
+        if (hero.vy > 0 && prevY + hero.h <= en.y + 12) {
+          en.alive = false;
+          hero.vy = -7.5;
+          score += 120;
+          sfx('stomp');
+          spawnText(en.x, en.y - 8, 'BUG FIXED +120');
+          updateHud();
+        } else {
+          damageHero();
+        }
+      }
+    });
+
+    // BOSS (PROD_SERVER_CRASH) Mantığı
+    if (boss && boss.alive) {
+      if (boss.flash > 0) boss.flash--;
+      boss.x += boss.vx;
+      if (boss.x < boss.minX || boss.x + boss.w > boss.maxX) boss.vx *= -1;
+
+      bullets.forEach(b => {
+        if (b.x < boss.x + boss.w && b.x + b.w > boss.x && b.y < boss.y + boss.h && b.y + b.h > boss.y) {
+          b.x = 99999;
+          boss.hp--;
+          boss.flash = 10;
+          sfx('stomp');
+          spawnText(boss.x + 10, boss.y - 10, 'HOTFIX HIT!');
+          if (boss.hp <= 0) {
+            boss.alive = false;
+            score += 1000;
+            sfx('win');
+            spawnText(boss.x, boss.y - 20, 'SERVER STABILIZED +1000!');
+            updateHud();
+          }
+        }
+      });
+
+      if (boss.alive && hero.x < boss.x + boss.w && hero.x + hero.w > boss.x && hero.y < boss.y + boss.h && hero.y + hero.h > boss.y) {
+        if (hero.vy > 0 && prevY + hero.h <= boss.y + 14) {
+          hero.vy = -8.5;
+          boss.hp--;
+          boss.flash = 10;
+          sfx('stomp');
+          if (boss.hp <= 0) {
+            boss.alive = false;
+            score += 1000;
+            sfx('win');
+            updateHud();
+          }
+        } else {
+          damageHero();
+        }
+      }
+    }
+
+    // Bölüm Sonu Deploy Bayrağına Ulaşma
+    if (hero.x >= LEVEL_END && (!boss || !boss.alive)) {
+      state = 'win';
+      score += 500;
+      sfx('win');
+      updateHud();
+    }
+
+    // Parçacıklar
+    particles.forEach(p => { p.y += p.vy; p.life--; });
+    particles = particles.filter(p => p.life > 0);
+
+    // Kamera takibi
+    cameraX = Math.max(0, Math.min(LEVEL_END - 450, hero.x - 210));
+    if (frame % 15 === 0) updateHud();
+  }
+
+  function draw() {
+    const col = getNeon();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.save();
+    ctx.translate(-cameraX, 0);
+
+    // Arka plan uzak sunucu kuleleri (Parallax)
+    ctx.strokeStyle = col;
+    ctx.globalAlpha = 0.14;
+    for (let sx = 80; sx < LEVEL_END + 300; sx += 260) {
+      ctx.strokeRect(sx, 75, 48, 195);
+      ctx.strokeRect(sx + 10, 95, 28, 10);
+      ctx.strokeRect(sx + 10, 118, 28, 10);
+    }
+    ctx.globalAlpha = 1;
+
+    // Zemin çizimi (Çukurlar hariç)
     ctx.strokeStyle = col;
     ctx.lineWidth = 2;
-    ctx.strokeRect(obs.x + 3, obs.y + 10, obs.w - 6, obs.h - 10);
-    ctx.fillStyle = 'rgba(0, 255, 102, 0.15)';
-    ctx.fillRect(obs.x, obs.y, obs.w, 10);
-    ctx.strokeRect(obs.x, obs.y, obs.w, 10);
+    for (let gx = 0; gx < LEVEL_END + 300; gx += 24) {
+      if (isOverPit(gx, 12)) {
+        // Memory Leak uyarı çizgisi
+        ctx.fillStyle = '#ff2a55';
+        ctx.fillRect(gx, GROUND_Y + 18, 20, 12);
+        continue;
+      }
+      ctx.strokeRect(gx, GROUND_Y, 22, 14);
+      ctx.strokeRect(gx + 6, GROUND_Y + 14, 22, 14);
+    }
+
+    // Platformlar & Borular
+    platforms.forEach(pl => {
+      ctx.strokeStyle = col;
+      ctx.fillStyle = 'rgba(0, 255, 102, 0.1)';
+      ctx.fillRect(pl.x, pl.y, pl.w, pl.h);
+      ctx.strokeRect(pl.x, pl.y, pl.w, pl.h);
+      ctx.fillStyle = col;
+      ctx.font = '10px Courier New';
+      if (pl.label !== 'PIPE') ctx.fillText(pl.label, pl.x + 8, pl.y + 11);
+    });
+
+    // [?] Gizli Bloklar
+    qBlocks.forEach(qb => {
+      ctx.strokeStyle = col;
+      ctx.fillStyle = qb.hit ? 'rgba(255,255,255,0.05)' : 'rgba(0, 255, 102, 0.2)';
+      ctx.fillRect(qb.x, qb.y, qb.w, qb.h);
+      ctx.strokeRect(qb.x, qb.y, qb.w, qb.h);
+      ctx.fillStyle = col;
+      ctx.font = 'bold 14px Courier New';
+      ctx.fillText(qb.hit ? '-' : '?', qb.x + 9, qb.y + 18);
+    });
+
+    // Düşmanlar
+    enemies.forEach(en => {
+      if (!en.alive) return;
+      ctx.strokeStyle = '#ff2a55';
+      ctx.fillStyle = 'rgba(255, 42, 85, 0.2)';
+      ctx.fillRect(en.x, en.y, en.w, en.h);
+      ctx.strokeRect(en.x, en.y, en.w, en.h);
+      ctx.fillStyle = '#ff2a55';
+      ctx.font = 'bold 9px Courier New';
+      ctx.fillText(en.type, en.x + 3, en.y + 13);
+    });
+
+    // BOSS Çizimi
+    if (boss && boss.alive) {
+      ctx.strokeStyle = boss.flash > 0 ? '#ffffff' : '#ff2a55';
+      ctx.fillStyle = 'rgba(255, 42, 85, 0.22)';
+      ctx.fillRect(boss.x, boss.y, boss.w, boss.h);
+      ctx.strokeRect(boss.x, boss.y, boss.w, boss.h);
+      ctx.fillStyle = '#ff2a55';
+      ctx.font = 'bold 10px Courier New';
+      ctx.fillText('500 ERR', boss.x + 5, boss.y + 24);
+      ctx.fillText('HP:' + boss.hp + '/' + boss.maxHp, boss.x + 7, boss.y + 40);
+    }
+
+    // Bölüm Sonu Deploy Bayrağı
+    ctx.strokeStyle = col;
+    ctx.beginPath();
+    ctx.moveTo(LEVEL_END, GROUND_Y);
+    ctx.lineTo(LEVEL_END, 110);
+    ctx.stroke();
+    ctx.fillStyle = (!boss || !boss.alive) ? col : 'rgba(255,255,255,0.2)';
+    ctx.fillRect(LEVEL_END, 112, 68, 24);
+    ctx.fillStyle = '#020804';
+    ctx.font = 'bold 11px Courier New';
+    ctx.fillText('PROD_LIVE', LEVEL_END + 4, 128);
+
+    // HOTFIX Mermileri
+    bullets.forEach(b => {
+      ctx.fillStyle = col;
+      ctx.fillRect(b.x, b.y, b.w, b.h);
+    });
+
+    // Kahraman (Yavuz) Çizimi
+    if (hero.invuln % 6 < 3) {
+      ctx.fillStyle = col;
+      // Şapka
+      ctx.fillRect(hero.x + 2, hero.y, 18, 5);
+      // Kafa
+      ctx.fillRect(hero.x + 4, hero.y + 5, 14, 9);
+      ctx.fillStyle = '#020804';
+      const eyeX = hero.facing === 1 ? hero.x + 13 : hero.x + 6;
+      ctx.fillRect(eyeX, hero.y + 7, 3, 3);
+      // Gövde
+      ctx.fillStyle = col;
+      ctx.fillRect(hero.x + 3, hero.y + 14, 16, 10);
+      // Bacaklar
+      const legAnim = Math.abs(hero.vx) > 0.3 ? (Math.floor(frame / 5) % 2 === 0 ? 0 : 4) : 1;
+      ctx.fillRect(hero.x + 3 + legAnim, hero.y + 24, 5, 6);
+      ctx.fillRect(hero.x + 13 - legAnim, hero.y + 24, 5, 6);
+
+      // WAF Kalkan Halkası
+      if (hero.shield) {
+        ctx.strokeStyle = col;
+        ctx.strokeRect(hero.x - 4, hero.y - 4, hero.w + 8, hero.h + 8);
+      }
+    }
+
+    // Uçuşan Skor / Bilgilendirme Yazıları
+    particles.forEach(p => {
+      ctx.fillStyle = col;
+      ctx.font = 'bold 11px Courier New';
+      ctx.fillText(p.text, p.x, p.y);
+    });
+
+    ctx.restore();
+
+    // Oyun Sonu veya Zafer Ekranı
+    if (state === 'gameover' || state === 'win') {
+      ctx.fillStyle = 'rgba(2, 8, 4, 0.86)';
+      ctx.fillRect(150, 90, 420, 120);
+      ctx.strokeStyle = state === 'win' ? col : '#ff2a55';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(150, 90, 420, 120);
+
+      ctx.fillStyle = state === 'win' ? col : '#ff2a55';
+      ctx.font = 'bold 18px Courier New';
+      ctx.fillText(
+        state === 'win' ? '🚀 PRODUCTION DEPLOY BAŞARILI!' : '💥 FATAL ERROR // SİSTEM ÇÖKTÜ!',
+        185, 132
+      );
+      ctx.fillStyle = col;
+      ctx.font = '13px Courier New';
+      ctx.fillText('Toplam Commit Skoru: ' + score + ' | Yeniden denemek için [BOŞLUK]', 175, 168);
+    }
   }
 
   function loop() {
     if (!running) return;
-    const col = getNeonColor();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.strokeStyle = col;
-    ctx.globalAlpha = 0.25;
-    clouds.forEach(c => {
-      c.x -= speed * 0.25;
-      if (c.x < -50) c.x = canvas.width + 40;
-      ctx.strokeRect(c.x, c.y, 38, 12);
-      ctx.strokeRect(c.x + 8, c.y - 6, 22, 6);
-    });
-    ctx.globalAlpha = 1;
-
-    ctx.strokeStyle = col;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(0, groundY);
-    ctx.lineTo(canvas.width, groundY);
-    ctx.stroke();
-
-    for (let gx = -(frame * speed) % 24; gx < canvas.width; gx += 24) {
-      ctx.strokeRect(gx, groundY + 4, 20, 10);
-    }
-
-    if (!gameOver) {
-      frame++;
-      score += 0.15;
-      speed = 4.2 + Math.min(4.5, score / 250);
-
-      player.vy += 0.56;
-      player.y += player.vy;
-      if (player.y >= groundY - player.h) {
-        player.y = groundY - player.h;
-        player.vy = 0;
-        player.jumps = 0;
-      }
-
-      if (frame % Math.max(58, Math.floor(105 - speed * 5)) === 0) {
-        const pipeH = 26 + Math.floor(Math.random() * 24);
-        obstacles.push({ x: canvas.width + 10, y: groundY - pipeH, w: 26, h: pipeH });
-        if (Math.random() > 0.35) {
-          coinItems.push({ x: canvas.width + 16, y: groundY - pipeH - 36, r: 7, taken: false });
-        }
-      }
-
-      obstacles.forEach(obs => {
-        obs.x -= speed;
-        if (
-          player.x + 4 < obs.x + obs.w - 3 &&
-          player.x + player.w - 4 > obs.x + 3 &&
-          player.y + player.h > obs.y + 3
-        ) {
-          gameOver = true;
-          playTone('hit');
-          if (score > highScore) {
-            highScore = Math.floor(score);
-            localStorage.setItem('super_yavuz_high', String(highScore));
-          }
-        }
-      });
-      obstacles = obstacles.filter(o => o.x + o.w > -20);
-
-      coinItems.forEach(c => {
-        c.x -= speed;
-        if (!c.taken && Math.abs((player.x + 11) - c.x) < 18 && Math.abs((player.y + 14) - c.y) < 20) {
-          c.taken = true;
-          coins++;
-          score += 50;
-          playTone('coin');
-        }
-      });
-      coinItems = coinItems.filter(c => !c.taken && c.x > -20);
-      updateHud();
-    }
-
-    obstacles.forEach(obs => drawPipe(obs, col));
-
-    coinItems.forEach(c => {
-      ctx.strokeStyle = col;
-      ctx.fillStyle = col;
-      const pulse = Math.abs(Math.sin(frame * 0.12)) * 4 + 3;
-      ctx.strokeRect(c.x - pulse, c.y - 7, pulse * 2, 14);
-      ctx.fillText('$', c.x - 3, c.y + 4);
-    });
-
-    drawPixelHero(col);
-
-    if (gameOver) {
-      ctx.fillStyle = 'rgba(2, 8, 4, 0.82)';
-      ctx.fillRect(85, 55, 330, 85);
-      ctx.strokeStyle = col;
-      ctx.strokeRect(85, 55, 330, 85);
-      ctx.fillStyle = col;
-      ctx.font = 'bold 16px Courier New';
-      ctx.fillText('GAME OVER // BORUYA ÇARPTIN!', 112, 88);
-      ctx.font = '12px Courier New';
-      ctx.fillText('Tekrar oynamak için [BOŞLUK] veya Tıkla', 115, 116);
-    }
-
+    update();
+    draw();
     animId = requestAnimationFrame(loop);
   }
 
   btnOpen.addEventListener('click', () => {
     modal.style.display = 'block';
-    resetGame();
+    running = true;
+    buildWorld();
+    cancelAnimationFrame(animId);
+    loop();
   });
 
   if (btnClose) {
@@ -2138,19 +2531,47 @@ document.querySelectorAll('button').forEach(b => {
     });
   }
 
-  if (btnRestart) btnRestart.addEventListener('click', resetGame);
-  canvas.addEventListener('mousedown', jump);
-  canvas.addEventListener('touchstart', (e) => { e.preventDefault(); jump(); }, { passive: false });
+  if (btnRestart) btnRestart.addEventListener('click', buildWorld);
+
+  // Klavye Kontrolleri
   window.addEventListener('keydown', (e) => {
-    if ((e.code === 'Space' || e.code === 'ArrowUp') && modal.style.display === 'block') {
+    if (modal.style.display !== 'block') return;
+    if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+    if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+    if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') {
       e.preventDefault();
-      jump();
+      doJump();
+    }
+    if (e.code === 'KeyF' || e.code === 'Enter') {
+      e.preventDefault();
+      doShoot();
     }
   });
+
+  window.addEventListener('keyup', (e) => {
+    if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+    if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+  });
+
+  // Dokunmatik / Mouse Buton Kontrolleri
+  function bindHold(id, prop) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('mousedown', () => { keys[prop] = true; });
+    el.addEventListener('mouseup', () => { keys[prop] = false; });
+    el.addEventListener('mouseleave', () => { keys[prop] = false; });
+    el.addEventListener('touchstart', (e) => { e.preventDefault(); keys[prop] = true; }, { passive: false });
+    el.addEventListener('touchend', () => { keys[prop] = false; });
+  }
+  bindHold('padLeft', 'left');
+  bindHold('padRight', 'right');
+  document.getElementById('padJump')?.addEventListener('click', doJump);
+  document.getElementById('padFire')?.addEventListener('click', doShoot);
 })();
 </script>
 </body>
 </html>
+
 
 
 
