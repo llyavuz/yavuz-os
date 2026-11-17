@@ -519,6 +519,57 @@ body.under-attack .sticky-wall-widget {
   opacity: 1;
   background: rgba(0, 255, 102, 0.15);
 }
+
+/* === SUPER_YAVUZ.EXE RETRO PLATFORMER === */
+#marioModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(540px, 94vw);
+  background: rgba(3, 10, 6, 0.96);
+  border: 2px solid #00ff66;
+  box-shadow: 0 0 30px rgba(0, 255, 102, 0.3);
+  color: #00ff66;
+  font-family: 'Courier New', Courier, monospace;
+  z-index: 1000;
+  display: none;
+  padding: 14px;
+  user-select: none;
+}
+#centerDeckCard.is-amber ~ #marioModal,
+body.theme-amber #marioModal {
+  color: #ffb000 !important;
+  border-color: #ffb000 !important;
+  box-shadow: 0 0 30px rgba(255, 176, 0, 0.3) !important;
+}
+.mario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 13px;
+}
+.mario-hud {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 8px;
+  padding: 5px 8px;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, 0.04);
+}
+#marioCanvas {
+  width: 100%;
+  height: 220px;
+  display: block;
+  border: 1px solid currentColor;
+  background: #020804;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -949,6 +1000,7 @@ body.under-attack .sticky-wall-widget {
     <button type="button" class="deck-btn" id="btnScanVisitor">[🔍 SİSTEMİ TARA]</button>
     <button type="button" class="deck-btn" id="btnSimulateAttack">[⚡ SALDIRI TESTİ]</button>
     <button type="button" class="deck-btn" id="btnMatrixRain">[🌀 MATRIX]</button>
+    <button type="button" class="deck-btn" id="btnOpenMario">[🍄 SUPER_YAVUZ.exe]</button>
   </div>
   
   <div class="ai-ask-box">
@@ -1005,6 +1057,24 @@ body.under-attack .sticky-wall-widget {
 </aside>
 
 <div class="achievement-toast" id="achToast" role="status" aria-live="polite"></div>
+
+<!-- SUPER_YAVUZ.EXE PLATFORM OYUNU -->
+<div id="marioModal" role="dialog" aria-label="Super Yavuz Platform Oyunu">
+  <div class="mario-header">
+    <span>SUPER_YAVUZ.EXE // RETRO RUNNER</span>
+    <button type="button" class="deck-btn" id="btnCloseMario">[X]</button>
+  </div>
+  <div class="mario-hud">
+    <span id="marioScore">SKOR: 0</span>
+    <span id="marioCoins">ALTIN: 0</span>
+    <span id="marioHigh">REKOR: 0</span>
+  </div>
+  <canvas id="marioCanvas" width="500" height="220"></canvas>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11px;">
+    <span>Kontrol: [BOŞLUK / ↑ / DOKUN] (Çift Zıplama Aktif!)</span>
+    <button type="button" class="deck-btn" id="btnRestartMario">[YENİDEN BAŞLA]</button>
+  </div>
+</div>
 <div class="taskbar">
         <div style="display:flex; gap:4px; align-items:center; overflow-x:auto;">
             <button class="start-btn" data-open="win-terminal">
@@ -1824,9 +1894,264 @@ document.querySelectorAll('button').forEach(b => {
     }
   }, true);
 })();
+
+/* === SUPER_YAVUZ.EXE ENGINE (ZERO-XSS) === */
+(function initSuperYavuz() {
+  const modal = document.getElementById('marioModal');
+  const btnOpen = document.getElementById('btnOpenMario');
+  const btnClose = document.getElementById('btnCloseMario');
+  const btnRestart = document.getElementById('btnRestartMario');
+  const canvas = document.getElementById('marioCanvas');
+  const scoreEl = document.getElementById('marioScore');
+  const coinsEl = document.getElementById('marioCoins');
+  const highEl = document.getElementById('marioHigh');
+
+  if (!modal || !btnOpen || !canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let animId = null;
+  let running = false;
+  let gameOver = false;
+  let score = 0;
+  let coins = 0;
+  let highScore = Number(localStorage.getItem('super_yavuz_high') || 0);
+  let speed = 4.2;
+  let frame = 0;
+
+  const groundY = 185;
+  const player = { x: 55, y: groundY - 28, w: 22, h: 28, vy: 0, jumps: 0 };
+  let obstacles = [];
+  let coinItems = [];
+  let clouds = [{ x: 100, y: 35 }, { x: 280, y: 55 }, { x: 430, y: 28 }];
+
+  function playTone(type) {
+    try {
+      const aCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = aCtx.createOscillator();
+      const gain = aCtx.createGain();
+      osc.type = 'square';
+      if (type === 'jump') {
+        osc.frequency.setValueAtTime(280, aCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(620, aCtx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.03, aCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, aCtx.currentTime + 0.13);
+        osc.start();
+        osc.stop(aCtx.currentTime + 0.14);
+      } else if (type === 'coin') {
+        osc.frequency.setValueAtTime(987.77, aCtx.currentTime);
+        osc.frequency.setValueAtTime(1318.51, aCtx.currentTime + 0.06);
+        gain.gain.setValueAtTime(0.03, aCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, aCtx.currentTime + 0.18);
+        osc.start();
+        osc.stop(aCtx.currentTime + 0.19);
+      } else if (type === 'hit') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, aCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(65, aCtx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.04, aCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, aCtx.currentTime + 0.31);
+        osc.start();
+        osc.stop(aCtx.currentTime + 0.32);
+      }
+      osc.connect(gain);
+      gain.connect(aCtx.destination);
+    } catch (e) {}
+  }
+
+  function getNeonColor() {
+    const isAmber = document.getElementById('centerDeckCard')?.classList.contains('is-amber');
+    return isAmber ? '#ffb000' : '#00ff66';
+  }
+
+  function resetGame() {
+    score = 0;
+    coins = 0;
+    speed = 4.2;
+    frame = 0;
+    gameOver = false;
+    running = true;
+    player.y = groundY - player.h;
+    player.vy = 0;
+    player.jumps = 0;
+    obstacles = [];
+    coinItems = [];
+    updateHud();
+    cancelAnimationFrame(animId);
+    loop();
+  }
+
+  function jump() {
+    if (modal.style.display !== 'block') return;
+    if (gameOver) {
+      resetGame();
+      return;
+    }
+    if (player.jumps < 2) {
+      player.vy = -10.2;
+      player.jumps++;
+      playTone('jump');
+    }
+  }
+
+  function updateHud() {
+    if (scoreEl) scoreEl.textContent = 'SKOR: ' + Math.floor(score);
+    if (coinsEl) coinsEl.textContent = 'ALTIN: ' + coins;
+    if (highEl) highEl.textContent = 'REKOR: ' + Math.floor(highScore);
+  }
+
+  function drawPixelHero(col) {
+    ctx.fillStyle = col;
+    ctx.fillRect(player.x + 2, player.y, 18, 5);
+    ctx.fillRect(player.x + 4, player.y + 5, 14, 8);
+    ctx.fillStyle = '#020804';
+    ctx.fillRect(player.x + 13, player.y + 7, 3, 3);
+    ctx.fillStyle = col;
+    ctx.fillRect(player.x + 3, player.y + 13, 16, 9);
+    const stepOffset = (player.y < groundY - player.h) ? 2 : (Math.floor(frame / 6) % 2 === 0 ? 0 : 4);
+    ctx.fillRect(player.x + 3 + stepOffset, player.y + 22, 5, 6);
+    ctx.fillRect(player.x + 13 - stepOffset, player.y + 22, 5, 6);
+  }
+
+  function drawPipe(obs, col) {
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(obs.x + 3, obs.y + 10, obs.w - 6, obs.h - 10);
+    ctx.fillStyle = 'rgba(0, 255, 102, 0.15)';
+    ctx.fillRect(obs.x, obs.y, obs.w, 10);
+    ctx.strokeRect(obs.x, obs.y, obs.w, 10);
+  }
+
+  function loop() {
+    if (!running) return;
+    const col = getNeonColor();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = col;
+    ctx.globalAlpha = 0.25;
+    clouds.forEach(c => {
+      c.x -= speed * 0.25;
+      if (c.x < -50) c.x = canvas.width + 40;
+      ctx.strokeRect(c.x, c.y, 38, 12);
+      ctx.strokeRect(c.x + 8, c.y - 6, 22, 6);
+    });
+    ctx.globalAlpha = 1;
+
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, groundY);
+    ctx.lineTo(canvas.width, groundY);
+    ctx.stroke();
+
+    for (let gx = -(frame * speed) % 24; gx < canvas.width; gx += 24) {
+      ctx.strokeRect(gx, groundY + 4, 20, 10);
+    }
+
+    if (!gameOver) {
+      frame++;
+      score += 0.15;
+      speed = 4.2 + Math.min(4.5, score / 250);
+
+      player.vy += 0.56;
+      player.y += player.vy;
+      if (player.y >= groundY - player.h) {
+        player.y = groundY - player.h;
+        player.vy = 0;
+        player.jumps = 0;
+      }
+
+      if (frame % Math.max(58, Math.floor(105 - speed * 5)) === 0) {
+        const pipeH = 26 + Math.floor(Math.random() * 24);
+        obstacles.push({ x: canvas.width + 10, y: groundY - pipeH, w: 26, h: pipeH });
+        if (Math.random() > 0.35) {
+          coinItems.push({ x: canvas.width + 16, y: groundY - pipeH - 36, r: 7, taken: false });
+        }
+      }
+
+      obstacles.forEach(obs => {
+        obs.x -= speed;
+        if (
+          player.x + 4 < obs.x + obs.w - 3 &&
+          player.x + player.w - 4 > obs.x + 3 &&
+          player.y + player.h > obs.y + 3
+        ) {
+          gameOver = true;
+          playTone('hit');
+          if (score > highScore) {
+            highScore = Math.floor(score);
+            localStorage.setItem('super_yavuz_high', String(highScore));
+          }
+        }
+      });
+      obstacles = obstacles.filter(o => o.x + o.w > -20);
+
+      coinItems.forEach(c => {
+        c.x -= speed;
+        if (!c.taken && Math.abs((player.x + 11) - c.x) < 18 && Math.abs((player.y + 14) - c.y) < 20) {
+          c.taken = true;
+          coins++;
+          score += 50;
+          playTone('coin');
+        }
+      });
+      coinItems = coinItems.filter(c => !c.taken && c.x > -20);
+      updateHud();
+    }
+
+    obstacles.forEach(obs => drawPipe(obs, col));
+
+    coinItems.forEach(c => {
+      ctx.strokeStyle = col;
+      ctx.fillStyle = col;
+      const pulse = Math.abs(Math.sin(frame * 0.12)) * 4 + 3;
+      ctx.strokeRect(c.x - pulse, c.y - 7, pulse * 2, 14);
+      ctx.fillText('$', c.x - 3, c.y + 4);
+    });
+
+    drawPixelHero(col);
+
+    if (gameOver) {
+      ctx.fillStyle = 'rgba(2, 8, 4, 0.82)';
+      ctx.fillRect(85, 55, 330, 85);
+      ctx.strokeStyle = col;
+      ctx.strokeRect(85, 55, 330, 85);
+      ctx.fillStyle = col;
+      ctx.font = 'bold 16px Courier New';
+      ctx.fillText('GAME OVER // BORUYA ÇARPTIN!', 112, 88);
+      ctx.font = '12px Courier New';
+      ctx.fillText('Tekrar oynamak için [BOŞLUK] veya Tıkla', 115, 116);
+    }
+
+    animId = requestAnimationFrame(loop);
+  }
+
+  btnOpen.addEventListener('click', () => {
+    modal.style.display = 'block';
+    resetGame();
+  });
+
+  if (btnClose) {
+    btnClose.addEventListener('click', () => {
+      modal.style.display = 'none';
+      running = false;
+      cancelAnimationFrame(animId);
+    });
+  }
+
+  if (btnRestart) btnRestart.addEventListener('click', resetGame);
+  canvas.addEventListener('mousedown', jump);
+  canvas.addEventListener('touchstart', (e) => { e.preventDefault(); jump(); }, { passive: false });
+  window.addEventListener('keydown', (e) => {
+    if ((e.code === 'Space' || e.code === 'ArrowUp') && modal.style.display === 'block') {
+      e.preventDefault();
+      jump();
+    }
+  });
+})();
 </script>
 </body>
 </html>
+
 
 
 
