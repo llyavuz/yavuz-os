@@ -387,6 +387,97 @@ body.under-attack .sticky-wall-widget {
   75% { transform: translate(-50%, -50%) translate(1px, 2px); }
   100% { transform: translate(-50%, -50%) translate(0px, 0px); }
 }
+
+/* === MOBILE RESPONSIVE FIX (<= 900px) === */
+@media (max-width: 900px) {
+  html, body {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    padding-bottom: 65px !important;
+  }
+  .desktop-icons, #desktop-icons, .icon-grid {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px 4px !important;
+    width: 94vw !important;
+    margin: 14px auto !important;
+    justify-items: center !important;
+  }
+  .desktop-icon {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 0 !important;
+  }
+  .hud-box, .shield-hud, #shield-hud {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    width: 92vw !important;
+    max-width: 92vw !important;
+    margin: 10px auto !important;
+    box-sizing: border-box !important;
+  }
+  #centerDeckCard, .cyber-deck-center {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 92vw !important;
+    max-width: 92vw !important;
+    margin: 12px auto !important;
+    padding: 12px 14px !important;
+    box-sizing: border-box !important;
+  }
+  .deck-ascii {
+    font-size: 6.5px !important;
+    line-height: 1.05 !important;
+    text-align: center !important;
+  }
+  .deck-grid {
+    grid-template-columns: 95px 1fr !important;
+    font-size: 11.5px !important;
+  }
+  .deck-status-box {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .deck-actions {
+    justify-content: center !important;
+  }
+  .deck-btn {
+    padding: 7px 10px !important;
+    font-size: 11.5px !important;
+  }
+  .yavuz-fm-widget, .sticky-wall-widget {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 92vw !important;
+    max-width: 92vw !important;
+    margin: 10px auto !important;
+    box-sizing: border-box !important;
+  }
+  .window {
+    position: fixed !important;
+    top: 8% !important;
+    left: 3vw !important;
+    width: 94vw !important;
+    max-width: 94vw !important;
+    max-height: 80vh !important;
+    z-index: 999 !important;
+  }
+  .taskbar {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -1564,5 +1655,6 @@ document.querySelectorAll('button').forEach(b => {
 </script>
 </body>
 </html>
+
 
 
