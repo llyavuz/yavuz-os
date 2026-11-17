@@ -478,6 +478,47 @@ body.under-attack .sticky-wall-widget {
     white-space: nowrap !important;
   }
 }
+
+/* === YAVUZ_AI LOCAL EXPERT ENGINE === */
+.ai-ask-box {
+  margin-top: 10px;
+  border-top: 1px dashed currentColor;
+  padding-top: 10px;
+}
+.ai-ask-row {
+  display: flex;
+  gap: 6px;
+}
+.ai-ask-input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid currentColor;
+  color: inherit !important;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 5px 8px;
+  outline: none;
+}
+.ai-quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+.ai-tag {
+  background: transparent;
+  color: inherit !important;
+  border: 1px dashed currentColor;
+  padding: 2px 6px;
+  font-family: inherit;
+  font-size: 10.5px;
+  cursor: pointer;
+  opacity: 0.85;
+}
+.ai-tag:hover {
+  opacity: 1;
+  background: rgba(0, 255, 102, 0.15);
+}
 </style>
 </head>
 <body>
@@ -909,7 +950,22 @@ body.under-attack .sticky-wall-widget {
     <button type="button" class="deck-btn" id="btnSimulateAttack">[⚡ SALDIRI TESTİ]</button>
     <button type="button" class="deck-btn" id="btnMatrixRain">[🌀 MATRIX]</button>
   </div>
-  <div class="recon-terminal-box" id="reconOutputBox"></div>
+  
+  <div class="ai-ask-box">
+    <div style="font-size:11px; margin-bottom:5px; opacity:0.9;">&gt; YAVUZ_AI // Bana veya projelerime dair bir şey sor:</div>
+    <div class="ai-ask-row">
+      <input type="text" id="aiPromptInput" class="ai-ask-input" maxlength="100" placeholder="Örn: staj, aegismesh, fiyatradar, tubitak, iletisim...">
+      <button type="button" class="deck-btn" id="btnAiAsk">[SOR]</button>
+    </div>
+    <div class="ai-quick-tags">
+      <button type="button" class="ai-tag" data-q="staj">? staj</button>
+      <button type="button" class="ai-tag" data-q="aegismesh">? aegismesh</button>
+      <button type="button" class="ai-tag" data-q="fiyatradar">? fiyatradar</button>
+      <button type="button" class="ai-tag" data-q="stack">? tech-stack</button>
+      <button type="button" class="ai-tag" data-q="iletisim">? iletisim</button>
+    </div>
+  </div>
+<div class="recon-terminal-box" id="reconOutputBox"></div>
 
   </div>
 </section>
@@ -1652,9 +1708,126 @@ document.querySelectorAll('button').forEach(b => {
     }
   });
 })();
+
+/* === YAVUZ_AI LOCAL EXPERT ENGINE (ZERO-API / ZERO-XSS) === */
+(function initYavuzAI() {
+  const knowledgeBase = [
+    {
+      keys: ['staj', 'iş', 'is', 'kariyer', '2027', 'ik', 'hr', 'mulakat'],
+      ans: '[YAVUZ_AI -> STAJ & KARİYER]: Mehmet Akif Ersoy Üniversitesi YBS 4. sınıf öğrencisiyim (2027 Bahar dönemi zorunlu staj arayışındayım). Backend geliştirme (FastAPI, Python), siber güvenlik otomasyonu ve mobil geliştirme (Kotlin) alanlarında hızlı öğrenen, üretken bir ekip arkadaşı olarak değer katmaya hazırım.'
+    },
+    {
+      keys: ['aegis', 'soc', 'honeypot', 'entropi', 'waf', 'guvenlik', 'güvenlik'],
+      ans: '[YAVUZ_AI -> AEGISMESH]: Shannon Bilgi Entropisi kullanarak gelen HTTP isteklerindeki anomalileri tespit eden, saldırganları Tarpit/Honeypot tuzaklarına hapseden ve otonom Nginx WAF engelleme kuralları üreten canlı bir AI-SOC savunma motorudur.'
+    },
+    {
+      keys: ['fiyat', 'radar', 'scraping', 'bot', 'tls', 'ja3'],
+      ans: '[YAVUZ_AI -> FİYATRADAR]: TLS/JA3 parmak izi taklidi (curl_cffi) ile anti-bot korumalarını aşarak B2B e-ticaret rakiplerinin fiyat ve stok değişimlerini takip eden, FastAPI + APScheduler + Telegram bot entegrasyonlu istihbarat motorudur.'
+    },
+    {
+      keys: ['tubitak', 'tübitak', '2209', 'tarim', 'tarım', 'kooperatif'],
+      ans: '[YAVUZ_AI -> TÜBİTAK 2209-A]: Bölgesel tarım kooperatifleri için toprak sağlığı verilerini analiz ederek gübre maliyetlerini optimize eden YBS tabanlı bir Karar Destek Sistemidir.'
+    },
+    {
+      keys: ['focus', 'fam', 'mobil', 'kotlin', 'api'],
+      ans: '[YAVUZ_AI -> FOCUSFAM]: Aile içi ekran süresi yönetimi için tasarlanmış, FastAPI ve MSSQL mimarisi üzerine kurulu ölçeklenebilir REST API ve yetkilendirme altyapısıdır.'
+    },
+    {
+      keys: ['stack', 'teknoloji', 'dil', 'python', 'yetenek', 'beceri'],
+      ans: '[YAVUZ_AI -> TECH STACK]: Python (FastAPI, OpenCV, Scrapy/curl_cffi), Kotlin (Android), C# / Java, MSSQL / PostgreSQL, Linux / Nginx WAF, Docker ve Sıfır Bağımlılıklı Hardened Web Mimarileri.'
+    },
+    {
+      keys: ['iletisim', 'iletişim', 'mail', 'telefon', 'github', 'ulas'],
+      ans: '[YAVUZ_AI -> İLETİŞİM]: GitHub: github.com/llyavuz | E-posta: y4vuzcan@gmail.com | Tel: 0541 584 67 33 | Lokasyon: Denizli / Burdur.'
+    },
+    {
+      keys: ['kim', 'hakkinda', 'hakkında', 'merhaba', 'selam', 'yavuz'],
+      ans: '[YAVUZ_AI -> KİMLİK]: Ben Yavuz Can! YBS 4. sınıf öğrencisi, GDG Burdur Organizatörü ve siber güvenlik/backend odaklı yazılım geliştiricisiyim. "help" veya "staj", "aegismesh", "fiyatradar" yazarak detayları sorabilirsin.'
+    }
+  ];
+
+  function getAiReply(query) {
+    const q = (query || '').toLowerCase().trim();
+    if (!q || q === 'help' || q === 'yardım') {
+      return '[YAVUZ_AI KOMUTLARI]: "staj", "aegismesh", "fiyatradar", "tubitak", "focusfam", "stack", "iletisim" anahtar kelimelerini sorabilirsin.';
+    }
+    const found = knowledgeBase.find(item => item.keys.some(k => q.includes(k)));
+    return found
+      ? found.ans
+      : '[YAVUZ_AI]: Bu konuda özel bir kaydım yok ama "staj", "aegismesh", "fiyatradar", "stack" veya "iletisim" yazarsan tüm teknik detayları dökerim!';
+  }
+
+  // Merkez Kart Üzerinden Soru-Cevap
+  const aiInput = document.getElementById('aiPromptInput');
+  const btnAiAsk = document.getElementById('btnAiAsk');
+  const reconBox = document.getElementById('reconOutputBox');
+  let aiTyping = false;
+
+  function askCenterAI(question) {
+    if (!reconBox || aiTyping) return;
+    const reply = getAiReply(question);
+    aiTyping = true;
+    reconBox.style.display = 'block';
+    reconBox.textContent = '> SORGU: "' + question + '"\n';
+    let i = 0;
+    const timer = setInterval(() => {
+      reconBox.textContent += reply.charAt(i);
+      i++;
+      if (i >= reply.length) {
+        clearInterval(timer);
+        aiTyping = false;
+      }
+    }, 14);
+  }
+
+  if (btnAiAsk && aiInput) {
+    btnAiAsk.addEventListener('click', () => {
+      const val = aiInput.value.trim();
+      if (!val) return;
+      aiInput.value = '';
+      askCenterAI(val);
+    });
+    aiInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        btnAiAsk.click();
+      }
+    });
+  }
+
+  document.querySelectorAll('.ai-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      const q = tag.getAttribute('data-q');
+      if (q) askCenterAI(q);
+    });
+  });
+
+  // Mevcut Terminal.sh penceresine "ask <soru>" komutu entegrasyonu
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const active = document.activeElement;
+    if (!active || active.tagName !== 'INPUT' || active.id === 'aiPromptInput' || active.id === 'stickyNoteInput') return;
+    const raw = (active.value || '').trim();
+    if (raw.toLowerCase().startsWith('ask ') || raw.toLowerCase() === 'ask') {
+      const topic = raw.slice(3).trim();
+      const termBody = active.closest('.window')?.querySelector('.window-body, .terminal-output, pre, div');
+      if (termBody) {
+        setTimeout(() => {
+          const line = document.createElement('div');
+          line.style.marginTop = '6px';
+          line.style.whiteSpace = 'pre-wrap';
+          line.textContent = getAiReply(topic);
+          termBody.insertBefore(line, active.parentElement || null);
+          termBody.scrollTop = termBody.scrollHeight;
+        }, 40);
+      }
+    }
+  }, true);
+})();
 </script>
 </body>
 </html>
+
 
 
 
