@@ -1,4 +1,4 @@
 Contact: mailto:y4vuzcan@gmail.com
 Preferred-Languages: tr, en
-Canonical: https://github.com/llyavuz
+Canonical: https://yavuzcan.pages.dev/.well-known/security.txt
 Policy: Zero-backend static hardened architecture.
