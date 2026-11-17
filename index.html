@@ -521,16 +521,17 @@ body.under-attack .sticky-wall-widget {
 }
 
 
-/* === SUPER_YAVUZ.EXE v2.0 - PRODUCTION DEPLOY QUEST === */
+
+/* === SUPER_YAVUZ.EXE v3.0 - INFINITE SERVER ODYSSEY === */
 #marioModal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(760px, 96vw);
+  width: min(880px, 96vw);
   background: rgba(3, 10, 6, 0.97);
   border: 2px solid #00ff66;
-  box-shadow: 0 0 36px rgba(0, 255, 102, 0.35);
+  box-shadow: 0 0 40px rgba(0, 255, 102, 0.35);
   color: #00ff66;
   font-family: 'Courier New', Courier, monospace;
   z-index: 1000;
@@ -542,7 +543,7 @@ body.under-attack .sticky-wall-widget {
 body.theme-amber #marioModal {
   color: #ffb000 !important;
   border-color: #ffb000 !important;
-  box-shadow: 0 0 36px rgba(255, 176, 0, 0.35) !important;
+  box-shadow: 0 0 40px rgba(255, 176, 0, 0.35) !important;
 }
 .mario-header {
   display: flex;
@@ -567,11 +568,31 @@ body.theme-amber #marioModal {
 }
 #marioCanvas {
   width: 100%;
-  height: 310px;
+  height: 360px;
   display: block;
   border: 1px solid currentColor;
   background: #020804;
 }
+.mario-shop-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed currentColor;
+  align-items: center;
+  justify-content: space-between;
+}
+.shop-btn {
+  background: rgba(0, 255, 102, 0.08);
+  color: inherit;
+  border: 1px solid currentColor;
+  padding: 4px 8px;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.shop-btn:hover { background: rgba(0, 255, 102, 0.22); }
 .mario-controls-bar {
   display: flex;
   flex-wrap: wrap;
@@ -581,10 +602,7 @@ body.theme-amber #marioModal {
   margin-top: 8px;
   font-size: 11px;
 }
-.mobile-pad {
-  display: flex;
-  gap: 6px;
-}
+.mobile-pad { display: flex; gap: 5px; }
 </style>
 </head>
 <body>
@@ -1074,27 +1092,38 @@ body.theme-amber #marioModal {
 <div class="achievement-toast" id="achToast" role="status" aria-live="polite"></div>
 
 
-<!-- SUPER_YAVUZ.EXE v2.0 PLATFORM OYUNU -->
-<div id="marioModal" role="dialog" aria-label="Super Yavuz Production Deploy Quest">
+
+<!-- SUPER_YAVUZ.EXE v3.0 INFINITE ODYSSEY -->
+<div id="marioModal" role="dialog" aria-label="Super Yavuz Infinite Server Odyssey">
   <div class="mario-header">
-    <span>SUPER_YAVUZ.EXE v2.0 // PRODUCTION DEPLOY QUEST</span>
-    <button type="button" class="deck-btn" id="btnCloseMario">[X]</button>
+    <span id="marioWorldTitle">SUPER_YAVUZ.EXE v3.0 // WORLD 1-1: LOCALHOST</span>
+    <div style="display:flex; gap:6px;">
+      <button type="button" class="deck-btn" id="btnAutoFire">[AUTO-PATCH: KAPALI]</button>
+      <button type="button" class="deck-btn" id="btnCloseMario">[X]</button>
+    </div>
   </div>
   <div class="mario-hud">
     <span id="marioHp">CAN: ♥♥♥</span>
-    <span id="marioPower">DURUM: NORMAL</span>
-    <span id="marioScore">COMMIT SKOR: 0</span>
+    <span id="marioCombo">COMBO: 1x</span>
+    <span id="marioScore">COMMIT BANK: 0</span>
     <span id="marioProgress">DEPLOY: %0</span>
   </div>
-  <canvas id="marioCanvas" width="720" height="310"></canvas>
+  <canvas id="marioCanvas" width="840" height="360"></canvas>
+  <div class="mario-shop-bar">
+    <span style="font-size:11px; font-weight:bold;">KALICI GELİŞTİRME:</span>
+    <button type="button" class="shop-btn" id="upgWeapon">[🔫 Multi-Patch Lv.1 (250)]</button>
+    <button type="button" class="shop-btn" id="upgDrone">[🤖 AI Drone Lv.0 (400)]</button>
+    <button type="button" class="shop-btn" id="upgHp">[❤️ Max HP +1 (300)]</button>
+    <button type="button" class="shop-btn" id="upgMagnet">[🧲 Magnet Lv.0 (200)]</button>
+  </div>
   <div class="mario-controls-bar">
-    <span>[A/D veya ←/→]: Yürü | [W/↑/BOŞLUK]: Zıpla | [F/ENTER]: HOTFIX At</span>
+    <span>[A/D veya ←/→]: Yürü | [W/↑/BOŞLUK]: Çift Zıpla | [F]: Ateş | [T]: Oto-Ateş</span>
     <div class="mobile-pad">
       <button type="button" class="deck-btn" id="padLeft">[◀]</button>
       <button type="button" class="deck-btn" id="padRight">[▶]</button>
       <button type="button" class="deck-btn" id="padJump">[▲ ZIPL]</button>
-      <button type="button" class="deck-btn" id="padFire">[⚡ PATCH]</button>
-      <button type="button" class="deck-btn" id="btnRestartMario">[SIFIRLA]</button>
+      <button type="button" class="deck-btn" id="padFire">[⚡ ATEŞ]</button>
+      <button type="button" class="deck-btn" id="btnRestartMario">[YENİ BÖLÜM]</button>
     </div>
   </div>
 </div>
@@ -1919,29 +1948,61 @@ document.querySelectorAll('button').forEach(b => {
 })();
 
 
-/* === SUPER_YAVUZ.EXE v2.0 FULL PLATFORMER ENGINE (ZERO-XSS) === */
-(function initSuperYavuzPro() {
+
+/* === SUPER_YAVUZ.EXE v3.0 ROGUELITE ENGINE (ZERO-XSS) === */
+(function initSuperYavuzOdyssey() {
   const modal = document.getElementById('marioModal');
   const btnOpen = document.getElementById('btnOpenMario');
   const btnClose = document.getElementById('btnCloseMario');
   const btnRestart = document.getElementById('btnRestartMario');
+  const btnAutoFire = document.getElementById('btnAutoFire');
   const canvas = document.getElementById('marioCanvas');
+  const titleEl = document.getElementById('marioWorldTitle');
   const hpEl = document.getElementById('marioHp');
-  const powerEl = document.getElementById('marioPower');
+  const comboEl = document.getElementById('marioCombo');
   const scoreEl = document.getElementById('marioScore');
   const progEl = document.getElementById('marioProgress');
 
   if (!modal || !btnOpen || !canvas) return;
   const ctx = canvas.getContext('2d');
 
-  const LEVEL_END = 2400;
-  const GROUND_Y = 270;
+  // Kalıcı kayıt verileri (localStorage)
+  let save = {
+    commits: Number(localStorage.getItem('sy_commits') || 0),
+    world: Number(localStorage.getItem('sy_world') || 1),
+    weaponLv: Number(localStorage.getItem('sy_weapon') || 1),
+    droneLv: Number(localStorage.getItem('sy_drone') || 0),
+    maxHp: Number(localStorage.getItem('sy_maxhp') || 3),
+    magnetLv: Number(localStorage.getItem('sy_magnet') || 0)
+  };
+
+  function persistSave() {
+    localStorage.setItem('sy_commits', String(save.commits));
+    localStorage.setItem('sy_world', String(save.world));
+    localStorage.setItem('sy_weapon', String(save.weaponLv));
+    localStorage.setItem('sy_drone', String(save.droneLv));
+    localStorage.setItem('sy_maxhp', String(save.maxHp));
+    localStorage.setItem('sy_magnet', String(save.magnetLv));
+    refreshShopButtons();
+  }
+
+  const biomes = [
+    'LOCALHOST_DEV', 'DOCKER_SWARM', 'STAGING_CLUSTER',
+    'KUBERNETES_ABYSS', 'PRODUCTION_CORE', 'ZERO_DAY_MATRIX'
+  ];
+
+  const GROUND_Y = 315;
+  let levelEnd = 2800;
   let animId = null;
   let running = false;
-  let state = 'play'; // 'play', 'gameover', 'win'
+  let state = 'play';
   let cameraX = 0;
   let frame = 0;
-  let score = 0;
+  let autoFire = false;
+  let combo = 1;
+  let comboTimer = 0;
+  let checkpointX = 60;
+  let checkpointActive = false;
 
   const keys = { left: false, right: false };
 
@@ -1949,55 +2010,62 @@ document.querySelectorAll('button').forEach(b => {
     x: 60, y: GROUND_Y - 30, w: 22, h: 30,
     vx: 0, vy: 0, facing: 1,
     onGround: false, jumps: 0,
-    hp: 3, shield: false, caffeine: 0, invuln: 0
+    hp: save.maxHp, shield: false, caffeine: 0, invuln: 0
   };
 
   let platforms = [];
+  let springs = [];
   let qBlocks = [];
+  let coins = [];
   let enemies = [];
   let bullets = [];
+  let enemyBullets = [];
   let particles = [];
   let pits = [];
   let boss = null;
+  let droneTimer = 0;
 
   function sfx(type) {
     try {
       const a = new (window.AudioContext || window.webkitAudioContext)();
       const o = a.createOscillator();
       const g = a.createGain();
-      o.type = type === 'hit' || type === 'boss' ? 'sawtooth' : 'square';
+      o.type = type === 'hit' ? 'sawtooth' : 'square';
       const now = a.currentTime;
       if (type === 'jump') {
-        o.frequency.setValueAtTime(260, now);
-        o.frequency.exponentialRampToValueAtTime(600, now + 0.12);
+        o.frequency.setValueAtTime(250, now);
+        o.frequency.exponentialRampToValueAtTime(620, now + 0.11);
+      } else if (type === 'spring') {
+        o.frequency.setValueAtTime(300, now);
+        o.frequency.exponentialRampToValueAtTime(980, now + 0.18);
       } else if (type === 'shoot') {
-        o.frequency.setValueAtTime(750, now);
-        o.frequency.exponentialRampToValueAtTime(300, now + 0.08);
-      } else if (type === 'block') {
-        o.frequency.setValueAtTime(520, now);
-        o.frequency.setValueAtTime(780, now + 0.05);
+        o.frequency.setValueAtTime(780, now);
+        o.frequency.exponentialRampToValueAtTime(280, now + 0.07);
+      } else if (type === 'coin') {
+        o.frequency.setValueAtTime(987, now);
+        o.frequency.setValueAtTime(1318, now + 0.05);
       } else if (type === 'power') {
         o.frequency.setValueAtTime(440, now);
-        o.frequency.setValueAtTime(660, now + 0.07);
-        o.frequency.setValueAtTime(880, now + 0.14);
+        o.frequency.setValueAtTime(660, now + 0.06);
+        o.frequency.setValueAtTime(880, now + 0.12);
       } else if (type === 'stomp') {
-        o.frequency.setValueAtTime(380, now);
-        o.frequency.exponentialRampToValueAtTime(140, now + 0.1);
+        o.frequency.setValueAtTime(360, now);
+        o.frequency.exponentialRampToValueAtTime(120, now + 0.09);
       } else if (type === 'hit') {
-        o.frequency.setValueAtTime(170, now);
-        o.frequency.linearRampToValueAtTime(60, now + 0.28);
+        o.frequency.setValueAtTime(160, now);
+        o.frequency.linearRampToValueAtTime(55, now + 0.26);
       } else if (type === 'win') {
         o.frequency.setValueAtTime(523, now);
-        o.frequency.setValueAtTime(659, now + 0.1);
-        o.frequency.setValueAtTime(784, now + 0.2);
-        o.frequency.setValueAtTime(1046, now + 0.3);
+        o.frequency.setValueAtTime(659, now + 0.09);
+        o.frequency.setValueAtTime(784, now + 0.18);
+        o.frequency.setValueAtTime(1046, now + 0.27);
       }
-      g.gain.setValueAtTime(0.03, now);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
+      g.gain.setValueAtTime(0.025, now);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
       o.connect(g);
       g.connect(a.destination);
       o.start();
-      o.stop(now + 0.33);
+      o.stop(now + 0.31);
     } catch (e) {}
   }
 
@@ -2007,98 +2075,201 @@ document.querySelectorAll('button').forEach(b => {
   }
 
   function spawnText(x, y, txt) {
-    particles.push({ x, y, vy: -1.2, life: 48, text: txt });
+    particles.push({ x, y, vx: 0, vy: -1.1, life: 52, text: txt, isSpark: false });
   }
 
-  function buildWorld() {
+  function spawnSparks(x, y, count) {
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x, y,
+        vx: (Math.random() - 0.5) * 6,
+        vy: (Math.random() - 0.8) * 5,
+        life: 24,
+        isSpark: true
+      });
+    }
+  }
+
+  function addCommits(basePts) {
+    const gained = Math.round(basePts * combo);
+    save.commits += gained;
+    combo = Math.min(8, combo + 0.5);
+    comboTimer = 180;
+    persistSave();
+    updateHud();
+    return gained;
+  }
+
+  function refreshShopButtons() {
+    const wCost = save.weaponLv * 250;
+    const dCost = (save.droneLv + 1) * 400;
+    const hCost = (save.maxHp - 2) * 300;
+    const mCost = (save.magnetLv + 1) * 200;
+
+    const bW = document.getElementById('upgWeapon');
+    const bD = document.getElementById('upgDrone');
+    const bH = document.getElementById('upgHp');
+    const bM = document.getElementById('upgMagnet');
+
+    if (bW) bW.textContent = save.weaponLv >= 4 ? '[🔫 Multi-Patch MAX]' : `[🔫 Multi-Patch Lv.${save.weaponLv} (${wCost})]`;
+    if (bD) bD.textContent = save.droneLv >= 3 ? '[🤖 AI Drone MAX]' : `[🤖 AI Drone Lv.${save.droneLv} (${dCost})]`;
+    if (bH) bH.textContent = save.maxHp >= 6 ? '[❤️ Max HP MAX]' : `[❤️ Max HP ${save.maxHp}->${save.maxHp + 1} (${hCost})]`;
+    if (bM) bM.textContent = save.magnetLv >= 3 ? '[🧲 Magnet MAX]' : `[🧲 Magnet Lv.${save.magnetLv} (${mCost})]`;
+  }
+
+  function buildWorld(useCheckpoint) {
+    const wIdx = save.world;
+    const biomeName = biomes[(wIdx - 1) % biomes.length];
+    if (titleEl) titleEl.textContent = `SUPER_YAVUZ.EXE v3.0 // WORLD ${wIdx}: ${biomeName}`;
+
+    levelEnd = 2600 + Math.min(1800, wIdx * 250);
     cameraX = 0;
     frame = 0;
-    score = 0;
     state = 'play';
-    hero.x = 60;
-    hero.y = GROUND_Y - hero.h;
+    combo = 1;
+    comboTimer = 0;
+
+    if (!useCheckpoint) {
+      checkpointX = 60;
+      checkpointActive = false;
+    }
+
+    hero.x = useCheckpoint ? checkpointX : 60;
+    hero.y = GROUND_Y - hero.h - 20;
     hero.vx = 0;
     hero.vy = 0;
     hero.facing = 1;
-    hero.hp = 3;
+    hero.hp = save.maxHp;
     hero.shield = false;
     hero.caffeine = 0;
-    hero.invuln = 0;
+    hero.invuln = 60;
+
     bullets = [];
+    enemyBullets = [];
     particles = [];
+    platforms = [];
+    springs = [];
+    qBlocks = [];
+    coins = [];
+    enemies = [];
+    pits = [];
 
-    // Memory Leak Çukurları
-    pits = [
-      { x: 430, w: 85 },
-      { x: 1020, w: 100 },
-      { x: 1620, w: 110 }
-    ];
+    // Prosedürel ancak dengeli platform, çukur, yay ve düşman üretimi
+    let cursor = 260;
+    const labels = ['DOCKER', 'FASTAPI', 'REDIS', 'NGINX', 'K8S_POD', 'KAFKA', 'POSTGRES'];
+    let stepIndex = 0;
 
-    // Docker Konteyner Platformları & Borular
-    platforms = [
-      { x: 240, y: 215, w: 90, h: 16, label: 'DOCKER' },
-      { x: 420, y: 195, w: 105, h: 16, label: 'REDIS' },
-      { x: 640, y: 225, w: 40, h: 45, label: 'PIPE' },
-      { x: 780, y: 185, w: 110, h: 16, label: 'FASTAPI' },
-      { x: 1010, y: 190, w: 115, h: 16, label: 'K8S_POD' },
-      { x: 1250, y: 215, w: 42, h: 55, label: 'PIPE' },
-      { x: 1410, y: 175, w: 120, h: 16, label: 'NGINX' },
-      { x: 1610, y: 185, w: 125, h: 16, label: 'WAF_NODE' }
-    ];
+    while (cursor < levelEnd - 450) {
+      stepIndex++;
+      // Her 3 adımda bir Memory Leak çukuru
+      if (stepIndex % 3 === 0) {
+        const pitW = Math.min(125, 80 + wIdx * 4);
+        pits.push({ x: cursor, w: pitW });
+        platforms.push({
+          x: cursor - 10, y: 225, w: pitW + 20, h: 16,
+          label: labels[stepIndex % labels.length],
+          moveRange: stepIndex % 2 === 0 ? 35 : 0,
+          baseY: 225, phase: stepIndex
+        });
+        cursor += pitW + 130;
+        continue;
+      }
 
-    // Gizli [?] Commit & Power-Up Blokları
-    qBlocks = [
-      { x: 270, y: 145, w: 26, h: 26, hit: false, reward: 'coffee' },
-      { x: 560, y: 185, w: 26, h: 26, hit: false, reward: 'coin' },
-      { x: 820, y: 115, w: 26, h: 26, hit: false, reward: 'shield' },
-      { x: 1180, y: 180, w: 26, h: 26, hit: false, reward: 'coin' },
-      { x: 1455, y: 105, w: 26, h: 26, hit: false, reward: 'coffee' },
-      { x: 1820, y: 185, w: 26, h: 26, hit: false, reward: 'shield' }
-    ];
+      // Platform & Gizli [?] Blok
+      const platY = 185 + (stepIndex % 3) * 28;
+      const platW = 95 + (stepIndex % 2) * 30;
+      platforms.push({
+        x: cursor, y: platY, w: platW, h: 16,
+        label: labels[stepIndex % labels.length],
+        moveRange: 0, baseY: platY, phase: 0
+      });
 
-    // Düşmanlar (BUG & 502 DRONE)
-    enemies = [
-      { x: 340, y: GROUND_Y - 22, w: 24, h: 22, vx: -1.2, minX: 220, maxX: 410, type: 'BUG', alive: true },
-      { x: 720, y: GROUND_Y - 22, w: 24, h: 22, vx: -1.5, minX: 690, maxX: 980, type: 'BUG', alive: true },
-      { x: 900, y: 130, w: 28, h: 18, vx: -1.8, minX: 760, maxX: 1000, type: '502', alive: true },
-      { x: 1340, y: GROUND_Y - 22, w: 24, h: 22, vx: -1.6, minX: 1300, maxX: 1590, type: 'BUG', alive: true },
-      { x: 1520, y: 120, w: 28, h: 18, vx: -2.0, minX: 1400, maxX: 1720, type: '502', alive: true },
-      { x: 1880, y: GROUND_Y - 22, w: 24, h: 22, vx: -1.8, minX: 1750, maxX: 2020, type: 'BUG', alive: true }
-    ];
+      // Platform üstüne altın dizisi
+      for (let c = 0; c < 3; c++) {
+        coins.push({ x: cursor + 20 + c * 26, y: platY - 22, taken: false });
+      }
 
-    // Bölüm Sonu Boss: PROD_CRASH 500
+      // Gizli [?] Bloğu
+      if (stepIndex % 2 === 1) {
+        const rewards = ['coffee', 'shield', 'coin'];
+        qBlocks.push({
+          x: cursor + Math.floor(platW / 2) - 13,
+          y: platY - 75,
+          w: 26, h: 26,
+          hit: false,
+          reward: rewards[stepIndex % rewards.length]
+        });
+      }
+
+      // Redis Zıplama Yayı
+      if (stepIndex % 4 === 0) {
+        springs.push({ x: cursor + platW + 25, y: GROUND_Y - 12, w: 22, h: 12, bounce: 0 });
+      }
+
+      // Düşman yerleşimi
+      const eType = stepIndex % 4 === 0 ? 'TURRET' : (stepIndex % 2 === 0 ? '502' : 'BUG');
+      enemies.push({
+        x: cursor + 40,
+        y: eType === '502' ? 140 : GROUND_Y - 24,
+        w: eType === 'TURRET' ? 28 : 24,
+        h: eType === '502' ? 18 : 24,
+        vx: eType === 'TURRET' ? 0 : -(1.3 + Math.min(2.2, wIdx * 0.25)),
+        minX: cursor - 40,
+        maxX: cursor + 180,
+        type: eType,
+        hp: eType === 'TURRET' ? 2 + Math.floor(wIdx / 2) : 1,
+        alive: true,
+        shootCd: 90 + (stepIndex * 17) % 60
+      });
+
+      cursor += 230;
+    }
+
+    // Bölüm Ortası Checkpoint
+    checkpointX = Math.floor(levelEnd * 0.5);
+
+    // Bölüm Sonu Boss (Her dünyada daha güçlü!)
+    const bossHp = 6 + wIdx * 3;
     boss = {
-      x: 2150, y: GROUND_Y - 56, w: 54, h: 56,
-      vx: -1.6, minX: 2040, maxX: 2310,
-      hp: 5, maxHp: 5, alive: true, flash: 0
+      x: levelEnd - 240, y: GROUND_Y - 64, w: 60, h: 64,
+      vx: -(1.6 + Math.min(2.0, wIdx * 0.2)),
+      minX: levelEnd - 360, maxX: levelEnd - 70,
+      hp: bossHp, maxHp: bossHp, alive: true, flash: 0, shootCd: 75
     };
 
+    refreshShopButtons();
     updateHud();
   }
 
   function updateHud() {
     if (hpEl) {
-      const hearts = '♥'.repeat(Math.max(0, hero.hp)) + '♡'.repeat(Math.max(0, 3 - hero.hp));
+      const hearts = '♥'.repeat(Math.max(0, hero.hp)) + '♡'.repeat(Math.max(0, save.maxHp - hero.hp));
       hpEl.textContent = 'CAN: ' + hearts + (hero.shield ? ' [🛡️WAF]' : '');
     }
-    if (powerEl) {
-      powerEl.textContent = hero.caffeine > 0 ? 'DURUM: ☕ CAFFEINE BOOST!' : 'DURUM: NORMAL';
+    if (comboEl) {
+      comboEl.textContent = hero.caffeine > 0 ? '☕ OVERDRIVE! (' + combo.toFixed(1) + 'x)' : 'COMBO: ' + combo.toFixed(1) + 'x';
     }
-    if (scoreEl) scoreEl.textContent = 'COMMIT SKOR: ' + score;
+    if (scoreEl) scoreEl.textContent = 'COMMIT BANK: ' + save.commits;
     if (progEl) {
-      const pct = Math.min(100, Math.max(0, Math.round((hero.x / LEVEL_END) * 100)));
+      const pct = Math.min(100, Math.max(0, Math.round((hero.x / levelEnd) * 100)));
       progEl.textContent = 'DEPLOY: %' + pct;
     }
   }
 
   function doJump() {
     if (modal.style.display !== 'block') return;
-    if (state !== 'play') {
-      buildWorld();
+    if (state === 'win') {
+      save.world++;
+      persistSave();
+      buildWorld(false);
+      return;
+    }
+    if (state === 'gameover') {
+      buildWorld(checkpointActive);
       return;
     }
     if (hero.jumps < 2) {
-      hero.vy = hero.caffeine > 0 ? -11.4 : -10.3;
+      hero.vy = hero.caffeine > 0 ? -11.5 : -10.4;
       hero.onGround = false;
       hero.jumps++;
       sfx('jump');
@@ -2109,15 +2280,25 @@ document.querySelectorAll('button').forEach(b => {
   function doShoot() {
     if (modal.style.display !== 'block' || state !== 'play') return;
     const now = Date.now();
-    const cooldown = hero.caffeine > 0 ? 140 : 320;
+    const cooldown = hero.caffeine > 0 ? 130 : Math.max(160, 310 - save.weaponLv * 30);
     if (now - lastShot < cooldown) return;
     lastShot = now;
-    bullets.push({
-      x: hero.facing === 1 ? hero.x + hero.w : hero.x - 12,
-      y: hero.y + 11,
-      w: 14, h: 6,
-      vx: hero.facing * 8.5
-    });
+
+    const bx = hero.facing === 1 ? hero.x + hero.w : hero.x - 12;
+    const by = hero.y + 11;
+    const speed = hero.facing * 9.0;
+
+    // Silah seviyesine göre tekli, ikili veya üçlü yaylım ateşi
+    bullets.push({ x: bx, y: by, w: 14, h: 6, vx: speed, vy: 0 });
+    if (save.weaponLv >= 2) {
+      bullets.push({ x: bx, y: by - 4, w: 12, h: 5, vx: speed, vy: -1.3 });
+    }
+    if (save.weaponLv >= 3) {
+      bullets.push({ x: bx, y: by + 4, w: 12, h: 5, vx: speed, vy: 1.3 });
+    }
+    if (save.weaponLv >= 4) {
+      bullets.push({ x: bx, y: by - 8, w: 12, h: 5, vx: speed * 1.1, vy: -2.4 });
+    }
     sfx('shoot');
   }
 
@@ -2126,19 +2307,19 @@ document.querySelectorAll('button').forEach(b => {
     if (hero.shield) {
       hero.shield = false;
       hero.invuln = 65;
-      sfx('block');
-      spawnText(hero.x, hero.y - 10, 'WAF ENGELLENDİ!');
+      sfx('coin');
+      spawnText(hero.x, hero.y - 12, '🛡️ WAF KORUDU!');
       updateHud();
       return;
     }
     hero.hp--;
+    combo = 1;
     hero.invuln = 75;
     sfx('hit');
-    spawnText(hero.x, hero.y - 10, '-1 CAN (RUNTIME ERR)');
+    spawnSparks(hero.x + 10, hero.y + 15, 10);
+    spawnText(hero.x, hero.y - 12, '-1 KERNEL HP');
     updateHud();
-    if (hero.hp <= 0) {
-      state = 'gameover';
-    }
+    if (hero.hp <= 0) state = 'gameover';
   }
 
   function isOverPit(x, w) {
@@ -2148,39 +2329,52 @@ document.querySelectorAll('button').forEach(b => {
   function update() {
     if (state !== 'play') return;
     frame++;
+
+    if (comboTimer > 0) {
+      comboTimer--;
+      if (comboTimer === 0) { combo = 1; updateHud(); }
+    }
     if (hero.invuln > 0) hero.invuln--;
     if (hero.caffeine > 0) {
       hero.caffeine--;
       if (hero.caffeine === 0) updateHud();
     }
 
+    if (autoFire) doShoot();
+
+    // Checkpoint aktivasyonu
+    if (!checkpointActive && hero.x >= checkpointX) {
+      checkpointActive = true;
+      sfx('power');
+      spawnText(checkpointX, GROUND_Y - 55, '💾 GIT CHECKPOINT KAYDEDİLDİ!');
+    }
+
     // Yatay hareket
-    const moveSpeed = hero.caffeine > 0 ? 4.8 : 3.6;
-    if (keys.left) {
-      hero.vx = -moveSpeed;
-      hero.facing = -1;
-    } else if (keys.right) {
-      hero.vx = moveSpeed;
-      hero.facing = 1;
-    } else {
-      hero.vx *= 0.75;
+    const moveSpeed = hero.caffeine > 0 ? 5.0 : 3.8;
+    if (keys.left) { hero.vx = -moveSpeed; hero.facing = -1; }
+    else if (keys.right) { hero.vx = moveSpeed; hero.facing = 1; }
+    else {
+      hero.vx *= 0.76;
       if (Math.abs(hero.vx) < 0.2) hero.vx = 0;
     }
 
     hero.x += hero.vx;
     if (hero.x < 10) hero.x = 10;
 
-    // Dikey fizik & Yerçekimi
+    // Dikey fizik
     const prevY = hero.y;
     hero.vy += 0.52;
     hero.y += hero.vy;
     hero.onGround = false;
 
-    // Platform & Boru çarpışmaları (Üstten iniş)
+    // Hareketli & Sabit Platformlar
     platforms.forEach(pl => {
+      if (pl.moveRange > 0) {
+        pl.y = pl.baseY + Math.sin(frame * 0.04 + pl.phase) * pl.moveRange;
+      }
       if (
         hero.vy >= 0 &&
-        prevY + hero.h <= pl.y + 8 &&
+        prevY + hero.h <= pl.y + 10 &&
         hero.y + hero.h >= pl.y &&
         hero.x + hero.w - 3 > pl.x &&
         hero.x + 3 < pl.x + pl.w
@@ -2192,9 +2386,24 @@ document.querySelectorAll('button').forEach(b => {
       }
     });
 
-    // [?] Blokları çarpışmaları (Hem üstten basma hem alttan kafa atma)
+    // Redis Zıplama Yayları
+    springs.forEach(sp => {
+      if (sp.bounce > 0) sp.bounce--;
+      if (
+        hero.vy >= 0 &&
+        hero.x + hero.w > sp.x && hero.x < sp.x + sp.w &&
+        hero.y + hero.h >= sp.y && hero.y + hero.h <= sp.y + sp.h + 10
+      ) {
+        hero.vy = -15.5;
+        hero.jumps = 1;
+        sp.bounce = 12;
+        sfx('spring');
+        spawnText(sp.x - 10, sp.y - 15, '⚡ REDIS BOOST!');
+      }
+    });
+
+    // [?] Gizli Bloklar
     qBlocks.forEach(qb => {
-      // Alttan kafa atma
       if (
         hero.vy < 0 &&
         prevY >= qb.y + qb.h - 6 &&
@@ -2206,25 +2415,25 @@ document.querySelectorAll('button').forEach(b => {
         hero.vy = 1.5;
         if (!qb.hit) {
           qb.hit = true;
+          spawnSparks(qb.x + 13, qb.y, 8);
           if (qb.reward === 'coffee') {
-            hero.caffeine = 420;
-            score += 150;
+            hero.caffeine = 450;
+            addCommits(120);
             sfx('power');
-            spawnText(qb.x - 10, qb.y - 12, '☕ CAFFEINE BOOST!');
+            spawnText(qb.x - 15, qb.y - 14, '☕ CAFFEINE OVERDRIVE!');
           } else if (qb.reward === 'shield') {
             hero.shield = true;
-            score += 150;
+            addCommits(120);
             sfx('power');
-            spawnText(qb.x - 10, qb.y - 12, '🛡️ WAF SHIELD!');
+            spawnText(qb.x - 10, qb.y - 14, '🛡️ WAF SHIELD AKTİF!');
           } else {
-            score += 200;
-            sfx('block');
-            spawnText(qb.x, qb.y - 12, '+200 COMMIT!');
+            const pts = addCommits(200);
+            sfx('coin');
+            spawnText(qb.x, qb.y - 14, '+' + pts + ' COMMIT!');
           }
           updateHud();
         }
       }
-      // Üstten durma
       if (
         hero.vy >= 0 &&
         prevY + hero.h <= qb.y + 8 &&
@@ -2239,102 +2448,168 @@ document.querySelectorAll('button').forEach(b => {
       }
     });
 
-    // Zemin ve Memory Leak Çukuru kontrolü
+    // Zemin & Çukur
     if (hero.y >= GROUND_Y - hero.h && !isOverPit(hero.x, hero.w)) {
       hero.y = GROUND_Y - hero.h;
       hero.vy = 0;
       hero.onGround = true;
       hero.jumps = 0;
-    } else if (hero.y > canvas.height + 20) {
-      // Çukura düştü
+    } else if (hero.y > canvas.height + 25) {
       hero.hp--;
+      combo = 1;
       updateHud();
       sfx('hit');
-      if (hero.hp <= 0) {
-        state = 'gameover';
-      } else {
-        hero.x = Math.max(40, hero.x - 130);
-        hero.y = 80;
+      if (hero.hp <= 0) state = 'gameover';
+      else {
+        hero.x = Math.max(40, hero.x - 140);
+        hero.y = 70;
         hero.vy = 0;
         hero.invuln = 60;
-        spawnText(hero.x, 60, 'MEMORY LEAK! KURTARILDI');
+        spawnText(hero.x, 55, 'MEMORY LEAK KURTARILDI!');
       }
     }
 
-    // HOTFIX Mermileri
-    bullets.forEach(b => { b.x += b.vx; });
-    bullets = bullets.filter(b => Math.abs(b.x - hero.x) < 520);
+    // Altın Toplama & Mıknatıs Yeteneği
+    const magRange = 22 + save.magnetLv * 48;
+    coins.forEach(c => {
+      if (c.taken) return;
+      const dx = (hero.x + 11) - c.x;
+      const dy = (hero.y + 15) - c.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < magRange && save.magnetLv > 0) {
+        c.x += (dx / dist) * 5.2;
+        c.y += (dy / dist) * 5.2;
+      }
+      if (dist < 22) {
+        c.taken = true;
+        const pts = addCommits(35);
+        sfx('coin');
+        spawnText(c.x, c.y - 8, '+' + pts);
+      }
+    });
 
-    // Düşman Hareketleri & Çarpışma
+    // AI Copilot Drone Otomatik Atışı
+    if (save.droneLv > 0) {
+      droneTimer++;
+      const droneRate = Math.max(22, 65 - save.droneLv * 14);
+      if (droneTimer >= droneRate) {
+        droneTimer = 0;
+        const target = enemies.find(e => e.alive && Math.abs(e.x - hero.x) < 340) || (boss && boss.alive && Math.abs(boss.x - hero.x) < 360 ? boss : null);
+        if (target) {
+          const dir = target.x >= hero.x ? 1 : -1;
+          bullets.push({
+            x: hero.x + (dir === 1 ? 24 : -10),
+            y: hero.y - 10,
+            w: 10, h: 4,
+            vx: dir * 9.5,
+            vy: ((target.y + target.h / 2) - (hero.y - 10)) * 0.035
+          });
+        }
+      }
+    }
+
+    // Mermiler
+    bullets.forEach(b => { b.x += b.vx; b.y += b.vy; });
+    bullets = bullets.filter(b => Math.abs(b.x - hero.x) < 580);
+
+    enemyBullets.forEach(eb => { eb.x += eb.vx; eb.y += eb.vy; });
+    enemyBullets = enemyBullets.filter(eb => Math.abs(eb.x - hero.x) < 600);
+    enemyBullets.forEach(eb => {
+      if (eb.x < hero.x + hero.w && eb.x + eb.w > hero.x && eb.y < hero.y + hero.h && eb.y + eb.h > hero.y) {
+        eb.x = 99999;
+        damageHero();
+      }
+    });
+
+    // Düşmanlar
     enemies.forEach(en => {
       if (!en.alive) return;
       en.x += en.vx;
       if (en.x < en.minX || en.x + en.w > en.maxX) en.vx *= -1;
 
-      // Mermi isabeti
+      if (en.type === 'TURRET' && Math.abs(en.x - hero.x) < 420) {
+        en.shootCd--;
+        if (en.shootCd <= 0) {
+          en.shootCd = 115;
+          const dir = hero.x < en.x ? -1 : 1;
+          enemyBullets.push({ x: en.x + 10, y: en.y + 8, w: 8, h: 8, vx: dir * 4.2, vy: 0 });
+        }
+      }
+
       bullets.forEach(b => {
         if (b.x < en.x + en.w && b.x + b.w > en.x && b.y < en.y + en.h && b.y + b.h > en.y) {
-          en.alive = false;
           b.x = 99999;
-          score += 100;
-          sfx('stomp');
-          spawnText(en.x, en.y - 8, 'PATCHED +100');
-          updateHud();
+          en.hp--;
+          spawnSparks(en.x + 10, en.y + 10, 6);
+          if (en.hp <= 0) {
+            en.alive = false;
+            const pts = addCommits(80);
+            sfx('stomp');
+            spawnText(en.x, en.y - 8, 'PATCHED +' + pts);
+          } else {
+            sfx('stomp');
+          }
         }
       });
 
       if (!en.alive) return;
-
-      // Kahraman çarpışması
       if (hero.x < en.x + en.w && hero.x + hero.w > en.x && hero.y < en.y + en.h && hero.y + hero.h > en.y) {
-        // Üzerine zıpladıysa ez
-        if (hero.vy > 0 && prevY + hero.h <= en.y + 12) {
+        if (hero.vy > 0 && prevY + hero.h <= en.y + 14) {
           en.alive = false;
-          hero.vy = -7.5;
-          score += 120;
+          hero.vy = -8.0;
+          const pts = addCommits(100);
           sfx('stomp');
-          spawnText(en.x, en.y - 8, 'BUG FIXED +120');
-          updateHud();
+          spawnSparks(en.x + 10, en.y + 10, 8);
+          spawnText(en.x, en.y - 8, 'STOMP +' + pts);
         } else {
           damageHero();
         }
       }
     });
 
-    // BOSS (PROD_SERVER_CRASH) Mantığı
+    // BOSS
     if (boss && boss.alive) {
       if (boss.flash > 0) boss.flash--;
       boss.x += boss.vx;
       if (boss.x < boss.minX || boss.x + boss.w > boss.maxX) boss.vx *= -1;
 
+      if (Math.abs(boss.x - hero.x) < 500) {
+        boss.shootCd--;
+        if (boss.shootCd <= 0) {
+          boss.shootCd = Math.max(45, 95 - save.world * 6);
+          const dir = hero.x < boss.x ? -1 : 1;
+          enemyBullets.push({ x: boss.x + 20, y: boss.y + 34, w: 10, h: 10, vx: dir * 5.0, vy: 0 });
+        }
+      }
+
       bullets.forEach(b => {
         if (b.x < boss.x + boss.w && b.x + b.w > boss.x && b.y < boss.y + boss.h && b.y + b.h > boss.y) {
           b.x = 99999;
           boss.hp--;
-          boss.flash = 10;
+          boss.flash = 8;
+          spawnSparks(boss.x + 25, boss.y + 25, 8);
           sfx('stomp');
-          spawnText(boss.x + 10, boss.y - 10, 'HOTFIX HIT!');
           if (boss.hp <= 0) {
             boss.alive = false;
-            score += 1000;
+            const pts = addCommits(600 * save.world);
             sfx('win');
-            spawnText(boss.x, boss.y - 20, 'SERVER STABILIZED +1000!');
-            updateHud();
+            spawnSparks(boss.x + 30, boss.y + 30, 25);
+            spawnText(boss.x, boss.y - 20, 'BOSS DOWN +' + pts + '!');
           }
         }
       });
 
       if (boss.alive && hero.x < boss.x + boss.w && hero.x + hero.w > boss.x && hero.y < boss.y + boss.h && hero.y + hero.h > boss.y) {
-        if (hero.vy > 0 && prevY + hero.h <= boss.y + 14) {
-          hero.vy = -8.5;
-          boss.hp--;
+        if (hero.vy > 0 && prevY + hero.h <= boss.y + 15) {
+          hero.vy = -9.0;
+          boss.hp -= 2;
           boss.flash = 10;
           sfx('stomp');
           if (boss.hp <= 0) {
             boss.alive = false;
-            score += 1000;
+            const pts = addCommits(600 * save.world);
             sfx('win');
-            updateHud();
+            spawnText(boss.x, boss.y - 20, 'BOSS DOWN +' + pts + '!');
           }
         } else {
           damageHero();
@@ -2342,20 +2617,22 @@ document.querySelectorAll('button').forEach(b => {
       }
     }
 
-    // Bölüm Sonu Deploy Bayrağına Ulaşma
-    if (hero.x >= LEVEL_END && (!boss || !boss.alive)) {
+    // Deploy Bayrağına Ulaşma
+    if (hero.x >= levelEnd && (!boss || !boss.alive)) {
       state = 'win';
-      score += 500;
+      addCommits(300 * save.world);
       sfx('win');
-      updateHud();
     }
 
-    // Parçacıklar
-    particles.forEach(p => { p.y += p.vy; p.life--; });
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.isSpark) p.vy += 0.25;
+      p.life--;
+    });
     particles = particles.filter(p => p.life > 0);
 
-    // Kamera takibi
-    cameraX = Math.max(0, Math.min(LEVEL_END - 450, hero.x - 210));
+    cameraX = Math.max(0, Math.min(levelEnd - 540, hero.x - 240));
     if (frame % 15 === 0) updateHud();
   }
 
@@ -2366,31 +2643,42 @@ document.querySelectorAll('button').forEach(b => {
     ctx.save();
     ctx.translate(-cameraX, 0);
 
-    // Arka plan uzak sunucu kuleleri (Parallax)
+    // Arka plan veri kuleleri
     ctx.strokeStyle = col;
-    ctx.globalAlpha = 0.14;
-    for (let sx = 80; sx < LEVEL_END + 300; sx += 260) {
-      ctx.strokeRect(sx, 75, 48, 195);
-      ctx.strokeRect(sx + 10, 95, 28, 10);
-      ctx.strokeRect(sx + 10, 118, 28, 10);
+    ctx.globalAlpha = 0.12;
+    for (let sx = 60; sx < levelEnd + 300; sx += 240) {
+      ctx.strokeRect(sx, 85, 52, 230);
+      ctx.strokeRect(sx + 10, 105, 32, 12);
+      ctx.strokeRect(sx + 10, 130, 32, 12);
     }
     ctx.globalAlpha = 1;
 
-    // Zemin çizimi (Çukurlar hariç)
+    // Zemin
     ctx.strokeStyle = col;
     ctx.lineWidth = 2;
-    for (let gx = 0; gx < LEVEL_END + 300; gx += 24) {
+    for (let gx = 0; gx < levelEnd + 300; gx += 24) {
       if (isOverPit(gx, 12)) {
-        // Memory Leak uyarı çizgisi
         ctx.fillStyle = '#ff2a55';
-        ctx.fillRect(gx, GROUND_Y + 18, 20, 12);
+        ctx.fillRect(gx, GROUND_Y + 22, 20, 14);
         continue;
       }
-      ctx.strokeRect(gx, GROUND_Y, 22, 14);
-      ctx.strokeRect(gx + 6, GROUND_Y + 14, 22, 14);
+      ctx.strokeRect(gx, GROUND_Y, 22, 15);
+      ctx.strokeRect(gx + 6, GROUND_Y + 15, 22, 15);
     }
 
-    // Platformlar & Borular
+    // Checkpoint Bayrağı
+    ctx.strokeStyle = checkpointActive ? col : 'rgba(255,255,255,0.35)';
+    ctx.beginPath();
+    ctx.moveTo(checkpointX, GROUND_Y);
+    ctx.lineTo(checkpointX, GROUND_Y - 45);
+    ctx.stroke();
+    ctx.fillStyle = checkpointActive ? col : 'rgba(255,255,255,0.25)';
+    ctx.fillRect(checkpointX, GROUND_Y - 45, 34, 14);
+    ctx.fillStyle = '#020804';
+    ctx.font = 'bold 9px Courier New';
+    ctx.fillText('SAVE', checkpointX + 4, GROUND_Y - 35);
+
+    // Platformlar
     platforms.forEach(pl => {
       ctx.strokeStyle = col;
       ctx.fillStyle = 'rgba(0, 255, 102, 0.1)';
@@ -2398,10 +2686,19 @@ document.querySelectorAll('button').forEach(b => {
       ctx.strokeRect(pl.x, pl.y, pl.w, pl.h);
       ctx.fillStyle = col;
       ctx.font = '10px Courier New';
-      if (pl.label !== 'PIPE') ctx.fillText(pl.label, pl.x + 8, pl.y + 11);
+      ctx.fillText(pl.label, pl.x + 8, pl.y + 11);
     });
 
-    // [?] Gizli Bloklar
+    // Yaylar
+    springs.forEach(sp => {
+      ctx.strokeStyle = col;
+      ctx.fillStyle = col;
+      const offset = sp.bounce > 0 ? -5 : 0;
+      ctx.fillRect(sp.x, sp.y + offset, sp.w, 4);
+      ctx.strokeRect(sp.x + 4, sp.y + 4 + offset, sp.w - 8, sp.h - 4 - offset);
+    });
+
+    // [?] Blokları
     qBlocks.forEach(qb => {
       ctx.strokeStyle = col;
       ctx.fillStyle = qb.hit ? 'rgba(255,255,255,0.05)' : 'rgba(0, 255, 102, 0.2)';
@@ -2412,99 +2709,119 @@ document.querySelectorAll('button').forEach(b => {
       ctx.fillText(qb.hit ? '-' : '?', qb.x + 9, qb.y + 18);
     });
 
+    // Altınlar
+    coins.forEach(c => {
+      if (c.taken) return;
+      ctx.strokeStyle = col;
+      ctx.fillStyle = col;
+      const pulse = Math.abs(Math.sin(frame * 0.12)) * 4 + 3;
+      ctx.strokeRect(c.x - pulse, c.y - 7, pulse * 2, 14);
+      ctx.font = '10px Courier New';
+      ctx.fillText('$', c.x - 3, c.y + 4);
+    });
+
     // Düşmanlar
     enemies.forEach(en => {
       if (!en.alive) return;
       ctx.strokeStyle = '#ff2a55';
-      ctx.fillStyle = 'rgba(255, 42, 85, 0.2)';
+      ctx.fillStyle = 'rgba(255, 42, 85, 0.22)';
       ctx.fillRect(en.x, en.y, en.w, en.h);
       ctx.strokeRect(en.x, en.y, en.w, en.h);
       ctx.fillStyle = '#ff2a55';
-      ctx.font = 'bold 9px Courier New';
-      ctx.fillText(en.type, en.x + 3, en.y + 13);
+      ctx.font = 'bold 8px Courier New';
+      ctx.fillText(en.type, en.x + 2, en.y + 14);
     });
 
-    // BOSS Çizimi
+    // BOSS
     if (boss && boss.alive) {
       ctx.strokeStyle = boss.flash > 0 ? '#ffffff' : '#ff2a55';
-      ctx.fillStyle = 'rgba(255, 42, 85, 0.22)';
+      ctx.fillStyle = 'rgba(255, 42, 85, 0.25)';
       ctx.fillRect(boss.x, boss.y, boss.w, boss.h);
       ctx.strokeRect(boss.x, boss.y, boss.w, boss.h);
       ctx.fillStyle = '#ff2a55';
       ctx.font = 'bold 10px Courier New';
-      ctx.fillText('500 ERR', boss.x + 5, boss.y + 24);
-      ctx.fillText('HP:' + boss.hp + '/' + boss.maxHp, boss.x + 7, boss.y + 40);
+      ctx.fillText('500 CRASH', boss.x + 3, boss.y + 24);
+      ctx.fillText('HP:' + boss.hp + '/' + boss.maxHp, boss.x + 8, boss.y + 44);
     }
 
-    // Bölüm Sonu Deploy Bayrağı
+    // Bölüm Sonu Bayrağı
     ctx.strokeStyle = col;
     ctx.beginPath();
-    ctx.moveTo(LEVEL_END, GROUND_Y);
-    ctx.lineTo(LEVEL_END, 110);
+    ctx.moveTo(levelEnd, GROUND_Y);
+    ctx.lineTo(levelEnd, 130);
     ctx.stroke();
     ctx.fillStyle = (!boss || !boss.alive) ? col : 'rgba(255,255,255,0.2)';
-    ctx.fillRect(LEVEL_END, 112, 68, 24);
+    ctx.fillRect(levelEnd, 132, 74, 24);
     ctx.fillStyle = '#020804';
     ctx.font = 'bold 11px Courier New';
-    ctx.fillText('PROD_LIVE', LEVEL_END + 4, 128);
+    ctx.fillText('DEPLOY >>', levelEnd + 6, 148);
 
-    // HOTFIX Mermileri
-    bullets.forEach(b => {
+    // Mermiler
+    bullets.forEach(b => { ctx.fillStyle = col; ctx.fillRect(b.x, b.y, b.w, b.h); });
+    enemyBullets.forEach(eb => { ctx.fillStyle = '#ff2a55'; ctx.fillRect(eb.x, eb.y, eb.w, eb.h); });
+
+    // AI Copilot Drone
+    if (save.droneLv > 0) {
+      const dx = hero.x + (hero.facing === 1 ? -14 : 26);
+      const dy = hero.y - 14 + Math.sin(frame * 0.15) * 3;
+      ctx.strokeStyle = col;
       ctx.fillStyle = col;
-      ctx.fillRect(b.x, b.y, b.w, b.h);
-    });
+      ctx.strokeRect(dx, dy, 12, 8);
+      ctx.fillRect(dx + 4, dy + 2, 4, 4);
+    }
 
-    // Kahraman (Yavuz) Çizimi
+    // Kahraman (Yavuz)
     if (hero.invuln % 6 < 3) {
       ctx.fillStyle = col;
-      // Şapka
       ctx.fillRect(hero.x + 2, hero.y, 18, 5);
-      // Kafa
       ctx.fillRect(hero.x + 4, hero.y + 5, 14, 9);
       ctx.fillStyle = '#020804';
-      const eyeX = hero.facing === 1 ? hero.x + 13 : hero.x + 6;
-      ctx.fillRect(eyeX, hero.y + 7, 3, 3);
-      // Gövde
+      ctx.fillRect(hero.facing === 1 ? hero.x + 13 : hero.x + 6, hero.y + 7, 3, 3);
       ctx.fillStyle = col;
       ctx.fillRect(hero.x + 3, hero.y + 14, 16, 10);
-      // Bacaklar
       const legAnim = Math.abs(hero.vx) > 0.3 ? (Math.floor(frame / 5) % 2 === 0 ? 0 : 4) : 1;
       ctx.fillRect(hero.x + 3 + legAnim, hero.y + 24, 5, 6);
       ctx.fillRect(hero.x + 13 - legAnim, hero.y + 24, 5, 6);
 
-      // WAF Kalkan Halkası
       if (hero.shield) {
         ctx.strokeStyle = col;
         ctx.strokeRect(hero.x - 4, hero.y - 4, hero.w + 8, hero.h + 8);
       }
     }
 
-    // Uçuşan Skor / Bilgilendirme Yazıları
+    // Parçacıklar & Uçuşan Metinler
     particles.forEach(p => {
       ctx.fillStyle = col;
-      ctx.font = 'bold 11px Courier New';
-      ctx.fillText(p.text, p.x, p.y);
+      if (p.isSpark) {
+        ctx.fillRect(p.x, p.y, 3, 3);
+      } else {
+        ctx.font = 'bold 11px Courier New';
+        ctx.fillText(p.text, p.x, p.y);
+      }
     });
 
     ctx.restore();
 
-    // Oyun Sonu veya Zafer Ekranı
+    // Durum Ekranları
     if (state === 'gameover' || state === 'win') {
-      ctx.fillStyle = 'rgba(2, 8, 4, 0.86)';
-      ctx.fillRect(150, 90, 420, 120);
+      ctx.fillStyle = 'rgba(2, 8, 4, 0.88)';
+      ctx.fillRect(190, 110, 460, 130);
       ctx.strokeStyle = state === 'win' ? col : '#ff2a55';
       ctx.lineWidth = 2;
-      ctx.strokeRect(150, 90, 420, 120);
+      ctx.strokeRect(190, 110, 460, 130);
 
       ctx.fillStyle = state === 'win' ? col : '#ff2a55';
       ctx.font = 'bold 18px Courier New';
       ctx.fillText(
-        state === 'win' ? '🚀 PRODUCTION DEPLOY BAŞARILI!' : '💥 FATAL ERROR // SİSTEM ÇÖKTÜ!',
-        185, 132
+        state === 'win' ? `🚀 WORLD ${save.world} DEPLOY TAMAMLANDI!` : '💥 KERNEL PANIC // SİSTEM ÇÖKTÜ!',
+        225, 152
       );
       ctx.fillStyle = col;
       ctx.font = '13px Courier New';
-      ctx.fillText('Toplam Commit Skoru: ' + score + ' | Yeniden denemek için [BOŞLUK]', 175, 168);
+      ctx.fillText(
+        state === 'win' ? `World ${save.world + 1} için [BOŞLUK] tuşuna bas!` : (checkpointActive ? 'Checkpoint noktasından devam için [BOŞLUK]' : 'Yeniden başlamak için [BOŞLUK]'),
+        235, 192
+      );
     }
   }
 
@@ -2515,10 +2832,63 @@ document.querySelectorAll('button').forEach(b => {
     animId = requestAnimationFrame(loop);
   }
 
+  // Kalıcı Mağaza Yükseltme Butonları
+  document.getElementById('upgWeapon')?.addEventListener('click', () => {
+    const cost = save.weaponLv * 250;
+    if (save.weaponLv < 4 && save.commits >= cost) {
+      save.commits -= cost;
+      save.weaponLv++;
+      sfx('power');
+      persistSave();
+      updateHud();
+    }
+  });
+
+  document.getElementById('upgDrone')?.addEventListener('click', () => {
+    const cost = (save.droneLv + 1) * 400;
+    if (save.droneLv < 3 && save.commits >= cost) {
+      save.commits -= cost;
+      save.droneLv++;
+      sfx('power');
+      persistSave();
+      updateHud();
+    }
+  });
+
+  document.getElementById('upgHp')?.addEventListener('click', () => {
+    const cost = (save.maxHp - 2) * 300;
+    if (save.maxHp < 6 && save.commits >= cost) {
+      save.commits -= cost;
+      save.maxHp++;
+      hero.hp = save.maxHp;
+      sfx('power');
+      persistSave();
+      updateHud();
+    }
+  });
+
+  document.getElementById('upgMagnet')?.addEventListener('click', () => {
+    const cost = (save.magnetLv + 1) * 200;
+    if (save.magnetLv < 3 && save.commits >= cost) {
+      save.commits -= cost;
+      save.magnetLv++;
+      sfx('power');
+      persistSave();
+      updateHud();
+    }
+  });
+
+  if (btnAutoFire) {
+    btnAutoFire.addEventListener('click', () => {
+      autoFire = !autoFire;
+      btnAutoFire.textContent = autoFire ? '[AUTO-PATCH: AÇIK]' : '[AUTO-PATCH: KAPALI]';
+    });
+  }
+
   btnOpen.addEventListener('click', () => {
     modal.style.display = 'block';
     running = true;
-    buildWorld();
+    buildWorld(false);
     cancelAnimationFrame(animId);
     loop();
   });
@@ -2531,9 +2901,8 @@ document.querySelectorAll('button').forEach(b => {
     });
   }
 
-  if (btnRestart) btnRestart.addEventListener('click', buildWorld);
+  if (btnRestart) btnRestart.addEventListener('click', () => buildWorld(false));
 
-  // Klavye Kontrolleri
   window.addEventListener('keydown', (e) => {
     if (modal.style.display !== 'block') return;
     if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
@@ -2546,6 +2915,9 @@ document.querySelectorAll('button').forEach(b => {
       e.preventDefault();
       doShoot();
     }
+    if (e.code === 'KeyT' && btnAutoFire) {
+      btnAutoFire.click();
+    }
   });
 
   window.addEventListener('keyup', (e) => {
@@ -2553,7 +2925,6 @@ document.querySelectorAll('button').forEach(b => {
     if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
   });
 
-  // Dokunmatik / Mouse Buton Kontrolleri
   function bindHold(id, prop) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -2571,6 +2942,7 @@ document.querySelectorAll('button').forEach(b => {
 </script>
 </body>
 </html>
+
 
 
 
