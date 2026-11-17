@@ -197,28 +197,31 @@
             .title-bar, .no-print { display: none !important; }
         }
     /* === YAVUZ-OS CENTER DECK WIDGETS === */
+.cyber-deck-center, .yavuz-fm-widget, .sticky-wall-widget, .achievement-toast {
+  color: var(--neon, var(--primary, #00ff66)) !important;
+  border-color: var(--neon, var(--primary, #00ff66)) !important;
+  font-family: 'Courier New', Courier, monospace;
+}
 .cyber-deck-center {
   position: fixed;
-  top: 50%;
+  top: 48%;
   left: 50%;
-  transform: translate(-50%, -52%);
-  width: min(560px, 90vw);
-  background: rgba(5, 12, 8, 0.86);
-  border: 1px solid currentColor;
-  box-shadow: 0 0 20px rgba(0, 255, 102, 0.12), inset 0 0 15px rgba(0, 255, 102, 0.05);
+  transform: translate(-50%, -50%);
+  width: min(560px, 88vw);
+  background: rgba(4, 12, 8, 0.92);
+  border: 1px solid;
+  box-shadow: 0 0 24px rgba(0, 255, 102, 0.16), inset 0 0 15px rgba(0, 255, 102, 0.06);
   padding: 16px 20px;
-  font-family: 'Courier New', Courier, monospace;
-  z-index: 5;
-  backdrop-filter: blur(3px);
+  z-index: 4;
   user-select: none;
 }
 .deck-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px dashed currentColor;
+  border-bottom: 1px dashed;
   padding-bottom: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   font-size: 12px;
   letter-spacing: 1px;
 }
@@ -228,50 +231,49 @@
   margin: 0 0 12px 0;
   white-space: pre;
   overflow-x: hidden;
-  opacity: 0.92;
+  text-shadow: 0 0 6px currentColor;
 }
 .deck-grid {
   display: grid;
-  grid-template-columns: 110px 1fr;
+  grid-template-columns: 115px 1fr;
   gap: 6px 10px;
   font-size: 13px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
-.deck-label { font-weight: bold; opacity: 0.8; }
+.deck-label { font-weight: bold; opacity: 0.85; }
 .deck-status-box {
-  border: 1px solid currentColor;
+  border: 1px solid;
   padding: 8px 10px;
   font-size: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.03);
 }
 .deck-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .deck-btn {
-  background: transparent;
-  color: inherit;
-  border: 1px solid currentColor;
+  background: rgba(0, 0, 0, 0.6);
+  color: inherit !important;
+  border: 1px solid !important;
   padding: 5px 10px;
   font-family: inherit;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
-.deck-btn:hover { background: rgba(0, 255, 102, 0.18); box-shadow: 0 0 8px currentColor; }
+.deck-btn:hover { background: rgba(0, 255, 102, 0.22); box-shadow: 0 0 8px currentColor; }
 .yavuz-fm-widget {
   position: fixed;
-  top: 215px;
+  top: 270px;
   right: 20px;
-  width: 240px;
-  background: rgba(5, 12, 8, 0.88);
-  border: 1px solid currentColor;
+  width: 245px;
+  background: rgba(4, 12, 8, 0.92);
+  border: 1px solid;
   padding: 10px 12px;
-  font-family: 'Courier New', Courier, monospace;
   font-size: 11px;
-  z-index: 5;
+  z-index: 4;
 }
 .fm-eq {
   display: flex;
@@ -279,42 +281,40 @@
   gap: 3px;
   height: 22px;
   margin: 8px 0;
-  border-bottom: 1px solid currentColor;
+  border-bottom: 1px solid;
   padding-bottom: 3px;
 }
-.fm-bar { flex: 1; background: currentColor; height: 15%; transition: height 0.12s ease; }
+.fm-bar { flex: 1; background: currentColor; height: 18%; transition: height 0.12s ease; }
 .sticky-wall-widget {
   position: fixed;
   bottom: 48px;
   right: 20px;
-  width: 240px;
-  background: rgba(5, 12, 8, 0.88);
-  border: 1px dashed currentColor;
+  width: 245px;
+  background: rgba(4, 12, 8, 0.92);
+  border: 1px dashed;
   padding: 10px 12px;
-  font-family: 'Courier New', Courier, monospace;
   font-size: 11px;
-  z-index: 5;
+  z-index: 4;
 }
 .sticky-input-row { display: flex; gap: 4px; margin-top: 6px; }
 .sticky-input {
   flex: 1;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid currentColor;
-  color: inherit;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid;
+  color: inherit !important;
   font-family: inherit;
   font-size: 11px;
-  padding: 3px 6px;
+  padding: 4px 6px;
   outline: none;
 }
 .achievement-toast {
   position: fixed;
-  bottom: 45px;
+  bottom: 50px;
   left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: #06140c;
-  border: 1px solid currentColor;
+  transform: translateX(-50%) translateY(120px);
+  background: #041008;
+  border: 1px solid;
   padding: 8px 16px;
-  font-family: 'Courier New', Courier, monospace;
   font-size: 12px;
   z-index: 9999;
   opacity: 0;
@@ -322,10 +322,6 @@
   pointer-events: none;
 }
 .achievement-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-@media (max-width: 900px) {
-  .cyber-deck-center { position: relative; top: auto; left: auto; transform: none; margin: 20px auto; }
-  .yavuz-fm-widget, .sticky-wall-widget { position: static; width: min(560px, 90vw); margin: 10px auto; }
-}
 </style>
 </head>
 <body>
@@ -1101,8 +1097,92 @@
                 }
             });
         });
-    /* === YAVUZ-OS INTERACTIVE DECK LOGIC (ZERO-XSS) === */
+    </script>
+<!-- MERKEZ KİMLİK VE SİSTEM KARTI -->
+<section class="cyber-deck-center" id="centerDeckCard" aria-label="Sistem Özeti">
+  <div class="deck-header">
+    <span>SYSTEM_BOOT // YAVUZ_BIO.SYS</span>
+    <span id="deckUptime">UPTIME: 00:00:00</span>
+  </div>
+  <pre class="deck-ascii" aria-hidden="true">
+ __   __ ___  __   __ _   _  ____        ___  ____  
+ \ \ / // _ \ \ \ / /| | | ||_  / _____ / _ \/ ___| 
+  \ V /| |_| | \ V / | |_| | / / |_____| | | \___ \ 
+   |_| |_| |_|  \_/   \___/ /___|       \___/|____/  v3.0
+  </pre>
+  <div class="deck-grid">
+    <span class="deck-label">GELİŞTİRİCİ:</span>
+    <span>Yavuz Can (@llyavuz)</span>
+    <span class="deck-label">UNVAN & ROL:</span>
+    <span>YBS 4. Sınıf | Security & Backend Dev | GDG Burdur Org.</span>
+    <span class="deck-label">LOKASYON:</span>
+    <span>Denizli / Burdur — Türkiye</span>
+    <span class="deck-label">ODAK ALANI:</span>
+    <span>AI-SOC (AegisMesh), Anti-Bot Scraping, FastAPI & Kotlin</span>
+  </div>
+  <div class="deck-status-box">
+    <span id="yavuzMoodText">&gt; DURUM: Yeni bir açık kaynak repo kurcalıyor...</span>
+    <button type="button" class="deck-btn" id="btnNextMood">[YENİLE]</button>
+  </div>
+  <div class="deck-actions">
+    <button type="button" class="deck-btn" data-launch="cv">[📄 CV_Yavuz.exe]</button>
+    <button type="button" class="deck-btn" data-launch="ctf">[🚩 Hack_CTF.exe]</button>
+    <button type="button" class="deck-btn" data-launch="snake">[🐍 Cyber_Snake.exe]</button>
+    <button type="button" class="deck-btn" id="btnToggleDeck">[GİZLE]</button>
+  </div>
+</section>
+
+<!-- SAĞ ÜST RADAR ALTI: 8-BIT SYNTH RADYO -->
+<aside class="yavuz-fm-widget" aria-label="Yavuz FM Synth Radyo">
+  <div style="display:flex; justify-content:space-between; font-weight:bold;">
+    <span>YAVUZ_FM // 8-BIT</span>
+    <span id="fmStatusLabel">[OFFLINE]</span>
+  </div>
+  <div id="fmTrackName" style="margin-top:4px;">PARÇA: Cyber-Deck Night</div>
+  <div class="fm-eq" id="fmEqualizer">
+    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
+    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
+    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
+    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
+  </div>
+  <div style="display:flex; gap:6px;">
+    <button type="button" class="deck-btn" id="btnFmPlay" style="flex:1;">[▶ ÇAL / DUR]</button>
+    <button type="button" class="deck-btn" id="btnFmNext">[⏭]</button>
+  </div>
+</aside>
+
+<!-- ZİYARETÇİ YAPIŞKAN NOTU & BAŞARIM DURUMU -->
+<aside class="sticky-wall-widget" aria-label="Ziyaretçi Notu">
+  <div style="display:flex; justify-content:space-between; font-weight:bold;">
+    <span>DUVAR_NOTU.stick</span>
+    <span id="achCounter">ÖDÜL: 0/3</span>
+  </div>
+  <p id="stickyNoteDisplay" style="margin:6px 0; line-height:1.35;">
+    "Selam! Sağ üstten 8-bit radyoyu aç, CTF şifresini kırmayı dene veya aşağıya kendi izini bırak."
+  </p>
+  <div class="sticky-input-row">
+    <input type="text" id="stickyNoteInput" class="sticky-input" maxlength="80" placeholder="Kısa notun...">
+    <button type="button" class="deck-btn" id="btnSaveNote">YAZ</button>
+  </div>
+</aside>
+
+<div class="achievement-toast" id="achToast" role="status" aria-live="polite"></div>
+
+<script>
 (function initYavuzDeck() {
+  // Amber / Yeşil tema senkronizasyonu
+  function syncThemeColor() {
+    const isAmber = document.body.classList.contains('amber') || document.documentElement.getAttribute('data-theme') === 'amber' || document.body.innerText.includes('AMBER AKTİF');
+    const col = getComputedStyle(document.querySelector('.hud-box, .shield-hud, #shield-hud, .desktop-icon') || document.body).color;
+    const finalCol = (col && col !== 'rgb(0, 0, 0)' && col !== 'rgba(0, 0, 0, 0)') ? col : '#00ff66';
+    document.querySelectorAll('.cyber-deck-center, .yavuz-fm-widget, .sticky-wall-widget, .achievement-toast').forEach(el => {
+      el.style.setProperty('color', finalCol, 'important');
+      el.style.setProperty('border-color', finalCol, 'important');
+    });
+  }
+  syncThemeColor();
+  document.addEventListener('click', () => setTimeout(syncThemeColor, 50));
+
   const startTime = Date.now();
   const uptimeEl = document.getElementById('deckUptime');
   setInterval(() => {
@@ -1147,17 +1227,19 @@
   document.querySelectorAll('[data-launch]').forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.getAttribute('data-launch');
-      const allIcons = Array.from(document.querySelectorAll('.desktop-icon, [ondblclick], [onclick]'));
+      const allIcons = Array.from(document.querySelectorAll('div, button, span'));
       const match = allIcons.find(el => {
-        const txt = (el.textContent || '').toLowerCase();
-        if (target === 'cv') return txt.includes('cv_yavuz');
-        if (target === 'ctf') return txt.includes('hack_ctf');
-        if (target === 'snake') return txt.includes('snake');
+        if (el.closest('.cyber-deck-center')) return false;
+        const txt = (el.textContent || '').trim().toLowerCase();
+        if (target === 'cv') return txt === 'cv_yavuz.exe';
+        if (target === 'ctf') return txt === 'hack_ctf.exe';
+        if (target === 'snake') return txt === 'cyber_snake.exe';
         return false;
       });
       if (match) {
-        match.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
-        match.click();
+        const clickable = match.parentElement || match;
+        clickable.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+        clickable.click();
       }
     });
   });
@@ -1212,7 +1294,7 @@
       if (fmStatus) fmStatus.textContent = '[ON AIR]';
       fmTimer = setInterval(playStep, 220);
       eqTimer = setInterval(() => {
-        bars.forEach(b => { b.style.height = `${15 + Math.floor(Math.random() * 85)}%`; });
+        bars.forEach(b => { b.style.height = `${18 + Math.floor(Math.random() * 82)}%`; });
       }, 130);
       unlockAchievement('synth_dj', '🏆 BAŞARIM: 8-Bit Cyber DJ!');
     } else {
@@ -1220,7 +1302,7 @@
       if (fmStatus) fmStatus.textContent = '[OFFLINE]';
       clearInterval(fmTimer);
       clearInterval(eqTimer);
-      bars.forEach(b => { b.style.height = '15%'; });
+      bars.forEach(b => { b.style.height = '18%'; });
     }
   }
 
@@ -1253,74 +1335,5 @@
   }
 })();
 </script>
-<!-- MERKEZ KİMLİK VE SİSTEM KARTI -->
-<section class="cyber-deck-center" id="centerDeckCard" aria-label="Sistem Özeti">
-  <div class="deck-header">
-    <span>SYSTEM_BOOT // YAVUZ_BIO.SYS</span>
-    <span id="deckUptime">UPTIME: 00:00:00</span>
-  </div>
-  <pre class="deck-ascii" aria-hidden="true">
- __   __ ___  __   __ _   _  ____        ___  ____  
- \ \ / // _ \ \ \ / /| | | ||_  / _____ / _ \/ ___| 
-  \ V /| |_| | \ V / | |_| | / / |_____| | | \___ \ 
-   |_| |_| |_|  \_/   \___/ /___|       \___/|____/  v3.0
-  </pre>
-  <div class="deck-grid">
-    <span class="deck-label">GELİŞTİRİCİ:</span>
-    <span>Yavuz Can (@llyavuz)</span>
-    <span class="deck-label">UNVAN & ROL:</span>
-    <span>YBS 4. Sınıf | Security & Backend Dev | GDG Burdur Org.</span>
-    <span class="deck-label">LOKASYON:</span>
-    <span>Denizli / Burdur — Türkiye</span>
-    <span class="deck-label">ODAK ALANI:</span>
-    <span>AI-SOC (AegisMesh), Anti-Bot Scraping, FastAPI & Kotlin</span>
-  </div>
-  <div class="deck-status-box">
-    <span id="yavuzMoodText">&gt; DURUM: Yeni bir açık kaynak repo kurcalıyor...</span>
-    <button type="button" class="deck-btn" id="btnNextMood">[YENİLE]</button>
-  </div>
-  <div class="deck-actions">
-    <button type="button" class="deck-btn" data-launch="cv">[📄 CV_Yavuz.exe]</button>
-    <button type="button" class="deck-btn" data-launch="ctf">[🚩 Hack_CTF.exe]</button>
-    <button type="button" class="deck-btn" data-launch="snake">[🐍 Cyber_Snake.exe]</button>
-    <button type="button" class="deck-btn" id="btnToggleDeck">[GİZLE]</button>
-  </div>
-</section>
-
-<!-- SAĞ ÜST RADAR ALTI: 8-BIT SYNTH RADYO -->
-<aside class="yavuz-fm-widget" aria-label="Yavuz FM Synth Radyo">
-  <div style="display:flex; justify-content:space-between; font-weight:bold;">
-    <span>YAVUZ_FM // 8-BIT</span>
-    <span id="fmStatusLabel">[OFFLINE]</span>
-  </div>
-  <div id="fmTrackName" style="margin-top:4px; opacity:0.85;">PARÇA: Cyber-Deck Night</div>
-  <div class="fm-eq" id="fmEqualizer">
-    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
-    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
-    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
-    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
-  </div>
-  <div style="display:flex; gap:6px;">
-    <button type="button" class="deck-btn" id="btnFmPlay" style="flex:1;">[▶ ÇAL / DUR]</button>
-    <button type="button" class="deck-btn" id="btnFmNext">[⏭]</button>
-  </div>
-</aside>
-
-<!-- ZİYARETÇİ YAPIŞKAN NOTU & BAŞARIM DURUMU -->
-<aside class="sticky-wall-widget" aria-label="Ziyaretçi Notu">
-  <div style="display:flex; justify-content:space-between; font-weight:bold;">
-    <span>DUVAR_NOTU.stick</span>
-    <span id="achCounter">ÖDÜL: 0/3</span>
-  </div>
-  <p id="stickyNoteDisplay" style="margin:6px 0; line-height:1.35; opacity:0.9;">
-    "Selam! Sağ üstten 8-bit radyoyu aç, CTF şifresini kırmayı dene veya aşağıya kendi izini bırak."
-  </p>
-  <div class="sticky-input-row">
-    <input type="text" id="stickyNoteInput" class="sticky-input" maxlength="80" placeholder="Kısa notun...">
-    <button type="button" class="deck-btn" id="btnSaveNote">YAZ</button>
-  </div>
-</aside>
-
-<div class="achievement-toast" id="achToast" role="status" aria-live="polite"></div>
 </body>
 </html>
