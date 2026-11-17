@@ -603,6 +603,157 @@ body.theme-amber #marioModal {
   font-size: 11px;
 }
 .mobile-pad { display: flex; gap: 5px; }
+
+/* === YAVUZ_ACADEMY.EXE - DEVASA YAZILIM & AI AKADEMİSİ === */
+#academyModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(980px, 96vw);
+  height: min(640px, 90vh);
+  background: rgba(3, 10, 6, 0.98);
+  border: 2px solid #00ff66;
+  box-shadow: 0 0 45px rgba(0, 255, 102, 0.35);
+  color: #00ff66;
+  font-family: 'Courier New', Courier, monospace;
+  z-index: 1050;
+  display: none;
+  flex-direction: column;
+  padding: 14px;
+  box-sizing: border-box;
+}
+#centerDeckCard.is-amber ~ #academyModal,
+body.theme-amber #academyModal {
+  color: #ffb000 !important;
+  border-color: #ffb000 !important;
+  box-shadow: 0 0 45px rgba(255, 176, 0, 0.35) !important;
+}
+.acad-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 13px;
+}
+.acad-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.acad-tab {
+  background: rgba(0, 0, 0, 0.7);
+  color: inherit;
+  border: 1px solid currentColor;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0.75;
+}
+.acad-tab.active {
+  opacity: 1;
+  background: rgba(0, 255, 102, 0.22);
+  font-weight: bold;
+  box-shadow: 0 0 10px currentColor;
+}
+.acad-body {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  overflow: hidden;
+}
+.acad-sidebar {
+  width: 250px;
+  border: 1px solid currentColor;
+  padding: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.acad-main {
+  flex: 1;
+  border: 1px solid currentColor;
+  padding: 14px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.55);
+  line-height: 1.55;
+  font-size: 13px;
+}
+.acad-cat-btn {
+  text-align: left;
+  background: transparent;
+  color: inherit;
+  border: 1px dashed currentColor;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.acad-cat-btn:hover, .acad-cat-btn.active {
+  background: rgba(0, 255, 102, 0.16);
+  border-style: solid;
+}
+.lesson-card {
+  border: 1px solid currentColor;
+  padding: 12px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.lesson-badge {
+  display: inline-block;
+  border: 1px solid currentColor;
+  padding: 1px 6px;
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+.lesson-code {
+  background: rgba(0, 0, 0, 0.85);
+  border-left: 3px solid currentColor;
+  padding: 8px 10px;
+  margin-top: 8px;
+  font-size: 11.5px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.quiz-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.7);
+  color: inherit;
+  border: 1px solid currentColor;
+  padding: 8px 10px;
+  margin: 6px 0;
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.quiz-option:hover { background: rgba(0, 255, 102, 0.15); }
+.quiz-option.correct { background: rgba(0, 255, 102, 0.3); font-weight: bold; }
+.quiz-option.wrong { border-color: #ff2a55 !important; color: #ff2a55 !important; }
+.acad-input, .acad-textarea, .acad-select {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid currentColor;
+  color: inherit;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  outline: none;
+}
+@media (max-width: 768px) {
+  .acad-body { flex-direction: column; }
+  .acad-sidebar { width: 100%; max-height: 120px; flex-direction: row; flex-wrap: wrap; }
+}
 </style>
 </head>
 <body>
@@ -1034,6 +1185,7 @@ body.theme-amber #marioModal {
     <button type="button" class="deck-btn" id="btnSimulateAttack">[⚡ SALDIRI TESTİ]</button>
     <button type="button" class="deck-btn" id="btnMatrixRain">[🌀 MATRIX]</button>
     <button type="button" class="deck-btn" id="btnOpenMario">[🍄 SUPER_YAVUZ.exe]</button>
+    <button type="button" class="deck-btn" id="btnOpenAcademy" style="font-weight:bold;">[📚 YAVUZ_ACADEMY.exe]</button>
   </div>
   
   <div class="ai-ask-box">
@@ -1125,6 +1277,28 @@ body.theme-amber #marioModal {
       <button type="button" class="deck-btn" id="padFire">[⚡ ATEŞ]</button>
       <button type="button" class="deck-btn" id="btnRestartMario">[YENİ BÖLÜM]</button>
     </div>
+  </div>
+</div>
+
+<!-- YAVUZ_ACADEMY.EXE BİLGİ BANKASI, NOTLAR VE TEST MERKEZİ -->
+<div id="academyModal" role="dialog" aria-label="Yavuz Yazılım ve Yapay Zeka Akademisi">
+  <div class="acad-header">
+    <span>YAVUZ_ACADEMY.EXE // YAZILIM, YAPAY ZEKA & SİBER GÜVENLİK KÜTÜPHANESİ</span>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <span id="acadGlobalStats" style="font-size:11px;">PUAN: 0 | NOT: 0</span>
+      <button type="button" class="deck-btn" id="btnCloseAcademy">[X]</button>
+    </div>
+  </div>
+
+  <div class="acad-tabs">
+    <button type="button" class="acad-tab active" data-tab="lessons">[📖 DERS KÜTÜPHANESİ]</button>
+    <button type="button" class="acad-tab" data-tab="notes">[📝 ÇALIŞMA NOTLARIM (HERKESE AÇIK)]</button>
+    <button type="button" class="acad-tab" data-tab="quiz">[🎯 SEVİYELİ TEST & SINAV]</button>
+  </div>
+
+  <div class="acad-body">
+    <aside class="acad-sidebar" id="acadSidebar"></aside>
+    <main class="acad-main" id="acadMain"></main>
   </div>
 </div>
 <div class="taskbar">
@@ -2939,9 +3113,516 @@ document.querySelectorAll('button').forEach(b => {
   document.getElementById('padJump')?.addEventListener('click', doJump);
   document.getElementById('padFire')?.addEventListener('click', doShoot);
 })();
+
+/* === YAVUZ_ACADEMY.EXE ENGINE (ZERO-XSS / FULL CURRICULUM) === */
+(function initYavuzAcademy() {
+  const modal = document.getElementById('academyModal');
+  const btnOpen = document.getElementById('btnOpenAcademy');
+  const btnClose = document.getElementById('btnCloseAcademy');
+  const sidebar = document.getElementById('acadSidebar');
+  const main = document.getElementById('acadMain');
+  const statsEl = document.getElementById('acadGlobalStats');
+
+  if (!modal || !btnOpen || !sidebar || !main) return;
+
+  // 1. DEVASA MÜFREDAT VERİTABANI
+  const CURRICULUM = {
+    'Python & Backend': [
+      {
+        level: 'TEMEL',
+        title: 'Asenkron Programlama (Async/Await) Nedir?',
+        summary: 'Geleneksel senkron kodlarda bir veritabanı sorgusu veya HTTP isteği bitene kadar işlemci (thread) boş bekler. Asyncio ile I/O bekleme sürelerinde binlerce eşzamanlı isteğe yanıt verilir.',
+        code: 'import asyncio\n\nasync def veri_cek(id):\n    await asyncio.sleep(1) # I/O beklemesi\n    return f"Kayıt-{id} hazır"\n\nasync def main():\n    sonuclar = await asyncio.gather(veri_cek(1), veri_cek(2))\n    print(sonuclar)'
+      },
+      {
+        level: 'ORTA',
+        title: 'FastAPI Dependency Injection & Pydantic Doğrulama',
+        summary: 'FastAPI, gelen JSON verilerini çalışma anında Pydantic şemalarıyla doğrular ve veritabanı oturumu veya JWT yetki kontrolü gibi bağımlılıkları temiz şekilde enjekte eder.',
+        code: 'from fastapi import FastAPI, Depends, HTTPException\nfrom pydantic import BaseModel, Field\n\nclass KullaniciGiris(BaseModel):\n    kullanici_adi: str = Field(..., min_length=3, max_length=20)\n    yas: int = Field(..., ge=18)\n\napp = FastAPI()\n@app.post("/kayit")\nasync def kayit_ol(veri: KullaniciGiris):\n    return {"durum": "onaylandi", "user": veri.kullanici_adi}'
+      },
+      {
+        level: 'İLERİ',
+        title: 'Rate Limiting ve Token Bucket Algoritması',
+        summary: 'API uç noktalarını DDoS ve brute-force saldırılarından korumak için her IP veya kullanıcıya belirli sürede harcayabileceği bir jeton kovası (Token Bucket) atanır.',
+        code: '# Redis ile basit saniyelik istek sınırı mantığı:\n# INCR user_ip_key -> EXPIRE user_ip_key 60\n# Eğer sayaç > 100 ise HTTP 429 (Too Many Requests) döndür.'
+      }
+    ],
+    'Yapay Zeka & LLM': [
+      {
+        level: 'TEMEL',
+        title: 'Tokenizasyon ve Embedding (Vektör Temsili) Mantığı',
+        summary: 'Dil modelleri kelimeleri doğrudan anlamaz; metni alt-kelime parçacıklarına (Token) böler ve her parçayı çok boyutlu uzayda anlamsal yakınlığı ifade eden sayı dizilerine (Embedding) dönüştürür.',
+        code: '# Örnek: "Kral - Erkek + Kadın ≈ Kraliçe"\n# Kosinüs Benzerliği (Cosine Similarity) ile iki metnin\n# vektörleri arasındaki açı ne kadar küçükse anlamları o kadar yakındır.'
+      },
+      {
+        level: 'ORTA',
+        title: 'RAG (Retrieval-Augmented Generation) Mimarisi',
+        summary: 'LLM modellerinin halüsinasyon görmesini engellemek ve kendi özel dokümanlarımızla konuşmasını sağlamak için önce vektör veritabanından ilgili parçalar bulunur, ardından modele bağlam (context) olarak verilir.',
+        code: '1. Dokümanı Parçala (Chunking: 500 token)\n2. Embedding Modeli ile Vektöre Çevir -> Qdrant / pgvector kaydet\n3. Kullanıcı sorusunu vektöre çevir ve En Yakın 3 Parçayı (Top-K) bul\n4. Prompt: "Sadece şu bilgilere dayanarak cevapla: [Top-K] Soru: [Q]"'
+      },
+      {
+        level: 'İLERİ',
+        title: 'Fine-Tuning (LoRA / QLoRA) vs Prompt Engineering',
+        summary: 'Modelin yeni bilgi öğrenmesi için RAG kullanılır; ancak modelin konuşma üslubunu, JSON çıktı disiplinini veya belirli bir alandaki akıl yürütme biçimini değiştirmek için LoRA (Low-Rank Adaptation) ile sadece küçük ağırlık matrisleri eğitilir.',
+        code: '# QLoRA: Ana model ağırlıkları 4-bit olarak dondurulur,\n# sadece araya eklenen düşük ranklı (r=8 veya r=16) adaptör katmanları\n# eğitilerek tek GPU ile milyar parametreli modeller özelleştirilir.'
+      }
+    ],
+    'Siber Güvenlik & AppSec': [
+      {
+        level: 'TEMEL',
+        title: 'OWASP Top 10: XSS (Cross-Site Scripting) ve Savunması',
+        summary: 'Kullanıcıdan alınan zararlı JavaScript kodunun başka kullanıcıların tarayıcısında çalışmasıdır. Savunmak için asla innerHTML kullanılmamalı, textContent tercih edilmeli ve katı CSP başlıkları tanımlanmalıdır.',
+        code: '// YANLIŞ (XSS Açığı):\nelement.innerHTML = userInput;\n\n// DOĞRU (Güvenli):\nelement.textContent = userInput;'
+      },
+      {
+        level: 'ORTA',
+        title: 'TLS / JA3 Parmak İzi ve Bot Tespiti',
+        summary: 'Standart Python requests veya headless tarayıcılar, TLS el sıkışması (Client Hello) sırasında gönderdikleri şifreleme paketleri (Cipher Suites) sırasından gerçek bir Chrome/Firefox tarayıcısından kolayca ayırt edilir.',
+        code: '# Savunma Tarafı: WAF, bilinen bot JA3 hashlerini engeller.\n# Araştırma Tarafı (FiyatRadar): curl_cffi ile gerçek tarayıcı\n# TLS imzası taklit edilerek istemci doğrulaması test edilir.'
+      },
+      {
+        level: 'İLERİ',
+        title: 'Shannon Bilgi Entropisi ile Otonom Saldırı Tespiti',
+        summary: 'Rastgele üretilmiş şifreli yükler (payload), SQL injection denemeleri veya DDoS botnet URL parametreleri normal insan trafiğine göre çok daha yüksek karakter dağınıklığına (Shannon Entropisi > 7.5) sahiptir.',
+        code: 'import math\nfrom collections import Counter\n\ndef shannon_entropy(data: str) -> float:\n    probs = [n / len(data) for n in Counter(data).values()]\n    return -sum(p * math.log2(p) for p in probs)'
+      }
+    ],
+    'Veritabanı & Mimari': [
+      {
+        level: 'TEMEL',
+        title: 'SQL İndeksleme (B-Tree) Nasıl Hız Kazandırır?',
+        summary: 'İndeks olmayan bir tabloda milyonlarca satır tek tek taranır (Full Table Scan - O(N)). B-Tree indeksi veriyi dengeli ağaç yapısında tutarak arama maliyetini O(log N) seviyesine düşürür.',
+        code: '-- Sık sorgulanan sütuna indeks ekleme:\nCREATE INDEX idx_kullanici_email ON Kullanicilar(Email);\n-- Not: Çok fazla indeks yazma (INSERT/UPDATE) hızını düşürür.'
+      },
+      {
+        level: 'ORTA',
+        title: 'ACID Prensipleri ve Transaction Yönetimi',
+        summary: 'Finansal veya kritik veri işlemlerinde (Atomicity, Consistency, Isolation, Durability) işlemin ya tamamı başarılı olur ya da hata anında tüm değişiklikler geri alınır (ROLLBACK).',
+        code: 'BEGIN TRANSACTION;\nUPDATE Hesaplar SET Bakiye = Bakiye - 500 WHERE Id = 1;\nUPDATE Hesaplar SET Bakiye = Bakiye + 500 WHERE Id = 2;\nCOMMIT; -- Hata olursa ROLLBACK;'
+      }
+    ],
+    'Mobil & Görüntü İşleme': [
+      {
+        level: 'TEMEL',
+        title: 'OpenCV ile Görüntü Ön İşleme (Grayscale & Blur)',
+        summary: 'Görüntü işlemede renk kanalları (BGR) işlem yükünü 3 katına çıkarır. Kenar veya nesne tespiti öncesi görüntü gri tonlamaya çevrilir ve gürültüyü azaltmak için Gaussian Blur uygulanır.',
+        code: 'import cv2\nimg = cv2.imread("plaka.jpg")\ngray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)\nblur = cv2.GaussianBlur(gray, (5, 5), 0)\nedges = cv2.Canny(blur, 50, 150)'
+      },
+      {
+        level: 'ORTA',
+        title: 'Kotlin Coroutines ve Main-Safety',
+        summary: 'Android uygulamalarında ağ veya veritabanı işlemlerini ana arayüz iş parçacığında (Main Thread) yapmak ekranın donmasına (ANR) yol açar. Dispatchers.IO ile arka planda güvenli çalıştırılır.',
+        code: 'viewModelScope.launch(Dispatchers.IO) {\n    val sonuc = apiService.verileriGetir()\n    withContext(Dispatchers.Main) {\n        textView.text = sonuc.baslik\n    }\n}'
+      }
+    ]
+  };
+
+  // 2. ZİYARETÇİLERİN DE GÖREBİLECEĞİ VARSAYILAN ÇALIŞMA NOTLARI
+  const INITIAL_PUBLIC_NOTES = [
+    {
+      date: '2026-11-17',
+      category: 'Siber Güvenlik',
+      title: 'CSP (Content Security Policy) Altın Kuralı',
+      body: 'Statik web projelerinde bile _headers dosyası üzerinden object-src none ve frame-ancestors none tanımlamak clickjacking ve zararlı gömme saldırılarını kökünden engeller.'
+    },
+    {
+      date: '2026-11-16',
+      category: 'Yapay Zeka',
+      title: 'RAG Sistemlerinde Chunk Boyutu Seçimi',
+      body: 'Çok büyük chunk (2000+ token) alakasız gürültü getirir, çok küçük chunk (100 token) bağlamı koparır. Teknik dokümanlarda 400-600 token ve %15 overlap en dengeli sonucu veriyor.'
+    },
+    {
+      date: '2026-11-15',
+      category: 'Backend & Python',
+      title: 'FastAPI ile Yüksek Performanslı Scraper Mimarisi',
+      body: 'APScheduler ile periyodik görevleri ana API döngüsünü kilitlemeden çalıştırmak ve anti-bot korumalı hedeflerde TLS parmak izini eşleştirmek kesintisiz veri akışı sağlıyor.'
+    }
+  ];
+
+  // 3. SEVİYELİ TEST BANKASI (KOLAY / ORTA / ZOR)
+  const QUIZ_BANK = [
+    {
+      diff: 'KOLAY',
+      cat: 'Web & Güvenlik',
+      q: 'DOM-XSS saldırılarını önlemek için kullanıcı girdisini bir HTML elemanına yazdırırken hangisi kullanılmalıdır?',
+      opts: ['element.innerHTML', 'element.textContent', 'document.write()', 'eval()'],
+      ans: 1,
+      exp: 'textContent metni HTML etiketi olarak ayrıştırmaz, düz metin olarak işler; böylece zararlı <script> etiketlerinin çalışmasını engeller.'
+    },
+    {
+      diff: 'KOLAY',
+      cat: 'Python & Backend',
+      q: 'Python FastAPI frameworkünde gelen JSON verilerinin tip kontrolünü ve doğrulamasını otomatik yapan kütüphane hangisidir?',
+      opts: ['NumPy', 'Pydantic', 'BeautifulSoup', 'Pygame'],
+      ans: 1,
+      exp: 'FastAPI, veri doğrulama, serileştirme ve otomatik Swagger dokümantasyonu için Pydantic modellerini kullanır.'
+    },
+    {
+      diff: 'KOLAY',
+      cat: 'Yapay Zeka',
+      q: 'Büyük Dil Modellerinde (LLM) metinlerin işlenmek üzere bölündüğü en küçük anlamlı parçalara ne ad verilir?',
+      opts: ['Pixel', 'Token', 'Socket', 'Thread'],
+      ans: 1,
+      exp: 'LLM modelleri metinleri kelime veya alt-kelime birimlerinden oluşan Tokenlara ayırarak sayısal vektörlere dönüştürür.'
+    },
+    {
+      diff: 'ORTA',
+      cat: 'Yapay Zeka',
+      q: 'Bir LLM modelini yeniden eğitmeden, şirketin kendi güncel PDF dokümanlarına dayanarak cevap üretmesini sağlayan mimari hangisidir?',
+      opts: ['Overfitting', 'RAG (Retrieval-Augmented Generation)', 'Dropout', 'Backpropagation'],
+      ans: 1,
+      exp: 'RAG mimarisi, vektör veritabanından ilgili doküman parçalarını çekip prompt bağlamına ekleyerek halüsinasyonu önler.'
+    },
+    {
+      diff: 'ORTA',
+      cat: 'Veritabanı',
+      q: 'Milyonlarca satırlık bir tabloda WHERE Email = "..." sorgusunu O(N) yerine O(log N) hızında çalıştırmak için ne yapılmalıdır?',
+      opts: ['Tabloyu CSV olarak dışa aktarmak', 'Email sütununa B-Tree Index eklemek', 'Tüm sütunları VARCHAR(MAX) yapmak', 'Foreign Key silmek'],
+      ans: 1,
+      exp: 'B-Tree indeksi veriyi sıralı bir ağaç yapısında tuttuğu için tam tablo taraması (Full Table Scan) yapmadan doğrudan kayda ulaşır.'
+    },
+    {
+      diff: 'ORTA',
+      cat: 'Siber Güvenlik',
+      q: 'Bir web uygulamasının başka bir site içinde <iframe> olarak gömülmesini (Clickjacking) engelleyen HTTP başlığı hangisidir?',
+      opts: ['X-Frame-Options: DENY', 'Cache-Control: no-cache', 'Content-Type: text/html', 'Access-Control-Allow-Origin: *'],
+      ans: 0,
+      exp: 'X-Frame-Options: DENY (veya CSP frame-ancestors none) sayfanın herhangi bir iframe içinde yüklenmesini yasaklar.'
+    },
+    {
+      diff: 'ZOR',
+      cat: 'Siber Güvenlik',
+      q: 'Gelen HTTP isteklerindeki URL parametrelerinin Shannon Bilgi Entropisi aniden 7.95 seviyesine çıkıyorsa bu neye işaret eder?',
+      opts: ['Kullanıcı normal bir arama yapıyordur', 'Yüksek rastgelelik içeren şifreli payload, fuzzing veya DDoS saldırısı vardır', 'Sunucu RAM kullanımı sıfırlanmıştır', 'SSL sertifikası yenilenmiştir'],
+      ans: 1,
+      exp: 'Normal insan metinleri düşük entropiye sahipken; rastgele karakter dizileri, obfuscated saldırı yükleri ve botnet istekleri yüksek Shannon entropisi üretir.'
+    },
+    {
+      diff: 'ZOR',
+      cat: 'Backend & Mimari',
+      q: 'Yüksek trafikli bir API sisteminde saniyede binlerce eşzamanlı I/O isteğini tek thread üzerinde bloklamadan yönetmek için en uygun yaklaşım hangisidir?',
+      opts: ['Her istek için yeni bir OS process başlatmak', 'Event Loop tabanlı Non-Blocking Async I/O kullanmak', 'Tüm sorguları senkron sleep() ile bekletmek', 'Veritabanı bağlantısını her satırda kapatıp açmak'],
+      ans: 1,
+      exp: 'Event Loop (asyncio / Node.js), ağ ve disk bekleme sürelerinde işlemciyi bloklamadan diğer isteklere geçerek yüksek eşzamanlılık sağlar.'
+    },
+    {
+      diff: 'ZOR',
+      cat: 'Yapay Zeka',
+      q: '70 milyar parametreli bir açık kaynak LLM modelini tek bir tüketici GPU su üzerinde ince ayar (Fine-Tune) yapmak için hangi teknik kullanılır?',
+      opts: ['Full Parameter Training (FP32)', 'QLoRA (4-bit Quantization + Low-Rank Adapters)', 'Grid Search', 'K-Means Clustering'],
+      ans: 1,
+      exp: 'QLoRA, ana model ağırlıklarını 4-bit olarak sıkıştırıp dondurur ve yalnızca düşük ranklı adaptör matrislerini eğiterek VRAM ihtiyacını dramatik biçimde düşürür.'
+    }
+  ];
+
+  // Durum Yönetimi
+  let activeTab = 'lessons';
+  let activeCategory = Object.keys(CURRICULUM)[0];
+  let quizDiff = 'TÜMÜ';
+  let quizIndex = 0;
+  let quizScore = Number(localStorage.getItem('yavuz_acad_score') || 0);
+  let answeredCurrent = false;
+
+  function getStoredNotes() {
+    try {
+      const local = JSON.parse(localStorage.getItem('yavuz_public_notes') || '[]');
+      return [...local, ...INITIAL_PUBLIC_NOTES];
+    } catch (e) {
+      return INITIAL_PUBLIC_NOTES;
+    }
+  }
+
+  function updateGlobalStats() {
+    const notesCount = getStoredNotes().length;
+    if (statsEl) statsEl.textContent = `SINAV PUANI: ${quizScore} | TOPLAM NOT: ${notesCount}`;
+  }
+
+  function renderLessons() {
+    sidebar.textContent = '';
+    const title = document.createElement('div');
+    title.style.fontWeight = 'bold';
+    title.style.fontSize = '11px';
+    title.style.marginBottom = '4px';
+    title.textContent = 'KATEGORİLER:';
+    sidebar.appendChild(title);
+
+    Object.keys(CURRICULUM).forEach(cat => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'acad-cat-btn' + (cat === activeCategory ? ' active' : '');
+      btn.textContent = `> ${cat} (${CURRICULUM[cat].length})`;
+      btn.addEventListener('click', () => {
+        activeCategory = cat;
+        renderLessons();
+      });
+      sidebar.appendChild(btn);
+    });
+
+    main.textContent = '';
+    const header = document.createElement('h3');
+    header.style.margin = '0 0 12px 0';
+    header.style.borderBottom = '1px dashed currentColor';
+    header.style.paddingBottom = '6px';
+    header.textContent = `// ${activeCategory.toUpperCase()} DERS NOTLARI`;
+    main.appendChild(header);
+
+    CURRICULUM[activeCategory].forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'lesson-card';
+
+      const badge = document.createElement('span');
+      badge.className = 'lesson-badge';
+      badge.textContent = `SEVİYE: ${item.level}`;
+      card.appendChild(badge);
+
+      const h4 = document.createElement('div');
+      h4.style.fontWeight = 'bold';
+      h4.style.fontSize = '14px';
+      h4.style.marginBottom = '6px';
+      h4.textContent = item.title;
+      card.appendChild(h4);
+
+      const p = document.createElement('div');
+      p.style.opacity = '0.92';
+      p.textContent = item.summary;
+      card.appendChild(p);
+
+      if (item.code) {
+        const pre = document.createElement('pre');
+        pre.className = 'lesson-code';
+        pre.textContent = item.code;
+        card.appendChild(pre);
+      }
+
+      main.appendChild(card);
+    });
+  }
+
+  function renderNotes() {
+    sidebar.textContent = '';
+    const info = document.createElement('div');
+    info.style.fontSize = '11px';
+    info.style.lineHeight = '1.4';
+    info.textContent = 'Burada aldığın çalışma notlarını ziyaretçiler okuyabilir. Yeni not eklediğinde anında listeye düşer; "Kodu Kopyala" ile GitHub depona kalıcı gömebilirsin.';
+    sidebar.appendChild(info);
+
+    const exportBtn = document.createElement('button');
+    exportBtn.type = 'button';
+    exportBtn.className = 'deck-btn';
+    exportBtn.style.marginTop = '8px';
+    exportBtn.textContent = '[📋 NOTLARI JSON KOPYALA]';
+    exportBtn.addEventListener('click', () => {
+      const dataStr = JSON.stringify(getStoredNotes(), null, 2);
+      navigator.clipboard?.writeText(dataStr);
+      exportBtn.textContent = '[✅ PANOYA KOPYALANDI!]';
+      setTimeout(() => { exportBtn.textContent = '[📋 NOTLARI JSON KOPYALA]'; }, 2200);
+    });
+    sidebar.appendChild(exportBtn);
+
+    main.textContent = '';
+
+    // Yeni Not Ekleme Formu
+    const formBox = document.createElement('div');
+    formBox.className = 'lesson-card';
+
+    const formTitle = document.createElement('div');
+    formTitle.style.fontWeight = 'bold';
+    formTitle.style.marginBottom = '8px';
+    formTitle.textContent = '+ YENİ ÇALIŞMA NOTU EKLE';
+    formBox.appendChild(formTitle);
+
+    const catSel = document.createElement('select');
+    catSel.className = 'acad-select';
+    ['Python & Backend', 'Yapay Zeka & LLM', 'Siber Güvenlik', 'Veritabanı & Mimari', 'Mobil & OpenCV'].forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      catSel.appendChild(opt);
+    });
+    formBox.appendChild(catSel);
+
+    const titleInp = document.createElement('input');
+    titleInp.type = 'text';
+    titleInp.className = 'acad-input';
+    titleInp.placeholder = 'Not Başlığı (Örn: FastAPI JWT Doğrulama Mantığı)';
+    titleInp.maxLength = 90;
+    formBox.appendChild(titleInp);
+
+    const bodyInp = document.createElement('textarea');
+    bodyInp.className = 'acad-textarea';
+    bodyInp.rows = 3;
+    bodyInp.placeholder = 'Bugün öğrendiğin kritik detayları veya kod özetini buraya yaz...';
+    bodyInp.maxLength = 600;
+    formBox.appendChild(bodyInp);
+
+    const saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'deck-btn';
+    saveBtn.textContent = '[💾 NOTU YAYINLA]';
+    saveBtn.addEventListener('click', () => {
+      const t = titleInp.value.trim();
+      const b = bodyInp.value.trim();
+      if (!t || !b) return;
+      const existing = JSON.parse(localStorage.getItem('yavuz_public_notes') || '[]');
+      existing.unshift({
+        date: new Date().toISOString().slice(0, 10),
+        category: catSel.value,
+        title: t,
+        body: b
+      });
+      localStorage.setItem('yavuz_public_notes', JSON.stringify(existing));
+      updateGlobalStats();
+      renderNotes();
+    });
+    formBox.appendChild(saveBtn);
+    main.appendChild(formBox);
+
+    // Kayıtlı Tüm Notları Listele (Sadece textContent)
+    const listHeader = document.createElement('div');
+    listHeader.style.fontWeight = 'bold';
+    listHeader.style.margin = '10px 0';
+    listHeader.textContent = 'YAYINLANMIŞ ÇALIŞMA NOTLARI:';
+    main.appendChild(listHeader);
+
+    getStoredNotes().forEach(n => {
+      const card = document.createElement('div');
+      card.className = 'lesson-card';
+
+      const meta = document.createElement('div');
+      meta.className = 'lesson-badge';
+      meta.textContent = `${n.date} | ${n.category}`;
+      card.appendChild(meta);
+
+      const h4 = document.createElement('div');
+      h4.style.fontWeight = 'bold';
+      h4.style.marginBottom = '4px';
+      h4.textContent = n.title;
+      card.appendChild(h4);
+
+      const p = document.createElement('div');
+      p.textContent = n.body;
+      card.appendChild(p);
+
+      main.appendChild(card);
+    });
+  }
+
+  function renderQuiz() {
+    sidebar.textContent = '';
+    const dTitle = document.createElement('div');
+    dTitle.style.fontWeight = 'bold';
+    dTitle.style.fontSize = '11px';
+    dTitle.textContent = 'ZORLUK SEVİYESİ SEÇ:';
+    sidebar.appendChild(dTitle);
+
+    ['TÜMÜ', 'KOLAY', 'ORTA', 'ZOR'].forEach(lvl => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'acad-cat-btn' + (quizDiff === lvl ? ' active' : '');
+      btn.textContent = `> ${lvl}`;
+      btn.addEventListener('click', () => {
+        quizDiff = lvl;
+        quizIndex = 0;
+        answeredCurrent = false;
+        renderQuiz();
+      });
+      sidebar.appendChild(btn);
+    });
+
+    main.textContent = '';
+    const filtered = quizDiff === 'TÜMÜ' ? QUIZ_BANK : QUIZ_BANK.filter(q => q.diff === quizDiff);
+    if (!filtered.length) return;
+
+    const current = filtered[quizIndex % filtered.length];
+    answeredCurrent = false;
+
+    const topMeta = document.createElement('div');
+    topMeta.className = 'lesson-badge';
+    topMeta.textContent = `SORU ${(quizIndex % filtered.length) + 1}/${filtered.length} | SEVİYE: ${current.diff} | ALAN: ${current.cat}`;
+    main.appendChild(topMeta);
+
+    const qText = document.createElement('div');
+    qText.style.fontWeight = 'bold';
+    qText.style.fontSize = '14.5px';
+    qText.style.margin = '10px 0 14px 0';
+    qText.textContent = current.q;
+    main.appendChild(qText);
+
+    const feedbackBox = document.createElement('div');
+    feedbackBox.className = 'lesson-card';
+    feedbackBox.style.display = 'none';
+    feedbackBox.style.marginTop = '12px';
+
+    current.opts.forEach((optText, idx) => {
+      const optBtn = document.createElement('button');
+      optBtn.type = 'button';
+      optBtn.className = 'quiz-option';
+      optBtn.textContent = `${['A', 'B', 'C', 'D'][idx]}) ${optText}`;
+      optBtn.addEventListener('click', () => {
+        if (answeredCurrent) return;
+        answeredCurrent = true;
+        const allOptBtns = main.querySelectorAll('.quiz-option');
+        if (idx === current.ans) {
+          optBtn.classList.add('correct');
+          const pts = current.diff === 'ZOR' ? 30 : (current.diff === 'ORTA' ? 20 : 10);
+          quizScore += pts;
+          localStorage.setItem('yavuz_acad_score', String(quizScore));
+          updateGlobalStats();
+          feedbackBox.textContent = `✅ DOĞRU CEVAP! (+${pts} Puan) — ${current.exp}`;
+        } else {
+          optBtn.classList.add('wrong');
+          allOptBtns[current.ans]?.classList.add('correct');
+          feedbackBox.textContent = `❌ YANLIŞ CEVAP — Doğrusu: ${['A', 'B', 'C', 'D'][current.ans]}. Açıklama: ${current.exp}`;
+        }
+        feedbackBox.style.display = 'block';
+      });
+      main.appendChild(optBtn);
+    });
+
+    main.appendChild(feedbackBox);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'deck-btn';
+    nextBtn.style.marginTop = '10px';
+    nextBtn.textContent = '[SONRAKİ SORU >>]';
+    nextBtn.addEventListener('click', () => {
+      quizIndex++;
+      renderQuiz();
+    });
+    main.appendChild(nextBtn);
+  }
+
+  function switchTab(tab) {
+    activeTab = tab;
+    document.querySelectorAll('.acad-tab').forEach(t => {
+      t.classList.toggle('active', t.getAttribute('data-tab') === tab);
+    });
+    if (tab === 'lessons') renderLessons();
+    else if (tab === 'notes') renderNotes();
+    else if (tab === 'quiz') renderQuiz();
+  }
+
+  document.querySelectorAll('.acad-tab').forEach(t => {
+    t.addEventListener('click', () => switchTab(t.getAttribute('data-tab')));
+  });
+
+  btnOpen.addEventListener('click', () => {
+    modal.style.display = 'flex';
+    updateGlobalStats();
+    switchTab(activeTab);
+  });
+
+  if (btnClose) {
+    btnClose.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  }
+})();
 </script>
 </body>
 </html>
+
 
 
 
