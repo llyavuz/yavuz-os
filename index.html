@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -196,7 +196,137 @@
             #win-cv { position: fixed; left: 0; top: 0; width: 100%; box-shadow: none; border: none; }
             .title-bar, .no-print { display: none !important; }
         }
-    </style>
+    /* === YAVUZ-OS CENTER DECK WIDGETS === */
+.cyber-deck-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+  width: min(560px, 90vw);
+  background: rgba(5, 12, 8, 0.86);
+  border: 1px solid currentColor;
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.12), inset 0 0 15px rgba(0, 255, 102, 0.05);
+  padding: 16px 20px;
+  font-family: 'Courier New', Courier, monospace;
+  z-index: 5;
+  backdrop-filter: blur(3px);
+  user-select: none;
+}
+.deck-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.deck-ascii {
+  font-size: 10px;
+  line-height: 1.1;
+  margin: 0 0 12px 0;
+  white-space: pre;
+  overflow-x: hidden;
+  opacity: 0.92;
+}
+.deck-grid {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 6px 10px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+.deck-label { font-weight: bold; opacity: 0.8; }
+.deck-status-box {
+  border: 1px solid currentColor;
+  padding: 8px 10px;
+  font-size: 12px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.deck-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.deck-btn {
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  padding: 5px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.deck-btn:hover { background: rgba(0, 255, 102, 0.18); box-shadow: 0 0 8px currentColor; }
+.yavuz-fm-widget {
+  position: fixed;
+  top: 215px;
+  right: 20px;
+  width: 240px;
+  background: rgba(5, 12, 8, 0.88);
+  border: 1px solid currentColor;
+  padding: 10px 12px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  z-index: 5;
+}
+.fm-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 22px;
+  margin: 8px 0;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+}
+.fm-bar { flex: 1; background: currentColor; height: 15%; transition: height 0.12s ease; }
+.sticky-wall-widget {
+  position: fixed;
+  bottom: 48px;
+  right: 20px;
+  width: 240px;
+  background: rgba(5, 12, 8, 0.88);
+  border: 1px dashed currentColor;
+  padding: 10px 12px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  z-index: 5;
+}
+.sticky-input-row { display: flex; gap: 4px; margin-top: 6px; }
+.sticky-input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid currentColor;
+  color: inherit;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 3px 6px;
+  outline: none;
+}
+.achievement-toast {
+  position: fixed;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #06140c;
+  border: 1px solid currentColor;
+  padding: 8px 16px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.achievement-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+@media (max-width: 900px) {
+  .cyber-deck-center { position: relative; top: auto; left: auto; transform: none; margin: 20px auto; }
+  .yavuz-fm-widget, .sticky-wall-widget { position: static; width: min(560px, 90vw); margin: 10px auto; }
+}
+</style>
 </head>
 <body>
     <canvas id="bg-network"></canvas>
@@ -971,6 +1101,226 @@
                 }
             });
         });
-    </script>
+    /* === YAVUZ-OS INTERACTIVE DECK LOGIC (ZERO-XSS) === */
+(function initYavuzDeck() {
+  const startTime = Date.now();
+  const uptimeEl = document.getElementById('deckUptime');
+  setInterval(() => {
+    const sec = Math.floor((Date.now() - startTime) / 1000);
+    const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+    const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+    const s = String(sec % 60).padStart(2, '0');
+    if (uptimeEl) uptimeEl.textContent = `UPTIME: ${h}:${m}:${s}`;
+  }, 1000);
+
+  const moods = [
+    '> DURUM: AegisMesh üzerinde Shannon entropisi hesaplıyor...',
+    '> DURUM: Kahve seviyesi %84 | Mutfakta pizza hamuru mayalanıyor...',
+    '> DURUM: Mount & Blade Bannerlord’da ordu topluyor...',
+    '> DURUM: FiyatRadar anti-bot TLS parmak izlerini test ediyor...',
+    '> DURUM: GDG Burdur için yeni etkinlik planlıyor...'
+  ];
+  let moodIdx = 0;
+  const moodEl = document.getElementById('yavuzMoodText');
+  const btnMood = document.getElementById('btnNextMood');
+  if (btnMood && moodEl) {
+    btnMood.addEventListener('click', () => {
+      moodIdx = (moodIdx + 1) % moods.length;
+      moodEl.textContent = moods[moodIdx];
+      unlockAchievement('mood_explorer', '🏆 BAŞARIM: Meraklı Ziyaretçi (Durum güncellendi!)');
+    });
+  }
+
+  const centerCard = document.getElementById('centerDeckCard');
+  const btnToggleDeck = document.getElementById('btnToggleDeck');
+  if (btnToggleDeck && centerCard) {
+    btnToggleDeck.addEventListener('click', () => {
+      const hidden = centerCard.dataset.minimized === '1';
+      Array.from(centerCard.children).forEach((el, i) => {
+        if (i > 0) el.style.display = hidden ? '' : 'none';
+      });
+      centerCard.dataset.minimized = hidden ? '0' : '1';
+      btnToggleDeck.textContent = hidden ? '[GİZLE]' : '[GÖSTER]';
+    });
+  }
+
+  document.querySelectorAll('[data-launch]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-launch');
+      const allIcons = Array.from(document.querySelectorAll('.desktop-icon, [ondblclick], [onclick]'));
+      const match = allIcons.find(el => {
+        const txt = (el.textContent || '').toLowerCase();
+        if (target === 'cv') return txt.includes('cv_yavuz');
+        if (target === 'ctf') return txt.includes('hack_ctf');
+        if (target === 'snake') return txt.includes('snake');
+        return false;
+      });
+      if (match) {
+        match.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+        match.click();
+      }
+    });
+  });
+
+  const noteDisplay = document.getElementById('stickyNoteDisplay');
+  const noteInput = document.getElementById('stickyNoteInput');
+  const btnSaveNote = document.getElementById('btnSaveNote');
+  const savedNote = localStorage.getItem('yavuz_os_guest_note');
+  if (savedNote && noteDisplay) noteDisplay.textContent = `"${savedNote}"`;
+  if (btnSaveNote && noteInput && noteDisplay) {
+    btnSaveNote.addEventListener('click', () => {
+      const clean = noteInput.value.trim().slice(0, 80);
+      if (!clean) return;
+      localStorage.setItem('yavuz_os_guest_note', clean);
+      noteDisplay.textContent = `"${clean}"`;
+      noteInput.value = '';
+      unlockAchievement('guest_note', '🏆 BAŞARIM: Duvara İz Bıraktın!');
+    });
+  }
+
+  let audioCtx = null, fmTimer = null, eqTimer = null, isPlaying = false, trackIdx = 0, step = 0;
+  const tracks = [
+    { name: 'Cyber-Deck Night', notes: [220, 261.63, 329.63, 392.00, 329.63, 261.63, 196.00, 246.94] },
+    { name: 'Burdur Terminal Beat', notes: [164.81, 164.81, 329.63, 246.94, 220.00, 196.00, 246.94, 293.66] },
+    { name: '90s Keygen Nostalgia', notes: [293.66, 369.99, 440.00, 587.33, 440.00, 369.99, 329.63, 493.88] }
+  ];
+  const bars = document.querySelectorAll('#fmEqualizer .fm-bar');
+  const fmStatus = document.getElementById('fmStatusLabel');
+  const fmTrackEl = document.getElementById('fmTrackName');
+
+  function playStep() {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const seq = tracks[trackIdx].notes;
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(seq[step % seq.length], audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.18);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.19);
+    step++;
+  }
+
+  function toggleFm() {
+    if (!isPlaying) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      isPlaying = true;
+      if (fmStatus) fmStatus.textContent = '[ON AIR]';
+      fmTimer = setInterval(playStep, 220);
+      eqTimer = setInterval(() => {
+        bars.forEach(b => { b.style.height = `${15 + Math.floor(Math.random() * 85)}%`; });
+      }, 130);
+      unlockAchievement('synth_dj', '🏆 BAŞARIM: 8-Bit Cyber DJ!');
+    } else {
+      isPlaying = false;
+      if (fmStatus) fmStatus.textContent = '[OFFLINE]';
+      clearInterval(fmTimer);
+      clearInterval(eqTimer);
+      bars.forEach(b => { b.style.height = '15%'; });
+    }
+  }
+
+  const btnFmPlay = document.getElementById('btnFmPlay');
+  const btnFmNext = document.getElementById('btnFmNext');
+  if (btnFmPlay) btnFmPlay.addEventListener('click', toggleFm);
+  if (btnFmNext) {
+    btnFmNext.addEventListener('click', () => {
+      trackIdx = (trackIdx + 1) % tracks.length;
+      step = 0;
+      if (fmTrackEl) fmTrackEl.textContent = `PARÇA: ${tracks[trackIdx].name}`;
+    });
+  }
+
+  const unlocked = new Set();
+  const achCounter = document.getElementById('achCounter');
+  const achToast = document.getElementById('achToast');
+  let toastTimeout = null;
+
+  function unlockAchievement(id, message) {
+    if (unlocked.has(id)) return;
+    unlocked.add(id);
+    if (achCounter) achCounter.textContent = `ÖDÜL: ${unlocked.size}/3`;
+    if (achToast) {
+      achToast.textContent = message;
+      achToast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => achToast.classList.remove('show'), 3200);
+    }
+  }
+})();
+</script>
+<!-- MERKEZ KİMLİK VE SİSTEM KARTI -->
+<section class="cyber-deck-center" id="centerDeckCard" aria-label="Sistem Özeti">
+  <div class="deck-header">
+    <span>SYSTEM_BOOT // YAVUZ_BIO.SYS</span>
+    <span id="deckUptime">UPTIME: 00:00:00</span>
+  </div>
+  <pre class="deck-ascii" aria-hidden="true">
+ __   __ ___  __   __ _   _  ____        ___  ____  
+ \ \ / // _ \ \ \ / /| | | ||_  / _____ / _ \/ ___| 
+  \ V /| |_| | \ V / | |_| | / / |_____| | | \___ \ 
+   |_| |_| |_|  \_/   \___/ /___|       \___/|____/  v3.0
+  </pre>
+  <div class="deck-grid">
+    <span class="deck-label">GELİŞTİRİCİ:</span>
+    <span>Yavuz Can (@llyavuz)</span>
+    <span class="deck-label">UNVAN & ROL:</span>
+    <span>YBS 4. Sınıf | Security & Backend Dev | GDG Burdur Org.</span>
+    <span class="deck-label">LOKASYON:</span>
+    <span>Denizli / Burdur — Türkiye</span>
+    <span class="deck-label">ODAK ALANI:</span>
+    <span>AI-SOC (AegisMesh), Anti-Bot Scraping, FastAPI & Kotlin</span>
+  </div>
+  <div class="deck-status-box">
+    <span id="yavuzMoodText">&gt; DURUM: Yeni bir açık kaynak repo kurcalıyor...</span>
+    <button type="button" class="deck-btn" id="btnNextMood">[YENİLE]</button>
+  </div>
+  <div class="deck-actions">
+    <button type="button" class="deck-btn" data-launch="cv">[📄 CV_Yavuz.exe]</button>
+    <button type="button" class="deck-btn" data-launch="ctf">[🚩 Hack_CTF.exe]</button>
+    <button type="button" class="deck-btn" data-launch="snake">[🐍 Cyber_Snake.exe]</button>
+    <button type="button" class="deck-btn" id="btnToggleDeck">[GİZLE]</button>
+  </div>
+</section>
+
+<!-- SAĞ ÜST RADAR ALTI: 8-BIT SYNTH RADYO -->
+<aside class="yavuz-fm-widget" aria-label="Yavuz FM Synth Radyo">
+  <div style="display:flex; justify-content:space-between; font-weight:bold;">
+    <span>YAVUZ_FM // 8-BIT</span>
+    <span id="fmStatusLabel">[OFFLINE]</span>
+  </div>
+  <div id="fmTrackName" style="margin-top:4px; opacity:0.85;">PARÇA: Cyber-Deck Night</div>
+  <div class="fm-eq" id="fmEqualizer">
+    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
+    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
+    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
+    <div class="fm-bar"></div><div class="fm-bar"></div><div class="fm-bar"></div>
+  </div>
+  <div style="display:flex; gap:6px;">
+    <button type="button" class="deck-btn" id="btnFmPlay" style="flex:1;">[▶ ÇAL / DUR]</button>
+    <button type="button" class="deck-btn" id="btnFmNext">[⏭]</button>
+  </div>
+</aside>
+
+<!-- ZİYARETÇİ YAPIŞKAN NOTU & BAŞARIM DURUMU -->
+<aside class="sticky-wall-widget" aria-label="Ziyaretçi Notu">
+  <div style="display:flex; justify-content:space-between; font-weight:bold;">
+    <span>DUVAR_NOTU.stick</span>
+    <span id="achCounter">ÖDÜL: 0/3</span>
+  </div>
+  <p id="stickyNoteDisplay" style="margin:6px 0; line-height:1.35; opacity:0.9;">
+    "Selam! Sağ üstten 8-bit radyoyu aç, CTF şifresini kırmayı dene veya aşağıya kendi izini bırak."
+  </p>
+  <div class="sticky-input-row">
+    <input type="text" id="stickyNoteInput" class="sticky-input" maxlength="80" placeholder="Kısa notun...">
+    <button type="button" class="deck-btn" id="btnSaveNote">YAZ</button>
+  </div>
+</aside>
+
+<div class="achievement-toast" id="achToast" role="status" aria-live="polite"></div>
 </body>
 </html>
