@@ -347,6 +347,46 @@ body.theme-amber .achievement-toast {
   border-color: #ffb000 !important;
 }
 .fm-bar { background-color: currentColor !important; }
+
+/* === YAVUZ-OS WOW-FACTOR MODULES === */
+#matrixOverlayCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+#matrixOverlayCanvas.active { opacity: 0.42; }
+
+.recon-terminal-box {
+  margin-top: 10px;
+  border: 1px dashed currentColor;
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.4;
+  background: rgba(0, 0, 0, 0.65);
+  white-space: pre-wrap;
+  display: none;
+}
+
+body.under-attack #centerDeckCard,
+body.under-attack .yavuz-fm-widget,
+body.under-attack .sticky-wall-widget {
+  color: #ff2a55 !important;
+  border-color: #ff2a55 !important;
+  box-shadow: 0 0 28px rgba(255, 42, 85, 0.45) !important;
+  animation: deckShake 0.18s infinite;
+}
+
+@keyframes deckShake {
+  0% { transform: translate(-50%, -50%) translate(0px, 0px); }
+  25% { transform: translate(-50%, -50%) translate(2px, -1px); }
+  50% { transform: translate(-50%, -50%) translate(-2px, 1px); }
+  75% { transform: translate(-50%, -50%) translate(1px, 2px); }
+  100% { transform: translate(-50%, -50%) translate(0px, 0px); }
+}
 </style>
 </head>
 <body>
@@ -741,6 +781,8 @@ body.theme-amber .achievement-toast {
 
     <!-- ALT GÖREV ÇUBUĞU -->
     
+
+<canvas id="matrixOverlayCanvas" aria-hidden="true"></canvas>
 <!-- MERKEZ KİMLİK VE SİSTEM KARTI -->
 <section class="cyber-deck-center" id="centerDeckCard" aria-label="Sistem Özeti">
   <div class="deck-header">
@@ -772,6 +814,12 @@ body.theme-amber .achievement-toast {
     <button type="button" class="deck-btn" data-launch="ctf">[🚩 Hack_CTF.exe]</button>
     <button type="button" class="deck-btn" data-launch="snake">[🐍 Cyber_Snake.exe]</button>
     <button type="button" class="deck-btn" id="btnToggleDeck">[GİZLE]</button>
+    <button type="button" class="deck-btn" id="btnScanVisitor">[🔍 SİSTEMİ TARA]</button>
+    <button type="button" class="deck-btn" id="btnSimulateAttack">[⚡ SALDIRI TESTİ]</button>
+    <button type="button" class="deck-btn" id="btnMatrixRain">[🌀 MATRIX]</button>
+  </div>
+  <div class="recon-terminal-box" id="reconOutputBox"></div>
+
   </div>
 </section>
 
@@ -1360,7 +1408,161 @@ document.querySelectorAll('button').forEach(b => {
     });
   }
 });
+
+/* === YAVUZ-OS WOW-FACTOR LOGIC (ZERO-XSS) === */
+(function initWowModules() {
+  // 1. Ziyaretçi Ortam & Donanım İstihbarat Tarayıcısı
+  const btnScan = document.getElementById('btnScanVisitor');
+  const reconBox = document.getElementById('reconOutputBox');
+  let isScanning = false;
+
+  if (btnScan && reconBox) {
+    btnScan.addEventListener('click', async () => {
+      if (isScanning) return;
+      isScanning = true;
+      reconBox.style.display = 'block';
+      reconBox.textContent = '> HEDEF İSTEMCİ SENSÖRLERİ TARANIYOR...\n';
+
+      let batteryInfo = 'Bilinmiyor (Masaüstü/Korumalı)';
+      try {
+        if (navigator.getBattery) {
+          const bat = await navigator.getBattery();
+          batteryInfo = '%' + Math.round(bat.level * 100) + (bat.charging ? ' (Şarj Oluyor)' : ' (Pilde)');
+        }
+      } catch (e) {}
+
+      const cores = navigator.hardwareConcurrency || 'Gizli';
+      const ram = navigator.deviceMemory ? navigator.deviceMemory + ' GB+' : 'Korumalı';
+      const res = window.screen.width + 'x' + window.screen.height;
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+      const lang = navigator.language || 'tr-TR';
+
+      const report =
+        '[+] ÇEKİRDEK / RAM : ' + cores + ' Mantıksal Çekirdek | ' + ram + '\n' +
+        '[+] EKRAN / DİL     : ' + res + ' px | ' + lang + ' (' + tz + ')\n' +
+        '[+] ENERJİ DURUMU   : ' + batteryInfo + '\n' +
+        '[+] GÜVENLİK NOTU   : Sıfır çerez/izleyici. Veriler sadece senin ekranında işlendi.';
+
+      let idx = 0;
+      const typer = setInterval(() => {
+        reconBox.textContent += report.charAt(idx);
+        idx++;
+        if (idx >= report.length) {
+          clearInterval(typer);
+          isScanning = false;
+        }
+      }, 16);
+    });
+  }
+
+  // 2. AegisMesh Otonom Siber Saldırı & Savunma Simülasyonu
+  const btnAttack = document.getElementById('btnSimulateAttack');
+  let attackRunning = false;
+
+  function playAlarmBeep(freq, duration) {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      gain.gain.setValueAtTime(0.04, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    } catch (e) {}
+  }
+
+  if (btnAttack && reconBox) {
+    btnAttack.addEventListener('click', () => {
+      if (attackRunning) return;
+      attackRunning = true;
+      document.body.classList.add('under-attack');
+      reconBox.style.display = 'block';
+      reconBox.textContent =
+        '🚨 [ALARM] ANORMAL TRAFİK TESPİT EDİLDİ! (HTTP Flood / Botnet)\n' +
+        '>>> AegisMesh AI-SOC analiz motoru devreye giriyor...';
+      playAlarmBeep(520, 0.25);
+
+      setTimeout(() => {
+        playAlarmBeep(680, 0.25);
+        reconBox.textContent =
+          '🚨 [ANALİZ] Shannon Bilgi Entropisi: 7.96 (Yüksek Anomali!)\n' +
+          '>>> Saldırgan Tarpit/Honeypot tuzağına yönlendirildi...';
+      }, 1100);
+
+      setTimeout(() => {
+        document.body.classList.remove('under-attack');
+        reconBox.textContent =
+          '✅ [SAVUNMA TAMAMLANDI] Otonom Nginx WAF kuralı üretildi ve uygulandı.\n' +
+          '>>> Sistem durumu: 10/10 HARDENED | Tehdit etkisiz hale getirildi.';
+        playAlarmBeep(880, 0.2);
+        attackRunning = false;
+      }, 2600);
+    });
+  }
+
+  // 3. Matrix Kod Yağmuru & Konami Kodu (↑↑↓↓←→←→BA)
+  const canvas = document.getElementById('matrixOverlayCanvas');
+  const btnMatrix = document.getElementById('btnMatrixRain');
+  let matrixInterval = null;
+  let matrixActive = false;
+
+  function toggleMatrix() {
+    if (!canvas) return;
+    matrixActive = !matrixActive;
+    if (matrixActive) {
+      canvas.classList.add('active');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const chars = '01YAVUZOSAEGISMESHFIYATRADAR<>/{}[]$#@';
+      const fontSize = 14;
+      const columns = Math.floor(canvas.width / fontSize);
+      const drops = Array(columns).fill(1);
+
+      matrixInterval = setInterval(() => {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const isAmber = document.getElementById('centerDeckCard')?.classList.contains('is-amber');
+        ctx.fillStyle = isAmber ? '#ffb000' : '#00ff66';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars.charAt(Math.floor(Math.random() * chars.length));
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }, 45);
+    } else {
+      canvas.classList.remove('active');
+      clearInterval(matrixInterval);
+    }
+  }
+
+  if (btnMatrix) btnMatrix.addEventListener('click', toggleMatrix);
+
+  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let kPos = 0;
+  window.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === konami[kPos].toLowerCase()) {
+      kPos++;
+      if (kPos === konami.length) {
+        kPos = 0;
+        toggleMatrix();
+      }
+    } else {
+      kPos = 0;
+    }
+  });
+})();
 </script>
 </body>
 </html>
+
 
