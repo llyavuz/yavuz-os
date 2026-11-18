@@ -1076,6 +1076,12 @@ body.theme-amber #academyModal {
   .yas-h1 { font-size: 23px; }
 }
 </style>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Yavuz Can (@llyavuz) — YAVUZ-OS v3.0 & Yavuz Academy">
+  <meta property="og:description" content="Hardened Cyber-Deck OS Portföyü, Siber Güvenlik & Backend Projeleri ve YBS İnteraktif Ders Akademisi.">
+  <meta property="og:url" content="https://yavuzcan.pages.dev">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <canvas id="bg-network"></canvas>
@@ -4944,9 +4950,87 @@ document.querySelectorAll('button').forEach(b => {
     });
   }
 })();
+
+/* === FINAL PRODUCTION POLISH (ESC HANDLER, LIVE SEARCH & QUIZ RESET) === */
+(function applyFinalPolish() {
+  const studio = document.getElementById('yavuzAcadStudio');
+  const sidebar = document.getElementById('yasSidebar');
+  const content = document.getElementById('yasContent');
+
+  // 1. ESC tuşuyla açık modalları temizce kapatma
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && studio && studio.style.display === 'flex') {
+      studio.style.display = 'none';
+    }
+  });
+
+  // 2. Sidebar içine canlı ders arama filtresi enjekte et
+  if (sidebar) {
+    const observer = new MutationObserver(() => {
+      const activeTab = document.querySelector('[data-yas-tab].active')?.getAttribute('data-yas-tab');
+      if (activeTab !== 'lessons') return;
+      if (sidebar.querySelector('#yasLiveSearch')) return;
+
+      const searchWrap = document.createElement('div');
+      searchWrap.style.marginBottom = '10px';
+      const searchInput = document.createElement('input');
+      searchInput.id = 'yasLiveSearch';
+      searchInput.type = 'search';
+      searchInput.className = 'yas-input';
+      searchInput.style.marginBottom = '4px';
+      searchInput.style.fontSize = '13px';
+      searchInput.style.padding = '8px 11px';
+      searchInput.placeholder = '🔍 Konu veya kavram ara (ör. EVM, Otsu)...';
+
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        const items = sidebar.querySelectorAll('.yas-nav-item');
+        const labels = sidebar.querySelectorAll('.yas-module-label');
+        items.forEach(btn => {
+          const match = btn.textContent.toLowerCase().includes(q);
+          btn.style.display = match ? 'flex' : 'none';
+        });
+        labels.forEach(lbl => {
+          lbl.style.display = q ? 'none' : 'block';
+        });
+      });
+
+      searchWrap.appendChild(searchInput);
+      sidebar.insertBefore(searchWrap, sidebar.firstChild);
+    });
+    observer.observe(sidebar, { childList: true });
+  }
+
+  // 3. Sınav sekmesinde Puan Sıfırlama butonu desteği
+  if (content) {
+    const qObserver = new MutationObserver(() => {
+      const activeTab = document.querySelector('[data-yas-tab].active')?.getAttribute('data-yas-tab');
+      if (activeTab !== 'quiz') return;
+      const article = content.querySelector('.yas-article');
+      if (!article || article.querySelector('#btnResetQuizScore')) return;
+
+      const resetBtn = document.createElement('button');
+      resetBtn.id = 'btnResetQuizScore';
+      resetBtn.type = 'button';
+      resetBtn.className = 'yas-pill-btn';
+      resetBtn.style.marginLeft = '10px';
+      resetBtn.style.marginTop = '16px';
+      resetBtn.textContent = 'Puanı Sıfırla';
+      resetBtn.addEventListener('click', () => {
+        localStorage.setItem('yas_quiz_score', '0');
+        const stats = document.getElementById('yasStatsText');
+        if (stats) stats.textContent = stats.textContent.replace(/Puan:\s*\d+/, 'Puan: 0');
+        resetBtn.textContent = '✓ Sıfırlandı';
+      });
+      article.appendChild(resetBtn);
+    });
+    qObserver.observe(content, { childList: true });
+  }
+})();
 </script>
 </body>
 </html>
+
 
 
 
